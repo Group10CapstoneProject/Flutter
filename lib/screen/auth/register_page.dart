@@ -1,25 +1,29 @@
-import 'package:capstone_alterra_flutter/screen/auth/register_page.dart';
+import 'package:capstone_alterra_flutter/screen/auth/login_page.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   bool _obscureText = true;
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -42,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 24),
+                margin: const EdgeInsets.only(top: 20),
                 child: Text.rich(
                   TextSpan(
                     text: 'Selamat Datang di',
@@ -59,19 +63,51 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 8,
               ),
-              Text(
-                  'Masuk dulu yuk biar kamu bisa ngerasain\nhidup sehat bersama Altagym',
+              Text('Yuk daftar dan mulai gaya hidup sehatmu\nbersama Altagym',
                   style: kBody2),
               const SizedBox(
-                height: 24.0,
+                height: 20.0,
               ),
               Container(
-                margin: const EdgeInsets.only(bottom: 12),
+                margin: const EdgeInsets.only(bottom: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Email',
+                      'Name',
+                      style: ksubtitle,
+                    ),
+                    const SizedBox(
+                      height: 4.0,
+                    ),
+                    TextFormField(
+                      controller: _nameController,
+                      keyboardType: TextInputType.name,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0)),
+                          hintText: 'Nama Lengkap'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Masukan Nama!';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Email Address',
                       style: ksubtitle,
                     ),
                     const SizedBox(
@@ -86,13 +122,16 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(4.0)),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0)),
-                          hintText: 'kelompok10@gmail.com'),
+                          hintText: 'Contoh : kelompok10@gmail.com'),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Masukan Email!';
-                        } else {
-                          return null;
                         }
+                        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                            .hasMatch(value)) {
+                          return ("Please Enter a valid email");
+                        }
+                        return null;
                       },
                     ),
                   ],
@@ -113,7 +152,50 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscureText,
-                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0)),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                              icon: Icon(_obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off)),
+                          hintText: '********'),
+                      validator: (value) {
+                        RegExp regex = RegExp(r'^.{6,}$');
+                        if (value!.isEmpty) {
+                          return ("Masukan Password!");
+                        }
+                        if (!regex.hasMatch(value)) {
+                          return ("Masukkan Kata Sandi yang Valid (Min. 6 Karakter)");
+                        }
+                        return null;
+                      },
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Confirm Password',
+                      style: ksubtitle,
+                    ),
+                    const SizedBox(
+                      height: 4.0,
+                    ),
+                    TextFormField(
+                      controller: _confirmPasswordController,
+                      obscureText: _obscureText,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(4.0)),
@@ -131,21 +213,17 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: '********'),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Masukan Password!';
-                        } else {
-                          return null;
+                          return ("Masukan Ulang Password !");
                         }
+                        if (_confirmPasswordController.text !=
+                            _passwordController.text) {
+                          return "Password don't match";
+                        }
+                        return null;
                       },
                     )
                   ],
                 ),
-              ),
-              Text(
-                'Lupa Password ?',
-                style: kSubtitle2.copyWith(color: primaryBase),
-              ),
-              const SizedBox(
-                height: 20.0,
               ),
               MaterialButton(
                 color: primaryDark,
@@ -157,24 +235,25 @@ class _LoginPageState extends State<LoginPage> {
                   if (formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Data Tersimpan'),
+                        content: Text('Berhasil Membuat Akun'),
                       ),
                     );
+                    Navigator.pop(context);
                   }
                 },
                 child: Text(
-                  'MASUK',
-                  style: kButton.copyWith(color: whiteBase)
+                  'DAFTAR',
+                  style: kButton.copyWith(color: whiteBase),
                 ),
               ),
               const SizedBox(
-                height: 8.0,
+                height: 5.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Belum punya akun? ',
+                    'Sudah memiliki akun? Klik ',
                     style: kSubtitle2,
                   ),
                   GestureDetector(
@@ -182,15 +261,20 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const RegisterPage(),
+                          builder: (context) => const LoginPage(),
                         ),
                       );
                     },
-                    child: Text('Buat Akun',
+                    child: Text('Disini ',
                         style: kSubtitle2.copyWith(
-                            color: primaryBase,
-                            decoration: TextDecoration.underline)),
+                          color: primaryBase,
+                          decoration: TextDecoration.underline,
+                        )),
                   ),
+                  Text(
+                    'untuk masuk',
+                    style: kSubtitle2,
+                  )
                 ],
               )
             ],
