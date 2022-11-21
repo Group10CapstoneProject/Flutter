@@ -42,11 +42,11 @@ class MyColor{
   ///
   ///shade 100 = Black.Base
   ///
-  ///shade 200 = Black.Dark
+  ///shade 200 = Black.Light
   ///
-  ///shade 400 = Black.Darker
+  ///shade 400 = Black.Lighter
   ///
-  ///shade 700 = Black.Darkest
+  ///shade 700 = Black.Lightest
   static MaterialAccentColor blackColor = const MaterialAccentColor(
     0xFF222222,
     <int, Color>{
