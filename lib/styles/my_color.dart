@@ -32,6 +32,41 @@ class MyColor{
     }
   );
 
+
+
+
+
+
+
+  ///use shade 100 as default when shade not specified
+  ///
+  ///shade 100 = Black.Base
+  ///
+  ///shade 200 = Black.Dark
+  ///
+  ///shade 400 = Black.Darker
+  ///
+  ///shade 700 = Black.Darkest
+  static MaterialAccentColor blackColor = const MaterialAccentColor(
+    0xFF222222,
+    <int, Color>{
+      100: Color(0xFF222222),
+      200: Color(0xFF2F2F2F),
+      400: Color(0xFF3D3D3D),
+      700: Color(0xFF494949),
+    }
+  );
+
+
+
+
+
+
+
+
+
+
+
   ///use shade 100 as default when shade not specified
   ///
   ///shade 100 = White.Base
