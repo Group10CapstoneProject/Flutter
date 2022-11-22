@@ -60,8 +60,9 @@ class _LoginPageState extends State<LoginPage> {
                 height: 8,
               ),
               Text(
-                  'Masuk dulu yuk biar kamu bisa ngerasain\nhidup sehat bersama Altagym',
-                  style: kBody2),
+                'Masuk dulu yuk biar kamu bisa ngerasain\nhidup sehat bersama Altagym',
+                style: kBody2.copyWith(color: blackLighter),
+              ),
               const SizedBox(
                 height: 24.0,
               ),
@@ -162,10 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   }
                 },
-                child: Text(
-                  'MASUK',
-                  style: kButton.copyWith(color: whiteBase)
-                ),
+                child: Text('MASUK', style: kButton.copyWith(color: whiteBase)),
               ),
               const SizedBox(
                 height: 8.0,
