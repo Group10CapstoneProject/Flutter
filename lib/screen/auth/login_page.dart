@@ -68,6 +68,28 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                'Masuk dulu yuk biar kamu bisa ngerasain\nhidup sehat bersama Altagym',
+                style: kBody2.copyWith(color: blackLighter),
+              ),
+              const SizedBox(
+                height: 24.0,
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Email',
+                      style: ksubtitle,
                     ),
                   ),
                   const SizedBox(
@@ -157,6 +179,51 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
+                              icon: Icon(_obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off)),
+                          hintText: '********'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Masukan Password!';
+                        } else {
+                          return null;
+                        }
+                      },
+                    )
+                  ],
+                ),
+              ),
+              Text(
+                'Lupa Password ?',
+                style: kSubtitle2.copyWith(color: primaryBase),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              MaterialButton(
+                color: primaryDark,
+                height: 48,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Data Tersimpan'),
+                      ),
+                    );
+                  }
+                },
+                child: Text('MASUK', style: kButton.copyWith(color: whiteBase)),
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Text(
                     'Lupa Password ?',
                     style: kSubtitle2.copyWith(color: primaryBase),
