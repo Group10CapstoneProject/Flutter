@@ -63,8 +63,10 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(
                 height: 8,
               ),
-              Text('Yuk daftar dan mulai gaya hidup sehatmu\nbersama Altagym',
-                  style: kBody2),
+              Text(
+                'Yuk daftar dan mulai gaya hidup sehatmu\nbersama Altagym',
+                style: kBody2.copyWith(color: blackLighter),
+              ),
               const SizedBox(
                 height: 20.0,
               ),
