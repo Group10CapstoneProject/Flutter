@@ -179,10 +179,10 @@ class _LoginPageState extends State<LoginPage> {
                           password: _passwordController.text
                         );
                         UserToken.accessToken = model.accessToken;
-                        if(model.statusCode == 200 && mounted){
+                        if(mounted){
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Data Tersimpan'),
+                            SnackBar(
+                              content: Text(model.message.toString()),
                             ),
                           );
                         }

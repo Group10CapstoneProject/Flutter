@@ -259,18 +259,20 @@ class _RegisterPageState extends State<RegisterPage> {
                           email: _emailController.text, 
                           password: _passwordController.text
                         );
-                        if(model.statusCode == 200 && mounted){
+                        if(mounted){
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Berhasil Membuat Akun'),
+                            SnackBar(
+                              content: Text(model.message.toString()),
                             ),
                           );
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage()
-                            )
-                          );
+                          if(model.statusCode == 200){
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage()
+                              )
+                            );
+                          }
                         }
                         _isLoading.value = false;
                       }
