@@ -62,11 +62,15 @@ TextStyle ksubtitle = GoogleFonts.nunito(
     fontSize: 14, letterSpacing: 0.25, fontWeight: semiBold, color: subtitle);
 
 // FontWeight
-FontWeight light = FontWeight.w100;
-FontWeight regular = FontWeight.w300;
+FontWeight thin = FontWeight.w100;
+FontWeight extraLight = FontWeight.w200;
+FontWeight light = FontWeight.w300;
+FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
-FontWeight semiBold = FontWeight.w700;
-FontWeight bold = FontWeight.w900;
+FontWeight semiBold = FontWeight.w600;
+FontWeight bold = FontWeight.w700;
+FontWeight extraBold = FontWeight.w800;
+FontWeight black = FontWeight.w900;
 
 // Text Style
 final TextStyle kButton =
@@ -84,7 +88,7 @@ final kHeading2 =
 final kHeading3 =
     GoogleFonts.roboto(fontSize: 48, fontWeight: regular, letterSpacing: 0.0);
 final kHeading4 =
-    GoogleFonts.roboto(fontSize: 34, fontWeight: regular, letterSpacing: 0.25);
+    GoogleFonts.roboto(fontSize: 34, fontWeight: semiBold, letterSpacing: 0.25);
 final kHeading5 =
     GoogleFonts.roboto(fontSize: 24, fontWeight: regular, letterSpacing: 0.0);
 final TextStyle kHeading6 =
