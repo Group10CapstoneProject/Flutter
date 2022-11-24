@@ -71,64 +71,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                'Yuk daftar dan mulai gaya hidup sehatmu\nbersama Altagym',
-                style: kBody2.copyWith(color: blackLighter),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Name',
-                      style: ksubtitle,
-                    ),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
-                    TextFormField(
-                      controller: _nameController,
-                      keyboardType: TextInputType.name,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0)),
-                          hintText: 'Nama Lengkap'),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Masukan Nama!';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Email Address',
-                      style: ksubtitle,
-                    ),
-                    const SizedBox(
-                      height: 4.0,
                     ),
                   ),
                   const SizedBox(
@@ -238,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       icon: Icon(_obscureText.value
                                           ? Icons.visibility
                                           : Icons.visibility_off)),
-                                  hintText: '********'),
+                                  hintText: '****'),
                               validator: (value) {
                                 RegExp regex = RegExp(r'^.{6,}$');
                                 if (value!.isEmpty) {
@@ -285,7 +227,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       icon: Icon(_obscureText.value
                                           ? Icons.visibility
                                           : Icons.visibility_off)),
-                                  hintText: '********'),
+                                  hintText: '****'),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return ("Masukan Ulang Password !");
