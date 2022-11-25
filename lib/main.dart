@@ -22,8 +22,7 @@ class MyApp extends StatelessWidget {
         )
       ),
       debugShowCheckedModeBanner: false,
-      // home: LoginPage(),
-      home: LandingPageScreen()
+      home: const LandingPageScreen()
     );
   }
 }
