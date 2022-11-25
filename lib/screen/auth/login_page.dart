@@ -1,5 +1,6 @@
 import 'package:capstone_alterra_flutter/model/auth_model.dart';
 import 'package:capstone_alterra_flutter/screen/auth/register_page.dart';
+import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
 import 'package:capstone_alterra_flutter/service/auth_service.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
@@ -184,6 +185,12 @@ class _LoginPageState extends State<LoginPage> {
                         );
                         UserToken.accessToken = model.accessToken;
                         if(mounted){
+                          Navigator.pushReplacement(
+                            context, 
+                            MaterialPageRoute(
+                              builder: (context) => const MainScreen(),
+                            )
+                          );
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(model.message.toString()),
