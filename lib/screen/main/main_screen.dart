@@ -16,37 +16,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      ///AppBar
-      appBar: AppBar(
-        backgroundColor: MyColor.primaryColor.shade500,
-        elevation: 0,
-        titleSpacing: 8,
-        title: Container(
-          padding: const EdgeInsets.all(8),
-          height: kToolbarHeight,
-          width: double.infinity,
-          child: Row(
-            children: const[
-              Image(image: AssetImage('assets/homepage/Altagym.png'),),
-              SizedBox(width: 4,),
-              Expanded(child: Text('AltaGym', style: TextStyle(fontWeight: FontWeight.w500),))
-            ]
-          ),
-        ),
-        
-        actions: [
-
-          ///Notification Button
-          TextButton(
-            onPressed: (){}, 
-            child: const Icon(Icons.notifications, color: Colors.white)
-          ),
-        ],
-      ),
-
-
-
 
 
       ///Body

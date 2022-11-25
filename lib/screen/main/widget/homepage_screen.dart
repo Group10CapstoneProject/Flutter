@@ -2,6 +2,7 @@ import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
 import 'package:capstone_alterra_flutter/styles/my_color.dart';
 import 'package:capstone_alterra_flutter/styles/my_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 class HomepageScreen extends StatelessWidget {
   const HomepageScreen({super.key});
@@ -10,6 +11,35 @@ class HomepageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
 
+      ///AppBar
+      appBar: AppBar(
+        backgroundColor: MyColor.primaryColor.shade500,
+        elevation: 0,
+        titleSpacing: 8,
+        title: Container(
+          padding: const EdgeInsets.all(8),
+          height: kToolbarHeight,
+          width: double.infinity,
+          child: Row(
+            children: const[
+              Image(image: AssetImage('assets/homepage/Altagym.png'),),
+              SizedBox(width: 4,),
+              Expanded(child: Text('AltaGym', style: TextStyle(fontWeight: FontWeight.w500),))
+            ]
+          ),
+        ),
+        
+        actions: [
+
+          ///Notification Button
+          TextButton(
+            onPressed: (){}, 
+            child: const Icon(Icons.notifications, color: Colors.white)
+          ),
+        ],
+      ),
+
+      ///Body
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -69,6 +99,9 @@ class HomepageScreen extends StatelessWidget {
     );
   }
 }
+
+
+
 
 
 
@@ -356,6 +389,13 @@ Widget _kelasHariIni(){
     ],
   );
 }
+
+
+
+
+
+
+
 
 
 
