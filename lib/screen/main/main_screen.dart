@@ -1,5 +1,5 @@
 import 'package:capstone_alterra_flutter/provider/main_provider.dart';
-import 'package:capstone_alterra_flutter/styles/my_color.dart';
+import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -32,8 +32,8 @@ class _MainScreenState extends State<MainScreen> {
           currentIndex: valueProvider.index,
           
           showUnselectedLabels: true,
-          unselectedItemColor: MyColor.whiteColor.shade700,
-          selectedItemColor: MyColor.primaryColor.shade600,
+          unselectedItemColor: whiteDarkest,
+          selectedItemColor: primaryDark,
       
           items: [
             const BottomNavigationBarItem(
@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
       
             BottomNavigationBarItem(
               icon: SvgPicture.asset('assets/bottom_nav/class.svg', ),
-              activeIcon: SvgPicture.asset('assets/bottom_nav/class.svg', color: MyColor.primaryColor.shade600,),
+              activeIcon: SvgPicture.asset('assets/bottom_nav/class.svg', color: primaryDark,),
               label: 'Class'
             ),
       

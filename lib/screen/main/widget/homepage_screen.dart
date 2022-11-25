@@ -1,6 +1,5 @@
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
-import 'package:capstone_alterra_flutter/styles/my_color.dart';
-import 'package:capstone_alterra_flutter/styles/my_text_style.dart';
+import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -13,9 +12,12 @@ class HomepageScreen extends StatelessWidget {
 
       ///AppBar
       appBar: AppBar(
-        backgroundColor: MyColor.primaryColor.shade500,
+        backgroundColor: primaryBase,
         elevation: 0,
         titleSpacing: 8,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: primaryBase
+        ),
         title: Container(
           padding: const EdgeInsets.all(8),
           height: kToolbarHeight,
@@ -51,7 +53,7 @@ class HomepageScreen extends StatelessWidget {
                   height: 120,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: MyColor.primaryColor.shade500,
+                    color: primaryBase,
                     borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10))
                   ),
                 ),
@@ -68,10 +70,9 @@ class HomepageScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(16),
                         child: Text(
                           'Selamat Pagi Jake!', 
-                          style: MyTextStyle.textStyle.subtitle1?.apply(color: Colors.white),
+                          style: kSubtitle1.apply(color: Colors.white),
                         ),
                       ),
-
 
                       ///Promo - Iklan
                       Expanded(
@@ -114,14 +115,15 @@ class HomepageScreen extends StatelessWidget {
 
 
 ///Promo Iklan
+///Container yang ditempatkan pada bagian atas Homepage
 Widget _promoIklan(BuildContext context){
 
     HomepageProvider provider = Provider.of<HomepageProvider>(context, listen: false);
     PageController pageController = PageController();
 
 
-
     ///Iklan Container
+    ///Sebuah Container yang menampung data dummy yang akan dipajang
     Widget dummy = Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
@@ -144,13 +146,14 @@ Widget _promoIklan(BuildContext context){
 
 
     ///Coursel
+    ///Widget berbentuk titik sebagai indicator iklan yang ditunjukkan
     Widget coursel(bool active) => Container(
       height: 10,
       width: 10,
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: (active)? MyColor.primaryColor.shade500 : MyColor.whiteColor.shade400,
+        color: (active)? primaryBase : whiteDarker,
       ),
     );
 
@@ -210,9 +213,11 @@ Widget _promoIklan(BuildContext context){
 
 
 ///Kelas hari ini
+///Bagian homepage yang menunjukkan dari text 'Kelas hari ini' hingga kumpulan Container yang menampung data kelas hari ini
+///Bagian ini diletakkan pada bagian tengah homepage screen
 Widget _kelasHariIni(){
 
-
+  ///Widget atau Container yang menampung data item list Kelas hari ini
   Widget dummy = Container(
     width: 150,
     margin: const EdgeInsets.only(right: 8),
@@ -223,6 +228,7 @@ Widget _kelasHariIni(){
       children: [
         
         ///Header & Body
+        ///Menampung Heder & Body (Tidak termasuk status(text 'Pesan Kelas'))
         Expanded(
           child: Container(
             height: double.infinity,
@@ -242,6 +248,7 @@ Widget _kelasHariIni(){
               children: [
 
                 ///Header
+                ///Menampung waktu dan slot tersisa
                 Container(
                   height: 38,
                   padding: const EdgeInsets.only(top: 1, left: 6, right: 6),
@@ -261,7 +268,7 @@ Widget _kelasHariIni(){
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Icon(Icons.dark_mode, size: 16,),
-                            Text('17:00', style: MyTextStyle.textStyle.caption,)
+                            Text('17:00', style: kCaption,)
                           ],
                         ),
                       ),
@@ -271,7 +278,7 @@ Widget _kelasHariIni(){
 
                       ///Slot remaining
                       Expanded(
-                        child: Text('10 Slot Tersisa', style: MyTextStyle.textStyle.caption!.apply(color: Colors.white), textAlign: TextAlign.center,),
+                        child: Text('10 Slot Tersisa', style: kCaption.apply(color: Colors.white), textAlign: TextAlign.center,),
                       )
 
                     ],
@@ -280,6 +287,7 @@ Widget _kelasHariIni(){
 
 
                 ///Body
+                ///Menampung gambar dan judul dan trainer
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(8),
@@ -294,15 +302,15 @@ Widget _kelasHariIni(){
                           children: [
                             const Icon(Icons.fitness_center, size: 13.2, color: Colors.white,),
                             const SizedBox(width: 16,),
-                            Text('Sedang', style: MyTextStyle.textStyle.caption!.apply(color: Colors.white),),
+                            Text('Sedang', style: kCaption.apply(color: Colors.white),),
                           ],
                         ),
 
                         const SizedBox(height: 8,),
 
                         ///Judul
-                        Text('Zumba', style: MyTextStyle.textStyle.headline6!.apply(color: Colors.white),),
-                        Text('With Randy', style: MyTextStyle.textStyle.subtitle1!.apply(color: Colors.white)),
+                        Text('Zumba', style: kHeading6.apply(color: Colors.white),),
+                        Text('With Randy', style: kSubtitle1.apply(color: Colors.white)),
                       ],
                     ),
                   )
@@ -315,16 +323,17 @@ Widget _kelasHariIni(){
         ),
 
         ///Status
+        ///Menampung teks 'Pesan kelas'
         Container(
           height: 47,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
-            color: MyColor.primaryColor.shade500
+            color: primaryBase
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Pesan Kelas', style: MyTextStyle.textStyle.subtitle1!.apply(color: Colors.white),),
+              Text('Pesan Kelas', style: kSubtitle1.apply(color: Colors.white),),
               const SizedBox(width: 8,),
               Container(
                 height: 18,
@@ -334,7 +343,7 @@ Widget _kelasHariIni(){
                   color: Colors.white,
                   shape: BoxShape.circle
                 ),
-                child: Icon(Icons.chevron_right, color: MyColor.primaryColor.shade500, size: 18,),
+                child: Icon(Icons.chevron_right, color: primaryBase, size: 18,),
               ),
             ],
           ),
@@ -358,12 +367,12 @@ Widget _kelasHariIni(){
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-            Expanded(child: Text('Kelas hari ini', style: MyTextStyle.textStyle.headline6,)),
+            Expanded(child: Text('Kelas hari ini', style: kHeading6,)),
       
             Row(
               children: [
-                Text('Lihat semua', style: MyTextStyle.textStyle.bodyText2,),
-                Icon(Icons.chevron_right, color: MyColor.primaryColor.shade500,)
+                Text('Lihat semua', style: kBody2,),
+                Icon(Icons.chevron_right, color: primaryBase,)
               ],
             )
           ],
@@ -407,19 +416,23 @@ Widget _kelasHariIni(){
 
 
 ///Artikel
+///Bagian artikel yang diletakan pada bagian bawah homepage screen
+///Bagian yang menunjukkan dari teks 'Artikel' hingga kumpulan list artikel
 Widget _artikel (){
 
+  ///Widget atau Container yang menampung data item list dari artikel
   Widget dummy = Container(
     height: 106,
     width: double.infinity,
     padding: const EdgeInsets.symmetric(vertical: 12),
     decoration: BoxDecoration(
-      border: Border(bottom: BorderSide(color: MyColor.whiteColor.shade200))
+      border: Border(bottom: BorderSide(color: whiteDark))
     ),
     child: Row(
       children: [
 
         ///Article image
+        ///Menampung gambar artikel
         Container(
           width: 92,
           height: 82,
@@ -431,6 +444,7 @@ Widget _artikel (){
           ),
         ),
 
+        ///Menampung title list artikel dan tanggal artikel
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -438,14 +452,14 @@ Widget _artikel (){
             children: [
               Text(
                 'Panduan Lengkap Memilih Alat Olahraga di Rumah', 
-                style: MyTextStyle.textStyle.subtitle1,
+                style: kSubtitle1,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
 
               Text(
                 'Nov 10, 2022', 
-                style: MyTextStyle.textStyle.caption!.apply(color: MyColor.whiteColor.shade700,)
+                style: kCaption.apply(color: whiteDarkest,)
               ),
             ],
           )
@@ -470,7 +484,7 @@ Widget _artikel (){
       children: [
         
         ///Title & subtitle
-        Text('Artikel', style: MyTextStyle.textStyle.headline6,),
+        Text('Artikel', style: kHeading6,),
 
         const SizedBox(height: 8,),
 
@@ -480,11 +494,11 @@ Widget _artikel (){
             Expanded(
               child: Text(
                 'Temukan tips sehatmu', 
-                style: MyTextStyle.textStyle.bodyText2!.apply(color: MyColor.blackColor.shade200),
+                style: kBody2.apply(color: blackLight),
               ),
             ),
 
-            Text('Lihat Semua', style: MyTextStyle.textStyle.caption!.apply(color: MyColor.primaryColor.shade500),)
+            Text('Lihat Semua', style: kCaption.apply(color: primaryBase),)
           ],
         ),
 
