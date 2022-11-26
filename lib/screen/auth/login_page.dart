@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                         UserToken.accessToken = model.accessToken;
                         if(model.statusCode == 200){
                           UserToken.accessToken = model.accessToken;
-                          await UserToken.setRefreshKey(model.refreshToken!);
+                          await UserToken.setRefreshToken(model.refreshToken!);
                           if(mounted){
                             Navigator.pushReplacement(
                               context, 

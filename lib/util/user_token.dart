@@ -8,12 +8,12 @@ class UserToken{
 
   static const String refreshTokenKey = 'REFRESH_TOKEN_KEY';
 
-  static Future<String?> getRefreshKey() async{
+  static Future<String?> getRefreshToken() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(refreshTokenKey);
   }
 
-  static Future<void> setRefreshKey(String value) async{
+  static Future<void> setRefreshToken(String value) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(refreshTokenKey, value);
   }
