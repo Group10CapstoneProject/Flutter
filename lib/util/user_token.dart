@@ -1,10 +1,22 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class UserToken{
 
-  static String serverEndpoint = "http://ec2-3-85-131-211.compute-1.amazonaws.com/api/v1";
+  static String serverEndpoint = "http://dev.rnwxyz.codes/api/v1";
 
   static String? accessToken;
 
-  final String refreshKey = 'REFRESH_TOKEN_KEY';
+  static const String refreshTokenKey = 'REFRESH_TOKEN_KEY';
+
+  static Future<String?> getRefreshKey() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(refreshTokenKey);
+  }
+
+  static Future<void> setRefreshKey(String value) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(refreshTokenKey, value);
+  }
 
 
 

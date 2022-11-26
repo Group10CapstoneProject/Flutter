@@ -184,18 +184,22 @@ class _LoginPageState extends State<LoginPage> {
                           password: _passwordController.text
                         );
                         UserToken.accessToken = model.accessToken;
-                        if(mounted){
-                          Navigator.pushReplacement(
-                            context, 
-                            MaterialPageRoute(
-                              builder: (context) => const MainScreen(),
-                            )
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(model.message.toString()),
-                            ),
-                          );
+                        if(model.statusCode == 200){
+                          UserToken.accessToken = model.accessToken;
+                          await UserToken.setRefreshKey(model.refreshToken!);
+                          if(mounted){
+                            Navigator.pushReplacement(
+                              context, 
+                              MaterialPageRoute(
+                                builder: (context) => const MainScreen(),
+                              )
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(model.message.toString()),
+                              ),
+                            );
+                          }
                         }
                         _isLoading.value = false;
                       }
