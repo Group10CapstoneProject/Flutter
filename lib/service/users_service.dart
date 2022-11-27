@@ -32,7 +32,12 @@ class UsersService{
     }
     on DioError catch(e){
       if(e.response != null){
-        return SignupModel.fromJSON(json: e.response!.data, statusCode: e.response!.statusCode);
+        try{
+          return SignupModel.fromJSON(json: e.response!.data, statusCode: e.response!.statusCode);
+        }
+        catch(e){
+          return SignupModel(message: 'Unexpected error');
+        }
       }
       else{
         return SignupModel(message: 'Unexpected error');

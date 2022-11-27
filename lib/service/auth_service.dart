@@ -26,7 +26,12 @@ class AuthService{
     }
     on DioError catch(e){
       if(e.response != null){
-        return AuthModel.fromJSON(json: e.response?.data, statusCode: e.response?.statusCode);
+        try{
+          return AuthModel.fromJSON(json: e.response?.data, statusCode: e.response?.statusCode);
+        }
+        catch(e){
+          return AuthModel(message: 'Unexpected error');
+        }
       }
       else{
         return AuthModel(message: 'Unexpected error');
@@ -51,7 +56,12 @@ class AuthService{
     }
     on DioError catch(e){
       if(e.response != null){
-        return AuthModel.fromJSON(json: e.response?.data, statusCode: e.response?.statusCode);
+        try{
+          return AuthModel.fromJSON(json: e.response?.data, statusCode: e.response?.statusCode);
+        }
+        catch(e){
+          return AuthModel(message: 'Unexpected error');
+        }
       }
       else{
         return AuthModel(message: 'Unexpected error');

@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserToken{
 
-  static String serverEndpoint = "http://dev.rnwxyz.codes/api/v1";
+  static String serverEndpoint = "https://dev.rnwxyz.codes/api/v1";
 
   static String? accessToken;
 
