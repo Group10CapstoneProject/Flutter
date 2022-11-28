@@ -1,6 +1,6 @@
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
 import 'package:capstone_alterra_flutter/provider/main_provider.dart';
-import 'package:capstone_alterra_flutter/screen/landing_page/landing_page_screen.dart';
+import 'package:capstone_alterra_flutter/screen/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         )
       ),
       debugShowCheckedModeBanner: false,
-      home: const LandingPageScreen(),
+      home: const SplashScreen(),
     );
   }
 }
