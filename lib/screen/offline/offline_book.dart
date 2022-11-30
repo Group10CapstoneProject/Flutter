@@ -1,7 +1,9 @@
+import 'package:capstone_alterra_flutter/screen/offline/offline_transaksi.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OfflineBook extends StatelessWidget {
   const OfflineBook({super.key});
@@ -78,7 +80,7 @@ class OfflineBook extends StatelessWidget {
                             children: [
                               Text(
                                 'Basic Yoga',
-                                style: TextStyle(
+                                style: GoogleFonts.roboto(
                                     fontSize: 20,
                                     color: blackColor,
                                     letterSpacing: 0.15,
@@ -167,7 +169,7 @@ class OfflineBook extends StatelessWidget {
                                 children: [
                                   Text(
                                     'RP 50.000',
-                                    style: TextStyle(
+                                    style: GoogleFonts.roboto(
                                       fontSize: 16,
                                       fontWeight: bold,
                                       letterSpacing: 0.15,
@@ -314,10 +316,8 @@ class OfflineBook extends StatelessWidget {
                             color: whiteDarker,
                             thickness: 1,
                           ),
-                          const SizedBox(
-                            height: 15.0,
-                          ),
                           Container(
+                            margin: const EdgeInsets.only(top: 15),
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: primaryLightest,
@@ -370,12 +370,12 @@ class OfflineBook extends StatelessWidget {
               ),
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const RincianTransaksi(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RincianTransaksi(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryBase,

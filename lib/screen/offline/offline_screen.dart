@@ -1,4 +1,4 @@
-import 'package:capstone_alterra_flutter/screen/offline/widget/offline_card.dart';
+import 'package:capstone_alterra_flutter/screen/offline/offline_card.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 
