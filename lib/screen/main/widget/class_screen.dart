@@ -1,6 +1,6 @@
-
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/screen/offline/offline_screen.dart';
+import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,9 +27,9 @@ class _ClassScreenState extends State<ClassScreen> {
           statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark,
         ),
-        title: const Text(
+        title: Text(
           'Kelas',
-          style: TextStyle(color: Colors.black, fontSize: 20),
+          style: kHeading6.copyWith(color: blackLight),
         ),
         elevation: 0,
       ),
@@ -56,16 +56,13 @@ class _ClassScreenState extends State<ClassScreen> {
                 daftarKelas(),
 
                 // Waktu
-                Consumer<ClassProvider>(
-                  builder: (context, value, child){
-                    if(value.isOfflineChoosen){
-                      return waktu();
-                    }
-                    else{
-                      return const SizedBox();
-                    }
+                Consumer<ClassProvider>(builder: (context, value, child) {
+                  if (value.isOfflineChoosen) {
+                    return waktu();
+                  } else {
+                    return const SizedBox();
                   }
-                ),
+                }),
               ],
             ),
           ),
@@ -77,9 +74,7 @@ class _ClassScreenState extends State<ClassScreen> {
               physics: const NeverScrollableScrollPhysics(),
               children: const [
                 OfflineScreen(),
-                SizedBox(
-                  child: Text('This is online class')
-                ),
+                SizedBox(child: Text('This is online class')),
               ],
             ),
           )
@@ -91,11 +86,13 @@ class _ClassScreenState extends State<ClassScreen> {
   // Kelas Offline dan Online
   Widget daftarKelas() {
     return Container(
-      margin: const EdgeInsets.only(top: 16,),
+      margin: const EdgeInsets.only(
+        top: 16,
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 6),
       height: 49,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFFD3D3D3)),
+        border: Border.all(color: whiteDarker),
         color: const Color(0xFFF2F4F3),
         borderRadius: BorderRadius.circular(40),
       ),
@@ -112,32 +109,30 @@ class _ClassScreenState extends State<ClassScreen> {
                     elevation: 0,
                     backgroundColor: !value.isOfflineChoosen
                         ? const Color(0xFFF2F4F3)
-                        : const Color(0xFF52A1A4),
+                        : primaryBase,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   onPressed: () {
                     value.setIsOfflineChoosen(true);
-                    pageController.animateToPage(
-                      0, 
-                      duration: const Duration(milliseconds: 750), 
-                      curve: Curves.ease
-                    );
+                    pageController.animateToPage(0,
+                        duration: const Duration(milliseconds: 750),
+                        curve: Curves.ease);
                   },
                   child: Text(
                     'Offline',
                     style: TextStyle(
-                      color: !value.isOfflineChoosen
-                          ? const Color(0xFF52A1A4)
-                          : const Color(0xFFFDFDFD),
+                      color: !value.isOfflineChoosen ? primaryBase : whiteBase,
                     ),
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 8,),
+          const SizedBox(
+            width: 8,
+          ),
           Expanded(
             child: SizedBox(
               width: 175,
@@ -147,7 +142,7 @@ class _ClassScreenState extends State<ClassScreen> {
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
                     backgroundColor: !value.isOfflineChoosen
-                        ? const Color(0xFF52A1A4)
+                        ? primaryBase
                         : const Color(0xFFF2F4F3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -155,18 +150,14 @@ class _ClassScreenState extends State<ClassScreen> {
                   ),
                   onPressed: () {
                     value.setIsOfflineChoosen(false);
-                    pageController.animateToPage(
-                      1, 
-                      duration: const Duration(milliseconds: 750), 
-                      curve: Curves.ease
-                    );
+                    pageController.animateToPage(1,
+                        duration: const Duration(milliseconds: 750),
+                        curve: Curves.ease);
                   },
                   child: Text(
                     'Online',
                     style: TextStyle(
-                      color: !value.isOfflineChoosen
-                          ? const Color(0xFFFDFDFD)
-                          : const Color(0xFF52A1A4),
+                      color: !value.isOfflineChoosen ? whiteBase : primaryBase,
                     ),
                   ),
                 ),
@@ -187,7 +178,7 @@ class _ClassScreenState extends State<ClassScreen> {
         height: 85,
         width: 50,
         initialSelectedDate: DateTime.now(),
-        selectionColor: const Color(0xFF52A1A4),
+        selectionColor: primaryBase,
         locale: 'id_ID',
         onDateChange: (date) {
           selectedDate = date;
@@ -199,8 +190,7 @@ class _ClassScreenState extends State<ClassScreen> {
   // Kumpulan Filter
   Widget filter() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      margin: const EdgeInsets.only(top: 11),
+      margin: const EdgeInsets.only(top: 11, left: 16, right: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -209,20 +199,20 @@ class _ClassScreenState extends State<ClassScreen> {
             width: 100,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
+                backgroundColor: whiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
               onPressed: () {},
-              icon: const Icon(
+              icon: Icon(
                 Icons.tune,
-                color: Color(0xFF000000),
+                color: blackColor,
               ),
-              label: const Text(
+              label: Text(
                 'Filter',
                 style: TextStyle(
-                  color: Color(0xFF000000),
+                  color: blackColor,
                 ),
               ),
             ),

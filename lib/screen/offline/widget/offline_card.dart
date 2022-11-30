@@ -1,3 +1,5 @@
+import 'package:capstone_alterra_flutter/screen/offline/widget/offline_book.dart';
+import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 
 class OfflineCard extends StatelessWidget {
@@ -18,7 +20,7 @@ class OfflineCard extends StatelessWidget {
   final String date;
   final String duration;
   final String availabeleSlot;
-  final int payment;
+  final String payment;
 
   @override
   Widget build(BuildContext context) {
@@ -53,21 +55,14 @@ class OfflineCard extends StatelessWidget {
                       children: [
                         Text(
                           date,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              letterSpacing: 0.15),
+                          style: kHeading6.copyWith(color: whiteColor),
                         ),
                         const SizedBox(
                           height: 12.0,
                         ),
                         Text(
                           duration,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            letterSpacing: 0.15,
-                          ),
+                          style: kSubtitle1.copyWith(color: whiteColor),
                         )
                       ],
                     ),
@@ -78,24 +73,17 @@ class OfflineCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          letterSpacing: 0.15,
-                        ),
+                        style: kHeading6.copyWith(color: whiteColor),
                       ),
                       Text(
                         teacher,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            letterSpacing: 0.15),
+                        style: kSubtitle1.copyWith(color: whiteDark),
                       ),
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.group_add_sharp,
-                            color: Color(0xff7DC8C4),
+                            color: primaryLight,
                             size: 24,
                           ),
                           const SizedBox(
@@ -103,25 +91,15 @@ class OfflineCard extends StatelessWidget {
                           ),
                           Text(
                             availabeleSlot,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              letterSpacing: 0.1,
-                            ),
-                          )
+                            style: kSubtitle2.copyWith(color: whiteColor),
+                          ),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'RP $payment',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              letterSpacing: 0.15,
-                            ),
-                          ),
+                          Text('RP $payment',
+                              style: kSubtitle1.copyWith(color: whiteColor)),
                         ],
                       ),
                     ],
@@ -135,26 +113,22 @@ class OfflineCard extends StatelessWidget {
                         width: 70,
                         child: TextButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const DetailPage(),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const OfflineBook(),
+                              ),
+                            );
                           },
                           style: TextButton.styleFrom(
-                            backgroundColor: const Color(0xFF52A1A4),
+                            backgroundColor: primaryBase,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'BOOK',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              letterSpacing: 1.25,
-                            ),
+                            style: kButton.copyWith(color: whiteColor),
                           ),
                         ),
                       ),
