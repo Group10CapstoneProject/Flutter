@@ -44,6 +44,7 @@ class OfflineCard extends StatelessWidget {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 12),
@@ -70,9 +71,6 @@ class OfflineCard extends StatelessWidget {
                         )
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    width: 20.0,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,12 +130,19 @@ class OfflineCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(bottom: 16, left: 50),
+                        margin: const EdgeInsets.only(bottom: 16),
                         height: 32,
-                        width: 75,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
+                        width: 70,
+                        child: TextButton(
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const DetailPage(),
+                            //   ),
+                            // );
+                          },
+                          style: TextButton.styleFrom(
                             backgroundColor: const Color(0xFF52A1A4),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -146,6 +151,7 @@ class OfflineCard extends StatelessWidget {
                           child: const Text(
                             'BOOK',
                             style: TextStyle(
+                              color: Colors.white,
                               fontSize: 14,
                               letterSpacing: 1.25,
                             ),

@@ -184,7 +184,7 @@ class _ClassScreenState extends State<ClassScreen> {
       margin: const EdgeInsets.only(top: 30),
       child: DatePicker(
         DateTime.now(),
-        height: 80,
+        height: 85,
         width: 50,
         initialSelectedDate: DateTime.now(),
         selectionColor: const Color(0xFF52A1A4),
