@@ -1,5 +1,7 @@
+import 'package:capstone_alterra_flutter/screen/main/widget/class_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/widget/separator.dart';
+import 'package:capstone_alterra_flutter/widget/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -287,7 +289,17 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  dialogButton(
+                    context,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ClassScreen(),
+                        ),
+                      );
+                    },
+                  );
                 },
                 child: Text(
                   'BATALKAN PESANAN',
