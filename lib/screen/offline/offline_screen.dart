@@ -1,4 +1,5 @@
 import 'package:capstone_alterra_flutter/screen/offline/offline_card.dart';
+import 'package:capstone_alterra_flutter/screen/offline/offline_filter.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +83,14 @@ class _OfflineScreenState extends State<OfflineScreen> {
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OfflineFilterScreen(),
+                  ),
+                );
+              },
               icon: Icon(
                 Icons.tune,
                 color: blackColor,
