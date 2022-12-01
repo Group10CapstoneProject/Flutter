@@ -1,4 +1,6 @@
-import 'package:capstone_alterra_flutter/screen/offline/widget/offline_card.dart';
+import 'package:capstone_alterra_flutter/screen/offline/offline_card.dart';
+import 'package:capstone_alterra_flutter/screen/offline/offline_filter.dart';
+import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 
 class OfflineScreen extends StatefulWidget {
@@ -19,11 +21,11 @@ class _OfflineScreenState extends State<OfflineScreen> {
         children: [
           // Filter
           filter(),
-    
+
           const SizedBox(
             height: 14.0,
           ),
-    
+
           // WidgetCard
           const OfflineCard(
             title: 'Basic Yoga',
@@ -31,7 +33,7 @@ class _OfflineScreenState extends State<OfflineScreen> {
             date: '05.30',
             duration: '60 min',
             availabeleSlot: '10 Slot Tersisa',
-            payment: 30000,
+            payment: '30.000',
             picture: 'assets/offline_page/image.png',
           ),
           const SizedBox(
@@ -43,20 +45,20 @@ class _OfflineScreenState extends State<OfflineScreen> {
             date: '16.00',
             duration: '65 min',
             availabeleSlot: '20 Slot Tersisa',
-            payment: 150000,
-            picture: 'assets/offline_page/image.png',
+            payment: '150.000',
+            picture: 'assets/offline_page/image_2.png',
           ),
           const SizedBox(
             height: 20.0,
           ),
           const OfflineCard(
-            title: 'Muay Thai',
-            teacher: 'With Kevin',
-            date: '16.00',
-            duration: '65 min',
-            availabeleSlot: '20 Slot Tersisa',
-            payment: 150000,
-            picture: 'assets/offline_page/image.png',
+            title: 'zumba',
+            teacher: 'With Randy',
+            date: '19.00',
+            duration: '60 min',
+            availabeleSlot: '15 Slot Tersisa',
+            payment: '80.000',
+            picture: 'assets/offline_page/image_3.png',
           ),
         ],
       ),
@@ -76,21 +78,26 @@ class _OfflineScreenState extends State<OfflineScreen> {
             width: 100,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
+                backgroundColor: whiteBase,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
-              onPressed: () {},
-              icon: const Icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OfflineFilterScreen(),
+                  ),
+                );
+              },
+              icon: Icon(
                 Icons.tune,
-                color: Color(0xFF000000),
+                color: blackColor,
               ),
-              label: const Text(
+              label: Text(
                 'Filter',
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                ),
+                style: TextStyle(color: blackColor),
               ),
             ),
           ),
