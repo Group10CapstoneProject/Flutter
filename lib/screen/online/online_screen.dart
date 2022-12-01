@@ -1,4 +1,5 @@
 import 'package:capstone_alterra_flutter/screen/online/online_filter_screen.dart';
+import 'package:capstone_alterra_flutter/screen/online/specified_online_class.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,26 +8,23 @@ class OnlineClass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xFFF2F4F3),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            onlineFilter(context),
-            const SizedBox(height: 8,),
-            onlineCard('yoga.png', 'Yoga'),
-            onlineCard('strength.png', 'Strength'),
-            onlineCard('cardio.png', 'Cardio'),
-            onlineCard('streching.png', 'Streching'),
-          ],
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          onlineFilter(context),
+          const SizedBox(height: 8,),
+          onlineCard(imgSrc: 'yoga.png', title:  'Yoga', totalVideo: 12, context: context),
+          onlineCard(imgSrc: 'strength.png', title: 'Strength', totalVideo: 23, context: context),
+          onlineCard(imgSrc: 'cardio.png', title: 'Cardio', totalVideo: 8, context: context),
+          onlineCard(imgSrc: 'streching.png', title: 'Streching', totalVideo: 22, context: context),
+        ],
       ),
     );
   }
 
 
 
-  // Kumpulan Filter
+  /// Widget Tombol Filter
   Widget onlineFilter(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -65,19 +63,37 @@ class OnlineClass extends StatelessWidget {
   }
 
 
-
-  Widget onlineCard(String imgSrc, String title){
+///Widget card yang menampung jenis online class
+  Widget onlineCard({
+    required String imgSrc, 
+    required String title, 
+    required int totalVideo, 
+    required BuildContext context
+  }){
     return AspectRatio(
       aspectRatio: 328/192,
-      child: Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.transparent,
-          image: DecorationImage(image: AssetImage('assets/online_page/$imgSrc'))
+      child: GestureDetector(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SpecifiedOnlineClass(title: title,),));
+        },
+        child: Container(
+          alignment: Alignment.bottomCenter,
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.transparent,
+            image: DecorationImage(image: AssetImage('assets/online_page/$imgSrc'))
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(title, style: kHeading6.apply(color: Colors.white),),
+              const SizedBox(height: 12,),
+              Text('$totalVideo Video', style: kSubtitle1.apply(color: Colors.white),)
+            ],
+          ),
         ),
-        child: Text(title, style: kHeading6.apply(color: Colors.white),),
       ),
     );
   }

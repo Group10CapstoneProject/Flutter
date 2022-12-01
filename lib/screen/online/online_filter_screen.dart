@@ -43,7 +43,7 @@ class OnlineFilterScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _harga(),
+                      //_harga(),
                       _aktivitas(),
                     ],
                   ),
@@ -88,6 +88,7 @@ class OnlineFilterScreen extends StatelessWidget {
 
 
 
+// ignore: unused_element
 Widget _harga(){
   return SizedBox(
     width: double.infinity,
@@ -132,13 +133,13 @@ Widget _aktivitas(){
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Divider(
-            color: whiteDarker,
-            height: 0,
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        //   child: Divider(
+        //     color: whiteDarker,
+        //     height: 0,
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.all(16), 
           child: Text('Aktivitas', style: kSubtitle1,)
