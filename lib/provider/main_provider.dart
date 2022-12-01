@@ -1,4 +1,5 @@
 import 'package:capstone_alterra_flutter/screen/main/widget/homepage_screen.dart';
+import 'package:capstone_alterra_flutter/screen/main/widget/class_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainProvider with ChangeNotifier{
@@ -7,7 +8,7 @@ class MainProvider with ChangeNotifier{
   List<Widget> listPage = [
     const HomepageScreen(),
     const SizedBox(),
-    const SizedBox(),
+    const ClassScreen(),
     const SizedBox()
   ];
 
