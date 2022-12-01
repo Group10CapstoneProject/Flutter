@@ -1,6 +1,7 @@
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/screen/offline/offline_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/screen/online/online_screen.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,12 +15,16 @@ class ClassScreen extends StatefulWidget {
 }
 
 class _ClassScreenState extends State<ClassScreen> {
-  bool isSelected = false;
   DateTime selectedDate = DateTime.now();
-  final PageController pageController = PageController();
+  late PageController pageController;
 
   @override
   Widget build(BuildContext context) {
+
+    pageController = PageController(
+      initialPage: (context.read<ClassProvider>().isOfflineChoosen)? 0: 1,
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -74,7 +79,7 @@ class _ClassScreenState extends State<ClassScreen> {
               physics: const NeverScrollableScrollPhysics(),
               children: const [
                 OfflineScreen(),
-                SizedBox(child: Text('This is online class')),
+                OnlineClass()
               ],
             ),
           )
