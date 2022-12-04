@@ -43,7 +43,7 @@ class ProfileScreen extends StatelessWidget {
 
 
 ///A Widget for top position of screen
-Widget _topWidget({required Membership membership}){
+Widget _topWidget({required Membership? membership}){
   return Stack(
     children: [
       Container(
@@ -84,7 +84,7 @@ Widget _topWidget({required Membership membership}){
                             Text('Aluna Putri', style: kSubtitle1.apply(color: Colors.white),),
                             const SizedBox(height: 6,),
                             Text('alunaputri@gmail.com', style: kBody2.apply(color: Colors.white),),
-                            (membership != Membership.none)? 
+                            (membership != null)? 
                               Column(
                                 children: [
                                   const SizedBox(height: 6,),
@@ -165,7 +165,7 @@ Widget _topWidget({required Membership membership}){
 
 
 ///A widget that contain Membership menu
-Widget _membershipWidget({required BuildContext context, required Membership membership}){
+Widget _membershipWidget({required BuildContext context, required Membership? membership}){
 
   ///Text for membership button
   late String membershipButtonText;
@@ -206,7 +206,7 @@ Widget _membershipWidget({required BuildContext context, required Membership mem
         const SizedBox(height: 16,),
         
         ///Show text when membership not activated
-        (membership == Membership.none) ? 
+        (membership == null) ? 
           Column(
             children: [
               Text('Belum ada membership', style: kBody2.apply(color: whiteDarkest),),
@@ -237,7 +237,7 @@ Widget _membershipWidget({required BuildContext context, required Membership mem
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                (membership != Membership.none) ? 
+                (membership != null) ? 
                   Row(
                     children: const [
                       Image(image: AssetImage('assets/profile_page/crown.png')),
