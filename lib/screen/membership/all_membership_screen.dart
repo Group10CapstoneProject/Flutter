@@ -34,7 +34,7 @@ class AllMembershipScreen extends StatelessWidget {
                 ],
               ),
             ),
-            _allMembershipCard(),
+            _allMembershipCardWidget(context),
           ],
         ),
       ),
@@ -51,11 +51,13 @@ class AllMembershipScreen extends StatelessWidget {
 
 
 ///A widget that contain PageView and its content the membership card
-Widget _allMembershipCard(){
+Widget _allMembershipCardWidget(BuildContext context){
 
   ValueNotifier<int> indexPage = ValueNotifier(0);
 
   PageController pageController = PageController();
+
+
 
   ///A widget that shaped as a circle that indicate the shown page of pageView
   Widget circleIndicator(bool isActive){
@@ -71,11 +73,14 @@ Widget _allMembershipCard(){
   }
 
 
+
+
   ///A widget that categorized as card that contain membership info such as name, price and benefits
-  Widget membershipCard(Membership membership){
+  Widget membershipCard({required BuildContext context, required Membership membership}){
 
     MembershipClass membershipClass = MembershipClass.fromMembership(membership);
 
+    ///A widget that contain benefit of membership
     Widget textBenefit(String title){
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -97,7 +102,115 @@ Widget _allMembershipCard(){
 
 
 
+    ///A method to display bottomSheet for duration input
+    void showDurationBottomSheet(){
 
+      TextEditingController monthTextController = TextEditingController();
+      ValueNotifier<String?> errorText = ValueNotifier(null);
+
+      showModalBottomSheet(
+        isScrollControlled: true,
+        context: context, 
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Container(
+              height: 325,
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30))
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Jumlah', style: kHeading6.apply(color: blackLight),),
+                      IconButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        }, 
+                        icon: const Icon(Icons.close)
+                      )
+                    ]
+                  ),
+                  const SizedBox(height: 16,),
+                  Text('Berapa bulan?', style: kBody2,),
+                  const SizedBox(height: 8,),
+
+                  ///TextField for month input
+                  ValueListenableBuilder(
+                    valueListenable: errorText,
+                    builder: (context, value, child) {
+                      return TextField(
+                        controller: monthTextController,
+                        cursorColor: primaryBase,
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) => errorText.value = null,
+                        decoration: InputDecoration(
+                          errorText: errorText.value,
+                          hintText: 'Masukkan jumlah angka disini',
+                          hintStyle: kBody1.apply(color: whiteDarker),
+                          focusColor: primaryBase,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: BorderSide(color: primaryBase)
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: BorderSide(color: primaryBase)
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: BorderSide(color: dangerDarker)
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: BorderSide(color: dangerDarker)
+                          ),
+                        ),
+                      );
+                    }
+                  ),
+                  const Spacer(),
+
+                  ///ElevatedButton for continue to transaction
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(primaryBase)
+                      ),
+                      onPressed: (){
+                        if(int.tryParse(monthTextController.text) == null){
+                          errorText.value = 'Masukkan input bulan dengan benar';
+                        }
+                        else{
+                          errorText.value = null;
+                        }
+                      }, 
+                      child: Text('LANJUTKAN KE PEMBAYARAN', style: kButton.apply(color: Colors.white),)
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+      );
+    }
+
+
+
+
+
+
+    ///return of membershipCard()
     return Container(
       height: double.infinity,
       width: double.infinity,
@@ -122,7 +235,10 @@ Widget _allMembershipCard(){
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
               child: Column(
                 children: [
+                  
+                  ///Membership name, coin, and price
                   Image(image: AssetImage('assets/membership_page/${membershipClass.coinFile}'), width: 60, height: 60,),
+                  const SizedBox(height: 6,),
                   Text(membershipClass.name, style: kHeading6.apply(color: blackLight),),
                   const SizedBox(height: 16,),
                   Divider(color: whiteDarker,),
@@ -143,7 +259,8 @@ Widget _allMembershipCard(){
                     ),
                   ),
                   Divider(color: whiteDarker,),
-
+    
+                  ///Bunch of textBenefit
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -155,12 +272,14 @@ Widget _allMembershipCard(){
                       ),
                     ),
                   ),
-
+    
                   ///Button Buy Now
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: (){}, 
+                      onPressed: (){
+                        showDurationBottomSheet();
+                      }, 
                       style: ButtonStyle(
                         fixedSize: const MaterialStatePropertyAll(Size(double.infinity, 50)),
                         backgroundColor: MaterialStatePropertyAll(membershipClass.color),
@@ -185,6 +304,8 @@ Widget _allMembershipCard(){
 
 
 
+
+  ///return of allMembershipCardWidget
   return SizedBox(
     height: 550,
     width: double.infinity,
@@ -199,10 +320,10 @@ Widget _allMembershipCard(){
               indexPage.value = value;
             },
             children: [
-              membershipCard(Membership.bronze),
-              membershipCard(Membership.silver),
-              membershipCard(Membership.gold),
-              membershipCard(Membership.platinum)
+              membershipCard(context: context, membership: Membership.bronze),
+              membershipCard(context: context, membership: Membership.silver),
+              membershipCard(context: context, membership: Membership.gold),
+              membershipCard(context: context, membership: Membership.platinum)
             ],
           ),
         ),

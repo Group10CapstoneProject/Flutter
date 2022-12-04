@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyMembershipScreen extends StatelessWidget {
-  const MyMembershipScreen({super.key});
+  const MyMembershipScreen({super.key, required this.membership});
+
+  final Membership membership;
 
   @override
   Widget build(BuildContext context) {
-
-    Membership membership = Membership.gold;
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +28,7 @@ class MyMembershipScreen extends StatelessWidget {
         child: Column(
           children: [
             _myMembershipWidget(context, membership),
-            _yourMemberBenefits(),
+            _yourMemberBenefitsWidget(membership),
           ],
         ),
       ),
@@ -139,7 +139,9 @@ Widget _myMembershipWidget(BuildContext context, Membership membership){
 
 
 ///A widget that contain all benefit of user membership
-Widget _yourMemberBenefits(){
+Widget _yourMemberBenefitsWidget(Membership membership){
+
+  MembershipClass membershipClass = MembershipClass.fromMembership(membership);
 
   ///A widget that show a card of a benefit of user membership
   Widget benefitCard(String title){
@@ -188,10 +190,8 @@ Widget _yourMemberBenefits(){
       children: [
         Text('Keuntungan Member-mu', style: kHeading6,),
         const SizedBox(height: 16,),
-        benefitCard('Dapatkan akses prioritas ketika melakukan booking'),
-        benefitCard('Dapatkan akses prioritas ketika melakukan booking'),
-        benefitCard('Dapatkan akses prioritas ketika melakukan booking'),
-        benefitCard('Dapatkan akses prioritas ketika melakukan booking'),
+        for(String i in membershipClass.benefit)
+          benefitCard(i)
       ],
     ),
   );

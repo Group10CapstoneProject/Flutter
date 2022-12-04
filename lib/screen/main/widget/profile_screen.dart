@@ -1,3 +1,4 @@
+import 'package:capstone_alterra_flutter/screen/membership/all_membership_screen.dart';
 import 'package:capstone_alterra_flutter/screen/membership/my_membership_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/membership.dart';
@@ -10,6 +11,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Membership? membership = Membership.platinum;
 
     return Scaffold(
       appBar: AppBar(
@@ -24,8 +27,8 @@ class ProfileScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _topWidget(membership: Membership.gold),
-            _membershipWidget(context: context, membership: Membership.gold),
+            _topWidget(membership: membership),
+            _membershipWidget(context: context, membership: membership),
             _myAccountWidget(),
             _myAboutWidget(context),
           ],
@@ -219,7 +222,11 @@ Widget _membershipWidget({required BuildContext context, required Membership? me
           onPressed: (){
             Navigator.push(
               context, 
-              MaterialPageRoute(builder: (context) => const MyMembershipScreen(),)
+              MaterialPageRoute(
+                builder: (context) => (membership != null) ? 
+                  MyMembershipScreen(membership: membership,) : 
+                  const AllMembershipScreen(),
+              )
             );
           },
           style: ButtonStyle(
