@@ -1,6 +1,7 @@
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/trainer_provider.dart';
 import 'package:capstone_alterra_flutter/screen/trainers/all_trainers.dart';
+import 'package:capstone_alterra_flutter/screen/trainers/filter_trainers.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
@@ -110,31 +111,42 @@ class _TrainersScreenState extends State<TrainersScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Pilih Personal Trainer Kamu!',
-            style: kSubtitle1.copyWith(
-              color: blackColor,
-            ),
-          ),
-          SizedBox(
-            height: 40,
-            width: 100,
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: whiteColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              ),
-              onPressed: () {},
-              icon: Icon(
-                Icons.tune,
+          Expanded(
+            child: Text(
+              'Pilih Personal Trainer Kamu!',
+              style: kSubtitle1.copyWith(
                 color: blackColor,
               ),
-              label: Text(
-                'Filter',
-                style: TextStyle(
+            ),
+          ),
+          Flexible(
+            child: SizedBox(
+              height: 40,
+              width: 100,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: whiteColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TrainerFilterScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.tune,
                   color: blackColor,
+                ),
+                label: Text(
+                  'Filter',
+                  style: TextStyle(
+                    color: blackColor,
+                  ),
                 ),
               ),
             ),

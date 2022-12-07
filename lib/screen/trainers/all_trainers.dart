@@ -1,4 +1,5 @@
 import 'package:capstone_alterra_flutter/model/trainers_model.dart';
+import 'package:capstone_alterra_flutter/screen/trainers/details_trainers.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +12,15 @@ class AllTrainers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                DetailTrainerScreen(detailTrainer: trainerModel),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
         child: Container(
