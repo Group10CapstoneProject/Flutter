@@ -20,9 +20,8 @@ class _ClassScreenState extends State<ClassScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     pageController = PageController(
-      initialPage: (context.read<ClassProvider>().isOfflineChoosen)? 0: 1,
+      initialPage: (context.read<ClassProvider>().isOfflineChoosen) ? 0 : 1,
     );
 
     return Scaffold(
@@ -43,7 +42,7 @@ class _ClassScreenState extends State<ClassScreen> {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: const BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -77,10 +76,7 @@ class _ClassScreenState extends State<ClassScreen> {
             child: PageView(
               controller: pageController,
               physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                OfflineScreen(),
-                OnlineClass()
-              ],
+              children: const [OfflineScreen(), OnlineClass()],
             ),
           )
         ],

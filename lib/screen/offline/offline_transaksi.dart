@@ -1,5 +1,4 @@
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
-import 'package:capstone_alterra_flutter/screen/main/widget/class_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/widget/separator.dart';
 import 'package:capstone_alterra_flutter/widget/show_dialog.dart';
@@ -60,40 +59,35 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Basic Yoga - With Maya',
+                            style: kSubtitle1.copyWith(color: blackColor),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            'RP 50.000',
+                            style: GoogleFonts.roboto(
+                              color: blackLight,
+                              fontSize: 16,
+                              fontWeight: semiBold,
+                              letterSpacing: 0.15,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Basic Yoga - With Maya',
-                          style: kSubtitle1.copyWith(color: blackColor),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'RP 50.000',
-                          style: GoogleFonts.roboto(
-                            color: blackLight,
-                            fontSize: 16,
-                            fontWeight: semiBold,
-                            letterSpacing: 0.15,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          'kelas offline',
-                          style: kCaption.copyWith(color: warningDark),
-                        ),
+                    Flexible(
+                      child: Text(
+                        'kelas offline',
+                        style: kCaption.copyWith(color: warningDark),
                       ),
                     ),
                   ],
