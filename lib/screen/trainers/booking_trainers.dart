@@ -1,3 +1,4 @@
+import 'package:capstone_alterra_flutter/screen/trainers/details_transaction.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -235,7 +236,14 @@ class _BookingTrainersState extends State<BookingTrainers> {
                 horizontal: 16,
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DetailTranscation(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryBase,
                   padding: const EdgeInsets.symmetric(
