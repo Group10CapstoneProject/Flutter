@@ -1,5 +1,4 @@
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
-import 'package:capstone_alterra_flutter/screen/main/widget/class_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/widget/separator.dart';
 import 'package:capstone_alterra_flutter/widget/show_dialog.dart';

@@ -1,3 +1,5 @@
+import 'package:capstone_alterra_flutter/model/transaction_model.dart';
+import 'package:capstone_alterra_flutter/screen/transaction/transaction_detail_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/membership.dart';
 import 'package:flutter/material.dart';
@@ -192,6 +194,18 @@ Widget _allMembershipCardWidget(BuildContext context){
                         }
                         else{
                           errorText.value = null;
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(
+                              builder: (context) => TransactionDetailScreen(
+                                transactionModel: TransactionModel.forMembership(
+                                  membershipClass: membershipClass, 
+                                  monthQuantity: int.parse(monthTextController.text)
+                                )
+                              ),
+                            )
+                          );
                         }
                       }, 
                       child: Text('LANJUTKAN KE PEMBAYARAN', style: kButton.apply(color: Colors.white),)
@@ -307,7 +321,7 @@ Widget _allMembershipCardWidget(BuildContext context){
 
   ///return of allMembershipCardWidget
   return SizedBox(
-    height: 550,
+    height: 570,
     width: double.infinity,
     child: Column(
       children: [
@@ -330,11 +344,11 @@ Widget _allMembershipCardWidget(BuildContext context){
 
         ///Bunch of circleIndicator
         SizedBox(
-          height: 40,
+          height: 60,
           width: double.infinity,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               for(int i = 0; i < 4; i++)
                 ValueListenableBuilder(
@@ -345,7 +359,7 @@ Widget _allMembershipCardWidget(BuildContext context){
                 )
             ],
           ),
-        )
+        ),
       ],
     ),
   );
