@@ -200,6 +200,7 @@ Widget _allMembershipCardWidget(BuildContext context){
                             MaterialPageRoute(
                               builder: (context) => TransactionDetailScreen(
                                 transactionModel: TransactionModel.forMembership(
+                                  id: '1',
                                   membershipClass: membershipClass, 
                                   monthQuantity: int.parse(monthTextController.text)
                                 )

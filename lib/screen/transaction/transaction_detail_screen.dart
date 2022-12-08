@@ -23,7 +23,9 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
 
   List<PaymentMethodModel> listPayment = [
     PaymentMethodModel(id: 1, iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
-    PaymentMethodModel(id: 2, iconLink: 'crown.png', name: 'My Membership'),
+    PaymentMethodModel(id: 2, iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
+    PaymentMethodModel(id: 3, iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
+    // PaymentMethodModel(id: 2, iconLink: 'crown.png', name: 'My Membership'),
   ];
 
   @override
@@ -509,39 +511,44 @@ void _showPaymentMethodBottomSheet({
 
               ///For every payment method in list payment
               for(int i = 0; i < listPayment.length; i++)
-                Container(
-                  height: 60,
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: whiteDarker)
-                  ),
-                  child: Row(
-                    children: [
-                      Image(
-                        image: AssetImage('assets/transaction_page/${listPayment[i].iconLink}'), 
-                        height: 30,
-                        width: 30,
-                      ),
-                      const SizedBox(width: 8,),
-                      Expanded(
-                        child: Text(listPayment[i].name, style: kBody1, maxLines: 1, overflow: TextOverflow.ellipsis,)
-                      ),
-                      ValueListenableBuilder(
-                        valueListenable: groupValue,
-                        builder: (context, _, child) {
-                          return Radio<int>(
-                            value: i, 
-                            groupValue: groupValue.value, 
-                            onChanged: (value) {
-                              groupValue.value = i;
-                            },
-                          );
-                        }
-                      )
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    groupValue.value = i;
+                  },
+                  child: Container(
+                    height: 60,
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: whiteDarker)
+                    ),
+                    child: Row(
+                      children: [
+                        Image(
+                          image: AssetImage('assets/transaction_page/${listPayment[i].iconLink}'), 
+                          height: 30,
+                          width: 30,
+                        ),
+                        const SizedBox(width: 8,),
+                        Expanded(
+                          child: Text(listPayment[i].name, style: kBody1, maxLines: 1, overflow: TextOverflow.ellipsis,)
+                        ),
+                        ValueListenableBuilder(
+                          valueListenable: groupValue,
+                          builder: (context, _, child) {
+                            return Radio<int>(
+                              value: i, 
+                              groupValue: groupValue.value, 
+                              onChanged: (value) {
+                                groupValue.value = i;
+                              },
+                            );
+                          }
+                        )
+                      ],
+                    ),
                   ),
                 )
             ],
