@@ -50,7 +50,7 @@ void dialogButton(BuildContext context, void Function() onPressed) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              width: 120,
+              width: 100,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: whiteBase,
@@ -69,7 +69,7 @@ void dialogButton(BuildContext context, void Function() onPressed) {
               ),
             ),
             SizedBox(
-              width: 120,
+              width: 100,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryBase,

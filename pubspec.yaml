@@ -75,8 +75,10 @@ flutter:
     - assets/landing_page/
     - assets/offline_page/
     - assets/online_page/
+    - assets/trainer/
     - assets/profile_page/
     - assets/membership_page/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

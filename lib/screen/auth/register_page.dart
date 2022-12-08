@@ -41,42 +41,41 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Form(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: formKey,
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    alignment: Alignment.topLeft,
-                    child: const Image(
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Image(
+                      alignment: Alignment.topLeft,
                       image: AssetImage('assets/logo.png'),
                       height: 62,
                       width: 84,
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: Text.rich(
-                      TextSpan(
-                        text: 'Selamat Datang di',
-                        style: kHeading6,
-                        children: [
-                          TextSpan(
-                            text: ' Altagym',
-                            style: kHeading6.copyWith(color: primaryDark),
-                          ),
-                        ],
-                      ),
+                  Text.rich(
+                    TextSpan(
+                      text: 'Selamat Datang di',
+                      style: kHeading6,
+                      children: [
+                        TextSpan(
+                          text: ' Altagym',
+                          style: kHeading6.copyWith(color: primaryDark),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
-                  Text('Yuk daftar dan mulai gaya hidup sehatmu\nbersama Altagym',
+                  Text(
+                      'Yuk daftar dan mulai gaya hidup sehatmu\nbersama Altagym',
                       style: kBody2),
                   const SizedBox(
                     height: 20.0,
@@ -140,9 +139,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             if (value!.isEmpty) {
                               return 'Masukan Email!';
                             }
-                            if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                            if (!RegExp(
+                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                 .hasMatch(value)) {
-                              return ("Please Enter a valid email");
+                              return ("Masukan email yang valid!");
                             }
                             return null;
                           },
@@ -163,37 +163,39 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 4.0,
                         ),
                         ValueListenableBuilder<bool>(
-                          valueListenable: _obscureText,
-                          builder: (context, value, child) {
-                            return TextFormField(
-                              controller: _passwordController,
-                              obscureText: _obscureText.value,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4.0)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4.0)),
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        _obscureText.value = !_obscureText.value;
-                                      },
-                                      icon: Icon(_obscureText.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off)),
-                                  hintText: '****'),
-                              validator: (value) {
-                                RegExp regex = RegExp(r'^.{6,}$');
-                                if (value!.isEmpty) {
-                                  return ("Masukan Password!");
-                                }
-                                if (!regex.hasMatch(value)) {
-                                  return ("Masukkan Kata Sandi yang Valid (Min. 6 Karakter)");
-                                }
-                                return null;
-                              },
-                            );
-                          }
-                        )
+                            valueListenable: _obscureText,
+                            builder: (context, value, child) {
+                              return TextFormField(
+                                controller: _passwordController,
+                                obscureText: _obscureText.value,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0)),
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          _obscureText.value =
+                                              !_obscureText.value;
+                                        },
+                                        icon: Icon(_obscureText.value
+                                            ? Icons.visibility
+                                            : Icons.visibility_off)),
+                                    hintText: '****'),
+                                validator: (value) {
+                                  RegExp regex = RegExp(r'^.{6,}$');
+                                  if (value!.isEmpty) {
+                                    return ("Masukan Password!");
+                                  }
+                                  if (!regex.hasMatch(value)) {
+                                    return ("Masukkan Kata Sandi yang Valid (Min. 6 Karakter)");
+                                  }
+                                  return null;
+                                },
+                              );
+                            })
                       ],
                     ),
                   ),
@@ -210,68 +212,70 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 4.0,
                         ),
                         ValueListenableBuilder<bool>(
-                          valueListenable: _obscureText,
-                          builder: (context, value, child) {
-                            return TextFormField(
-                              controller: _confirmPasswordController,
-                              obscureText: _obscureText.value,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4.0)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4.0)),
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        _obscureText.value = !_obscureText.value;
-                                      },
-                                      icon: Icon(_obscureText.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off)),
-                                  hintText: '****'),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return ("Masukan Ulang Password !");
-                                }
-                                if (_confirmPasswordController.text !=
-                                    _passwordController.text) {
-                                  return "Password don't match";
-                                }
-                                return null;
-                              },
-                            );
-                          }
-                        )
+                            valueListenable: _obscureText,
+                            builder: (context, value, child) {
+                              return TextFormField(
+                                controller: _confirmPasswordController,
+                                obscureText: _obscureText.value,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0)),
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          _obscureText.value =
+                                              !_obscureText.value;
+                                        },
+                                        icon: Icon(_obscureText.value
+                                            ? Icons.visibility
+                                            : Icons.visibility_off)),
+                                    hintText: '****'),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return ("Masukan Ulang Password !");
+                                  }
+                                  if (_confirmPasswordController.text !=
+                                      _passwordController.text) {
+                                    return "Kata sandi tidak cocok";
+                                  }
+                                  return null;
+                                },
+                              );
+                            })
                       ],
                     ),
                   ),
-                  MaterialButton(
-                    color: primaryDark,
-                    height: 48,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryDark,
+                      minimumSize: const Size(0, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                    onPressed: () async{
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         _isLoading.value = true;
                         UsersService usersService = UsersService();
-                        SignupModel model = await usersService.postSignupNewUser(
-                          name: _nameController.text, 
-                          email: _emailController.text, 
-                          password: _passwordController.text
-                        );
-                        if(mounted){
+                        SignupModel model =
+                            await usersService.postSignupNewUser(
+                                name: _nameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text);
+                        if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(model.message.toString()),
                             ),
                           );
-                          if(model.statusCode == 200){
+                          if (model.statusCode == 200) {
                             Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage()
-                              )
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()));
                           }
                         }
                         _isLoading.value = false;
@@ -316,16 +320,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
             ),
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: _isLoading, 
-            builder: (context, value, child) {
-              return (value)
-                  ? const Positioned.fill(child: CircularLoading())
-                  : const SizedBox();
-            },
-          )
-        ],
+            ValueListenableBuilder<bool>(
+              valueListenable: _isLoading,
+              builder: (context, value, child) {
+                return (value)
+                    ? const Positioned.fill(child: CircularLoading())
+                    : const SizedBox();
+              },
+            )
+          ],
+        ),
       ),
     );
   }

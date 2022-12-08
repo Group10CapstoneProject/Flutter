@@ -4,27 +4,23 @@ import 'package:capstone_alterra_flutter/widget/separator.dart';
 import 'package:capstone_alterra_flutter/widget/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RincianTransaksi extends StatefulWidget {
-  const RincianTransaksi({super.key});
+class DetailTranscation extends StatelessWidget {
+  const DetailTranscation({super.key});
 
-  @override
-  State<RincianTransaksi> createState() => _RincianTransaksiState();
-}
-
-class _RincianTransaksiState extends State<RincianTransaksi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: whiteColor,
+        backgroundColor: Colors.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarIconBrightness: Brightness.dark,
             statusBarBrightness: Brightness.light),
-        iconTheme: IconThemeData(color: blackColor),
+        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           'Rincian Transaksi',
           style: kHeading6.copyWith(color: blackLight),
@@ -37,7 +33,7 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Kamu akan memesan kelas ini',
+                'Kamu akan memesan pelatih ini',
                 style: kBody1.copyWith(color: blackColor),
               ),
               Container(
@@ -51,7 +47,7 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: blackColor.withOpacity(0.2),
                       blurRadius: 2,
                       offset: const Offset(0, 2), // changes position of shadow
                     ),
@@ -66,14 +62,14 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Basic Yoga - With Maya',
+                            'Dika Pramudya',
                             style: kSubtitle1.copyWith(color: blackColor),
                           ),
                           const SizedBox(
                             height: 5,
                           ),
                           Text(
-                            'RP 50.000',
+                            'RP 275.000',
                             style: GoogleFonts.roboto(
                               color: blackLight,
                               fontSize: 16,
@@ -86,7 +82,7 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
                     ),
                     Flexible(
                       child: Text(
-                        'kelas offline',
+                        'Pelatih',
                         style: kCaption.copyWith(color: warningDark),
                       ),
                     ),
@@ -103,7 +99,7 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Detail Kelas',
+                      'Detail Pemesanan',
                       style: kSubtitle1.copyWith(color: blackColor),
                     ),
                     Padding(
@@ -159,7 +155,62 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
                           ],
                         ),
                         Text(
-                          '05:30',
+                          '11:00',
+                          style: GoogleFonts.roboto(
+                            color: blackColor,
+                            fontSize: 14,
+                            fontWeight: semiBold,
+                            letterSpacing: 0.1,
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              SvgPicture.asset('assets/telpon.svg'),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                              Text(
+                                'Nomor Telepon',
+                                style: kBody2.copyWith(color: blackColor),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            '+6282122544789',
+                            style: GoogleFonts.roboto(
+                              color: blackColor,
+                              fontSize: 14,
+                              fontWeight: semiBold,
+                              letterSpacing: 0.1,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset('assets/note.svg'),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                            Text(
+                              'Catatan',
+                              style: kBody2.copyWith(color: blackColor),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Halo Kak',
                           style: GoogleFonts.roboto(
                             color: blackColor,
                             fontSize: 14,
@@ -199,7 +250,7 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
                           style: kBody2.copyWith(color: blackColor),
                         ),
                         Text(
-                          'RP 50.000',
+                          'RP 275.000',
                           style: GoogleFonts.roboto(
                             color: blackColor,
                             fontSize: 14,
@@ -240,7 +291,7 @@ class _RincianTransaksiState extends State<RincianTransaksi> {
                           style: kBody2.copyWith(color: blackColor),
                         ),
                         Text(
-                          'RP 50.000',
+                          'RP 275.000',
                           style: GoogleFonts.roboto(
                             color: blackColor,
                             fontSize: 14,
