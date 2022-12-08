@@ -1,4 +1,5 @@
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
+import 'package:capstone_alterra_flutter/screen/trainers/booking_trainers.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/widget/separator.dart';
 import 'package:capstone_alterra_flutter/widget/show_dialog.dart';
@@ -124,7 +125,7 @@ class DetailTranscation extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '20 November 2022',
+                            inputDate.text,
                             style: GoogleFonts.roboto(
                               color: blackColor,
                               fontSize: 14,
@@ -172,7 +173,7 @@ class DetailTranscation extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              SvgPicture.asset('assets/telpon.svg'),
+                              SvgPicture.asset('assets/trainer/telpon.svg'),
                               const SizedBox(
                                 width: 8.0,
                               ),
@@ -183,7 +184,7 @@ class DetailTranscation extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '+6282122544789',
+                            '+62${inputNumber.text}',
                             style: GoogleFonts.roboto(
                               color: blackColor,
                               fontSize: 14,
@@ -197,25 +198,30 @@ class DetailTranscation extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/note.svg'),
-                            const SizedBox(
-                              width: 8.0,
-                            ),
-                            Text(
-                              'Catatan',
-                              style: kBody2.copyWith(color: blackColor),
-                            ),
-                          ],
+                        Flexible(
+                          child: Row(
+                            children: [
+                              SvgPicture.asset('assets/trainer/note.svg'),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                              Text(
+                                'Catatan',
+                                style: kBody2.copyWith(color: blackColor),
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          'Halo Kak',
-                          style: GoogleFonts.roboto(
-                            color: blackColor,
-                            fontSize: 14,
-                            fontWeight: semiBold,
-                            letterSpacing: 0.1,
+                        Expanded(
+                          child: Text(
+                            inputNote.text,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.roboto(
+                              color: blackColor,
+                              fontSize: 14,
+                              fontWeight: semiBold,
+                              letterSpacing: 0.1,
+                            ),
                           ),
                         )
                       ],
@@ -340,7 +346,8 @@ class DetailTranscation extends StatelessWidget {
                     () {
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => const MainScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const MainScreen()),
                           (route) => false);
                     },
                   );

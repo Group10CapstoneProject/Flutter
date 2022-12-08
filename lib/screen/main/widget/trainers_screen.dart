@@ -24,6 +24,7 @@ class _TrainersScreenState extends State<TrainersScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
           statusBarIconBrightness: Brightness.dark,
         ),
         title: Text(
