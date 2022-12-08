@@ -1,7 +1,6 @@
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TrainerFilterScreen extends StatelessWidget {
   const TrainerFilterScreen({super.key});

@@ -1,5 +1,6 @@
 import 'package:capstone_alterra_flutter/model/category_trainer_model.dart';
 import 'package:capstone_alterra_flutter/model/trainers_model.dart';
+import 'package:capstone_alterra_flutter/screen/trainers/booking_trainers.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,9 +17,11 @@ class DetailTrainerScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: whiteColor,
         systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.light),
-        iconTheme: IconThemeData(color: whiteColor),
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+          statusBarColor: Colors.white,
+        ),
+        iconTheme: IconThemeData(color: blackColor),
         title: Text(
           'Detail Pelatih',
           style: kHeading6.copyWith(color: blackLight),
@@ -127,7 +130,6 @@ class DetailTrainerScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final categoryPelat = categoryList[index];
                         return Container(
-                          // margin: EdgeInsets.only(left: 16),
                           padding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 10),
                           decoration: BoxDecoration(
@@ -228,7 +230,14 @@ class DetailTrainerScreen extends StatelessWidget {
                 horizontal: 16,
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BookingTrainers(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryBase,
                   padding: const EdgeInsets.symmetric(
