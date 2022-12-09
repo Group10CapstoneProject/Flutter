@@ -3,6 +3,7 @@ import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
 import 'package:capstone_alterra_flutter/screen/transaction/payment_confirmation_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/util/transaction_type.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,15 +23,25 @@ class TransactionDetailScreen extends StatefulWidget {
 class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
 
   List<PaymentMethodModel> listPayment = [
-    PaymentMethodModel(id: 1, iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
-    PaymentMethodModel(id: 2, iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
-    PaymentMethodModel(id: 3, iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
+    PaymentMethodModel(id: '1', iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
+    PaymentMethodModel(id: '2', iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
+    PaymentMethodModel(id: '3', iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
+    PaymentMethodModel(id: '1', iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
+    PaymentMethodModel(id: '2', iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
+    PaymentMethodModel(id: '3', iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
     // PaymentMethodModel(id: 2, iconLink: 'crown.png', name: 'My Membership'),
   ];
 
   @override
   void initState() {
     _indexPaymentChoosen.value = null;
+
+    if(widget.transactionModel.transactionType != TransactionType.membership){
+      listPayment.insert(
+        0, 
+        PaymentMethodModel(id: '0', iconLink: 'crown.png', name: 'My Membership')
+      );
+    }
     super.initState();
   }
   
@@ -62,7 +73,9 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        _kamuAkanMemesanWidget(widget.transactionModel),
                         _itemCardWidget(widget.transactionModel),
                         _detailOrderAndPayment(widget.transactionModel),
                         ValueListenableBuilder(
@@ -94,6 +107,40 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
     );
   }
 }
+
+
+
+Widget _kamuAkanMemesanWidget(TransactionModel transactionModel){
+  return(transactionModel.transactionType != TransactionType.membership) ?
+    Builder(
+      builder: (context) {
+        late String textString;
+        switch(transactionModel.transactionType){
+          case TransactionType.onlineClass:{
+            textString = 'Kamu akan memesan kelas ini';
+            break;
+          }
+          case TransactionType.offlineClass:{
+            textString = 'Kamu akan memesan kelas ini';
+            break;
+          }
+          case TransactionType.trainer:{
+            textString = 'Kamu akan memesan pelatih ini';
+            break;
+          }
+          default :{
+            textString = '';
+            break;
+          }
+        }
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: Text(textString, style: kBody1,),
+        );
+      },
+    ) : const SizedBox();
+}
+
 
 
 
@@ -339,11 +386,27 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: (){
-                (_indexPaymentChoosen.value == null) ? 
+                // (_indexPaymentChoosen.value == null) ? 
+                //   _showPaymentMethodBottomSheet(
+                //     context: context,
+                //     listPayment: widget.listPayment,
+                //   ) :
+                //   Navigator.push(
+                //     context, 
+                //     MaterialPageRoute(
+                //       builder: (context) => PaymentConfirmationScreen(
+                //         transactionModel: widget.transactionModel,
+                //         paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!],
+                //       ),
+                //     )
+                //   );
+                if(_indexPaymentChoosen.value == null){
                   _showPaymentMethodBottomSheet(
                     context: context,
                     listPayment: widget.listPayment,
-                  ) :
+                  ); 
+                }
+                else if(widget.listPayment[_indexPaymentChoosen.value!].id != '0'){
                   Navigator.push(
                     context, 
                     MaterialPageRoute(
@@ -353,6 +416,13 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                       ),
                     )
                   );
+                }
+                else{
+                  Navigator.popUntil(
+                    context, 
+                    ModalRoute.withName('/DetailOnlineClass'),
+                  );
+                }
               }, 
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryBase,
@@ -493,65 +563,76 @@ void _showPaymentMethodBottomSheet({
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Pilih Metode Pembayaran', style: kHeading6,),
-                  IconButton(
-                    onPressed: (){
-                      Navigator.pop(context);
-                    }, 
-                    icon: const Icon(Icons.close)
-                  )
-                ],
-              ),
-              const SizedBox(height: 16,),
-
-              ///For every payment method in list payment
-              for(int i = 0; i < listPayment.length; i++)
-                GestureDetector(
-                  onTap: () {
-                    groupValue.value = i;
-                  },
-                  child: Container(
-                    height: 60,
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: whiteDarker)
-                    ),
-                    child: Row(
+          Expanded(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Pilih Metode Pembayaran', style: kHeading6,),
+                    IconButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      }, 
+                      icon: const Icon(Icons.close)
+                    )
+                  ],
+                ),
+                const SizedBox(height: 16,),
+                
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        Image(
-                          image: AssetImage('assets/transaction_page/${listPayment[i].iconLink}'), 
-                          height: 30,
-                          width: 30,
-                        ),
-                        const SizedBox(width: 8,),
-                        Expanded(
-                          child: Text(listPayment[i].name, style: kBody1, maxLines: 1, overflow: TextOverflow.ellipsis,)
-                        ),
-                        ValueListenableBuilder(
-                          valueListenable: groupValue,
-                          builder: (context, _, child) {
-                            return Radio<int>(
-                              value: i, 
-                              groupValue: groupValue.value, 
-                              onChanged: (value) {
-                                groupValue.value = i;
-                              },
-                            );
-                          }
-                        )
+                  
+                        ///For every payment method in list payment
+                        for(int i = 0; i < listPayment.length; i++)
+                          GestureDetector(
+                            onTap: () {
+                              groupValue.value = i;
+                            },
+                            child: Container(
+                              height: 60,
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: whiteDarker)
+                              ),
+                              child: Row(
+                                children: [
+                                  Image(
+                                    image: AssetImage('assets/transaction_page/${listPayment[i].iconLink}'), 
+                                    height: 30,
+                                    width: 30,
+                                  ),
+                                  const SizedBox(width: 8,),
+                                  Expanded(
+                                    child: Text(listPayment[i].name, style: kBody1, maxLines: 1, overflow: TextOverflow.ellipsis,)
+                                  ),
+                                  ValueListenableBuilder(
+                                    valueListenable: groupValue,
+                                    builder: (context, _, child) {
+                                      return Radio<int>(
+                                        value: i, 
+                                        groupValue: groupValue.value, 
+                                        onChanged: (value) {
+                                          groupValue.value = i;
+                                        },
+                                      );
+                                    }
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
                       ],
                     ),
                   ),
-                )
-            ],
+                ),
+              ],
+            ),
           ),
 
           ///Button Apply

@@ -75,7 +75,7 @@ class TransactionModel{
 
     return TransactionModel(
       id: id,
-      transactionType: TransactionType.membership,
+      transactionType: TransactionType.onlineClass,
       title: title, 
       quantity: 1, 
       price: price,

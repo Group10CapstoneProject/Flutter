@@ -81,6 +81,7 @@ Widget _classCard({
         Navigator.push(
           context, 
           MaterialPageRoute(
+            settings: const RouteSettings(name: '/DetailOnlineClass'),
             builder: (context) => DetailOnlineClass(
               title: title,
               minute: minute,

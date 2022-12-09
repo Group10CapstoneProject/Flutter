@@ -7,7 +7,7 @@ class PaymentMethodModel{
     this.paymentNumber
   });
 
-  final int id;
+  final String id;
   final String iconLink;
   final String name;
   final String? paymentNumber;

@@ -1,3 +1,5 @@
+import 'package:capstone_alterra_flutter/model/transaction_model.dart';
+import 'package:capstone_alterra_flutter/screen/transaction/transaction_detail_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +161,20 @@ class DetailOnlineClass extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: (){}, 
+                    onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TransactionDetailScreen(
+                            transactionModel: TransactionModel.forOnlineClass(
+                              id: '1', 
+                              title: title, 
+                              price: price
+                            )
+                          ),
+                        )
+                      );
+                    }, 
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(primaryBase),
                       fixedSize: const MaterialStatePropertyAll(Size(double.infinity, 48))
