@@ -6,6 +6,7 @@ import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:capstone_alterra_flutter/widget/circular_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -39,6 +40,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        elevation: 0,
+        toolbarHeight: 0,
+      ),
       body: SafeArea(
         child: Stack(
           children: [

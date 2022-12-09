@@ -1,3 +1,4 @@
+import 'package:capstone_alterra_flutter/screen/auth/login_page.dart';
 import 'package:capstone_alterra_flutter/screen/membership/all_membership_screen.dart';
 import 'package:capstone_alterra_flutter/screen/membership/my_membership_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
@@ -461,7 +462,14 @@ Widget _myAboutWidget(BuildContext context) {
                               onPressed: () async {
                                 UserToken.accessToken = UserToken().toString();
                                 UserToken.deleteRefreshToken();
-                                await SystemNavigator.pop();
+                                // await SystemNavigator.pop();
+                                Navigator.pushAndRemoveUntil(
+                                  context, 
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginPage(),
+                                  ), 
+                                  (route) => false
+                                );
                               },
                               child: Text(
                                 'YA',
