@@ -1,7 +1,7 @@
-import 'package:capstone_alterra_flutter/model/auth_model.dart';
+import 'package:capstone_alterra_flutter/core.dart';
+import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 import 'package:capstone_alterra_flutter/screen/auth/register_page.dart';
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
-import 'package:capstone_alterra_flutter/service/auth_service.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:capstone_alterra_flutter/widget/circular_loading.dart';
@@ -187,16 +187,39 @@ class _LoginPageState extends State<LoginPage> {
                         if (model.statusCode == 200) {
                           UserToken.accessToken = model.accessToken;
                           await UserToken.setRefreshToken(model.refreshToken!);
-                          if (mounted) {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MainScreen(),
-                                ));
+                          UsersService usersService = UsersService();
+                          UserProfileModel userProfileModel = await usersService.getUserProfile();
+                          if(userProfileModel.statusCode == 200){
+                            UserToken.userProfileModel = userProfileModel;
+                            if (mounted) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MainScreen(),
+                                  ));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(model.message.toString()),
+                                ),
+                              );
+                            }
+                            else{
+                              if(mounted){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(model.message.toString())
+                                  )
+                                );
+                              }
+                            }
+                          }
+                        }
+                        else{
+                          if(mounted){
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(model.message.toString()),
-                              ),
+                                content: Text(model.message.toString())
+                              )
                             );
                           }
                         }

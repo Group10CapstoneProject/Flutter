@@ -80,14 +80,14 @@ Widget _topWidget({required Membership? membership}) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Aluna Putri',
+                            UserToken.userProfileModel!.name!,
                             style: kSubtitle1.apply(color: Colors.white),
                           ),
                           const SizedBox(
                             height: 6,
                           ),
                           Text(
-                            'alunaputri@gmail.com',
+                            UserToken.userProfileModel!.email!,
                             style: kBody2.apply(color: Colors.white),
                           ),
                           (membership != null)
@@ -460,7 +460,7 @@ Widget _myAboutWidget(BuildContext context) {
                                               BorderRadius.circular(10)))),
                               onPressed: () async {
                                 UserToken.accessToken = UserToken().toString();
-                                UserToken.deleteToken();
+                                UserToken.deleteRefreshToken();
                                 await SystemNavigator.pop();
                               },
                               child: Text(
