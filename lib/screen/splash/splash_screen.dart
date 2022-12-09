@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:capstone_alterra_flutter/model/auth_model.dart';
+import 'package:capstone_alterra_flutter/core.dart';
+import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 import 'package:capstone_alterra_flutter/screen/landing_page/landing_page_screen.dart';
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
-import 'package:capstone_alterra_flutter/service/auth_service.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +42,16 @@ class _SplashScreenState extends State<SplashScreen> {
         if(model.statusCode == 200){
           UserToken.accessToken = model.accessToken;
           UserToken.setRefreshToken(model.refreshToken!);
-          nextPage = const MainScreen();
+          
+          UsersService userService = UsersService();
+          UserProfileModel userProfileModel = await userService.getUserProfile();
+          if(userProfileModel.statusCode == 200){
+            UserToken.userProfileModel = userProfileModel;
+            nextPage = const MainScreen();
+          }
+          else{
+            nextPage = const LandingPageScreen();
+          }
         }
         else{
           nextPage = const LandingPageScreen();

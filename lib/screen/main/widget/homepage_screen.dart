@@ -1,5 +1,6 @@
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,7 @@ class HomepageScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: Text(
-                          'Selamat Pagi Jake!', 
+                          'Selamat Pagi ${UserToken.userProfileModel?.name}', 
                           style: kSubtitle1.apply(color: Colors.white),
                         ),
                       ),
