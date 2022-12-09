@@ -78,6 +78,7 @@ flutter:
     - assets/landing_page/
     - assets/offline_page/
     - assets/online_page/
+    - assets/trainer/
     - assets/profile_page/
     - assets/membership_page/
     - assets/transaction_page/

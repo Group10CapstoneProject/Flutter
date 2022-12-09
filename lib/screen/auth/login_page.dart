@@ -39,14 +39,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-        elevation: 0,
-      ),
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Form(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: formKey,
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -130,35 +127,37 @@ class _LoginPageState extends State<LoginPage> {
                           height: 4.0,
                         ),
                         ValueListenableBuilder<bool>(
-                          valueListenable: _obscureText,
-                          builder: (context, value, child) {
-                            return TextFormField(
-                              controller: _passwordController,
-                              obscureText: _obscureText.value,
-                              textInputAction: TextInputAction.done,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4.0)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(4.0)),
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        _obscureText.value = !_obscureText.value;
-                                      },
-                                      icon: Icon(_obscureText.value
-                                          ? Icons.visibility
-                                          : Icons.visibility_off)),
-                                  hintText: '********'),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Masukan Password!';
-                                } else {
-                                  return null;
-                                }
-                              },
-                            );
-                          }
-                        )
+                            valueListenable: _obscureText,
+                            builder: (context, value, child) {
+                              return TextFormField(
+                                controller: _passwordController,
+                                obscureText: _obscureText.value,
+                                textInputAction: TextInputAction.done,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0)),
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          _obscureText.value =
+                                              !_obscureText.value;
+                                        },
+                                        icon: Icon(_obscureText.value
+                                            ? Icons.visibility
+                                            : Icons.visibility_off)),
+                                    hintText: '********'),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Masukan Password!';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              );
+                            })
                       ],
                     ),
                   ),
@@ -169,31 +168,31 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  MaterialButton(
-                    color: primaryDark,
-                    height: 48,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryDark,
+                      minimumSize: const Size(0, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                    onPressed: () async{
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         _isLoading.value = true;
                         AuthService authService = AuthService();
                         AuthModel model = await authService.postLoginUser(
-                          email: _emailController.text,
-                          password: _passwordController.text
-                        );
+                            email: _emailController.text,
+                            password: _passwordController.text);
                         UserToken.accessToken = model.accessToken;
-                        if(model.statusCode == 200){
+                        if (model.statusCode == 200) {
                           UserToken.accessToken = model.accessToken;
                           await UserToken.setRefreshToken(model.refreshToken!);
-                          if(mounted){
+                          if (mounted) {
                             Navigator.pushReplacement(
-                              context, 
-                              MaterialPageRoute(
-                                builder: (context) => const MainScreen(),
-                              )
-                            );
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MainScreen(),
+                                ));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(model.message.toString()),
@@ -204,10 +203,8 @@ class _LoginPageState extends State<LoginPage> {
                         _isLoading.value = false;
                       }
                     },
-                    child: Text(
-                      'MASUK',
-                      style: kButton.copyWith(color: whiteBase)
-                    ),
+                    child: Text('MASUK',
+                        style: kButton.copyWith(color: whiteBase)),
                   ),
                   const SizedBox(
                     height: 8.0,
@@ -238,18 +235,15 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-          ),
-          ValueListenableBuilder(
-            valueListenable: _isLoading,
-            builder: (context, value, child) {
-              return (value) 
-                  ? const Positioned.fill(
-                      child: CircularLoading()
-                    )
-                  : const SizedBox();
-            }
-          )
-        ],
+            ValueListenableBuilder(
+                valueListenable: _isLoading,
+                builder: (context, value, child) {
+                  return (value)
+                      ? const Positioned.fill(child: CircularLoading())
+                      : const SizedBox();
+                })
+          ],
+        ),
       ),
     );
   }
