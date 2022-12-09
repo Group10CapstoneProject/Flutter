@@ -36,6 +36,9 @@ dependencies:
   dio: ^4.0.6
   shared_preferences: ^2.0.15
   intl: ^0.17.0
+  dotted_line: ^3.1.0
+  dotted_border: ^2.0.0+3
+  file_picker: ^5.2.3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -78,7 +81,7 @@ flutter:
     - assets/trainer/
     - assets/profile_page/
     - assets/membership_page/
-
+    - assets/transaction_page/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

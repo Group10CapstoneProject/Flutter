@@ -7,18 +7,22 @@ import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => MainProvider(),),
-      ChangeNotifierProvider(create: (context) => HomepageProvider(),),
-      ChangeNotifierProvider(create: (context) => ClassProvider()),
-      ChangeNotifierProvider(create: (context) => TrainerProvider(),),
-    ],
-    child: const MyApp()
-  ));
+Future<void> main() async{
+
+  initializeDateFormatting('id_ID', null).then((value) {
+
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => MainProvider(),),
+        ChangeNotifierProvider(create: (context) => HomepageProvider(),),
+        ChangeNotifierProvider(create: (context) => ClassProvider()),
+      ],
+      child: const MyApp()
+    ));
+  });
 }
 
 class MyApp extends StatelessWidget {
