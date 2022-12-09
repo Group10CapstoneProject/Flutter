@@ -19,6 +19,7 @@ Future<void> main() async{
         ChangeNotifierProvider(create: (context) => MainProvider(),),
         ChangeNotifierProvider(create: (context) => HomepageProvider(),),
         ChangeNotifierProvider(create: (context) => ClassProvider()),
+        ChangeNotifierProvider(create: (context) => TrainerProvider()),
       ],
       child: const MyApp()
     ));
