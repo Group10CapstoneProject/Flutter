@@ -47,6 +47,7 @@ dependencies:
   google_fonts: ^3.0.1
   date_picker_timeline: ^1.2.3
   font_awesome_flutter: ^10.2.1
+  flutter_markdown: ^0.6.13
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +83,7 @@ flutter:
     - assets/profile_page/
     - assets/membership_page/
     - assets/transaction_page/
+    - legal/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

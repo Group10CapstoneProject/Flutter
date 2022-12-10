@@ -1,0 +1,1 @@
+Kami menghormati hak Anda atas privasi. Kebijakan Privasi ini menjelaskan gambaran informasi yang dapat Kami peroleh dari Anda dan bagaimana kami akan mempergunakan informasi tersebut. Mohon untuk membaca Kebijakan Privasi ini dengan seksama.

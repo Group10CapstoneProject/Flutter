@@ -1,6 +1,7 @@
 import 'package:capstone_alterra_flutter/screen/auth/login_page.dart';
 import 'package:capstone_alterra_flutter/screen/membership/all_membership_screen.dart';
 import 'package:capstone_alterra_flutter/screen/membership/my_membership_screen.dart';
+import 'package:capstone_alterra_flutter/screen/profile/legal_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/membership.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
@@ -368,13 +369,34 @@ Widget _myAboutWidget(BuildContext context) {
         ),
         _profileItemButton(
             icon: SvgPicture.asset('assets/profile_page/note_text.svg'),
-            title: 'Syarat & Ketentuan'),
+            title: 'Syarat & Ketentuan',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LegalScreen(
+                    title: 'Syarat dan Ketentuan',
+                    content: 'terms_conditions.md',
+                  ),
+                ),
+              );
+            }),
         _profileItemButton(
-            icon: Icon(
-              Icons.privacy_tip_outlined,
-              color: primaryBase,
-            ),
-            title: 'Kebijakan Privasi'),
+          icon: Icon(
+            Icons.privacy_tip_outlined,
+            color: primaryBase,
+          ),
+          title: 'Kebijakan Privasi',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LegalScreen(
+                    title: 'Kebijakan Privasi', content: 'privacy_policy.md'),
+              ),
+            );
+          },
+        ),
         _profileItemButton(
             icon: SvgPicture.asset('assets/profile_page/star_settings.svg'),
             title: 'Beri Kami Penilaian'),
@@ -464,12 +486,11 @@ Widget _myAboutWidget(BuildContext context) {
                                 UserToken.deleteRefreshToken();
                                 // await SystemNavigator.pop();
                                 Navigator.pushAndRemoveUntil(
-                                  context, 
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginPage(),
-                                  ), 
-                                  (route) => false
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginPage(),
+                                    ),
+                                    (route) => false);
                               },
                               child: Text(
                                 'YA',
