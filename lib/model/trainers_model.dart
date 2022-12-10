@@ -24,7 +24,7 @@ final List<TrainerModel> dataTrainer = [
   TrainerModel(
     'Dika Pramudya',
     'assets/trainer/pelatih1.png',
-    'assets/trainer/Foto.png',
+    'assets/trainer/trainer1.png',
     5.5,
     [
       'Coordination & Balance',
@@ -32,13 +32,13 @@ final List<TrainerModel> dataTrainer = [
       'KickBoxing',
     ],
     275000,
-    'Personal Trainer yang merupakan lulusan Fakultas Pendidikan Olahraga dan Kesehatan UPI Bandung 2007. Atlet dan pelatih Gulat. Sertifikasi pelatih ',
+    'Personal Trainer yang merupakan lulusan Fakultas Pendidikan Olahraga dan Kesehatan UPI Bandung 2007. Atlet dan pelatih Gulat. Sertifikasi pelatih',
     4,
   ),
   TrainerModel(
     'Mark William',
     'assets/trainer/pelatih2.png',
-    'assets/trainer/Foto.png',
+    'assets/trainer/trainer2.png',
     4.5,
     [
       'Endurance',
@@ -46,13 +46,13 @@ final List<TrainerModel> dataTrainer = [
       'Power Strengh',
     ],
     150000,
-    '-',
-    0,
+    'Personal Trainer yang merupakan lulusan Fakultas Pendidikan Olahraga dan Kesehatan UPI Bandung 2007. Atlet dan pelatih Gulat. Sertifikasi pelatih',
+    5,
   ),
   TrainerModel(
     'Ammy Novarianti',
     'assets/trainer/pelatih3.png',
-    'assets/trainer/Foto.png',
+    'assets/trainer/trainer3.png',
     5.5,
     [
       'Core',
@@ -60,20 +60,20 @@ final List<TrainerModel> dataTrainer = [
       'Rehab',
     ],
     250000,
-    '-',
-    0,
+    'Personal Trainer yang merupakan lulusan Fakultas Pendidikan Olahraga dan Kesehatan UPI Bandung 2007. Atlet dan pelatih Gulat. Sertifikasi pelatih',
+    6,
   ),
   TrainerModel(
     'Redy Indra',
     'assets/trainer/pelatih4.png',
-    'assets/trainer/Foto.png',
+    'assets/trainer/trainer4.png',
     4.5,
     [
       'Power Strengh',
       'Tone & Shape',
     ],
     500000,
-    '-',
-    0,
+    'Personal Trainer yang merupakan lulusan Fakultas Pendidikan Olahraga dan Kesehatan UPI Bandung 2007. Atlet dan pelatih Gulat. Sertifikasi pelatih',
+    7,
   ),
 ];

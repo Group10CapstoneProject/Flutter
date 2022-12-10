@@ -1,5 +1,6 @@
 import 'package:capstone_alterra_flutter/screen/offline/offline_book.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
 
 class OfflineCard extends StatelessWidget {
@@ -8,19 +9,19 @@ class OfflineCard extends StatelessWidget {
     required this.picture,
     required this.title,
     required this.teacher,
-    required this.date,
+    required this.hour,
     required this.duration,
     required this.availabeleSlot,
-    required this.payment,
+    required this.price,
   });
 
   final String picture;
   final String title;
   final String teacher;
-  final String date;
+  final String hour;
   final String duration;
   final String availabeleSlot;
-  final String payment;
+  final int price;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class OfflineCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          date,
+                          hour,
                           style: kHeading6.copyWith(color: whiteColor),
                         ),
                         const SizedBox(
@@ -76,7 +77,7 @@ class OfflineCard extends StatelessWidget {
                         style: kHeading6.copyWith(color: whiteColor),
                       ),
                       Text(
-                        teacher,
+                        'With $teacher',
                         style: kSubtitle1.copyWith(color: whiteDark),
                       ),
                       Row(
@@ -98,7 +99,7 @@ class OfflineCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('RP $payment',
+                          Text(Utils.currencyFormat(price),
                               style: kSubtitle1.copyWith(color: whiteColor)),
                         ],
                       ),
@@ -116,7 +117,12 @@ class OfflineCard extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const OfflineBook(),
+                                builder: (context) => OfflineBook(
+                                  title: title,
+                                  teacher: teacher,
+                                  price: price,
+                                  minute: hour,
+                                ),
                               ),
                             );
                           },

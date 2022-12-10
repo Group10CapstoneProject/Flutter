@@ -1,12 +1,26 @@
 import 'package:capstone_alterra_flutter/screen/offline/offline_transaksi.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OfflineBook extends StatelessWidget {
-  const OfflineBook({super.key});
+  const OfflineBook({
+    super.key,
+    required this.title,
+    required this.teacher,
+    required this.minute,
+    required this.price,
+    this.image,
+  });
+
+  final String title;
+  final String teacher;
+  final String minute;
+  final int price;
+  final String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +93,7 @@ class OfflineBook extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Basic Yoga',
+                                title,
                                 style: GoogleFonts.roboto(
                                     fontSize: 20,
                                     color: blackColor,
@@ -112,7 +126,7 @@ class OfflineBook extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Maya Rochima',
+                                teacher,
                                 style: kBody1.copyWith(color: blackLight),
                               ),
                               const SizedBox(
@@ -168,7 +182,7 @@ class OfflineBook extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    'RP 50.000',
+                                    Utils.currencyFormat(price),
                                     style: GoogleFonts.roboto(
                                       fontSize: 16,
                                       fontWeight: bold,
@@ -249,7 +263,7 @@ class OfflineBook extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Maya Rochima',
+                                    teacher,
                                     style:
                                         kSubtitle1.copyWith(color: blackColor),
                                   ),

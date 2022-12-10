@@ -29,11 +29,11 @@ class _OfflineScreenState extends State<OfflineScreen> {
           // WidgetCard
           const OfflineCard(
             title: 'Basic Yoga',
-            teacher: 'With Maya',
-            date: '05.30',
+            teacher: 'Maya',
+            hour: '05.30',
             duration: '60 min',
             availabeleSlot: '10 Slot Tersisa',
-            payment: '30.000',
+            price: 30000,
             picture: 'assets/offline_page/image.png',
           ),
           const SizedBox(
@@ -41,11 +41,11 @@ class _OfflineScreenState extends State<OfflineScreen> {
           ),
           const OfflineCard(
             title: 'Muay Thai',
-            teacher: 'With Kevin',
-            date: '16.00',
+            teacher: 'Kevin',
+            hour: '16.00',
             duration: '65 min',
             availabeleSlot: '20 Slot Tersisa',
-            payment: '150.000',
+            price: 150000,
             picture: 'assets/offline_page/image_2.png',
           ),
           const SizedBox(
@@ -53,11 +53,11 @@ class _OfflineScreenState extends State<OfflineScreen> {
           ),
           const OfflineCard(
             title: 'zumba',
-            teacher: 'With Randy',
-            date: '19.00',
+            teacher: 'Randy',
+            hour: '19.00',
             duration: '60 min',
             availabeleSlot: '15 Slot Tersisa',
-            payment: '80.000',
+            price: 80000,
             picture: 'assets/offline_page/image_3.png',
           ),
         ],

@@ -40,7 +40,7 @@ class DetailTrainerScreen extends StatelessWidget {
             // Image
             SizedBox(
               child: Image.asset(
-                'assets/trainer/Foto.png',
+                detailTrainer.avatar,
                 width: MediaQuery.of(context).size.width,
                 height: 210,
                 fit: BoxFit.cover,
