@@ -1,5 +1,4 @@
 import 'package:capstone_alterra_flutter/model/detail_transaction_model.dart';
-import 'package:capstone_alterra_flutter/util/membership.dart';
 import 'package:capstone_alterra_flutter/util/transaction_type.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -41,19 +40,20 @@ class TransactionModel{
 
   factory TransactionModel.forMembership({
     required String id,
-    required MembershipClass membershipClass,
+    required String title,
+    required int price,
     required int monthQuantity,
   }){
 
-    String title = 'Membership - ${membershipClass.name} $monthQuantity Bulan';
+    String titleFormatted = 'Membership - $title $monthQuantity Bulan';
     DateTime dateTimeNow = DateTime.now();
 
     return TransactionModel(
       id: id,
       transactionType: TransactionType.membership,
-      title: title, 
+      title: titleFormatted, 
       quantity: monthQuantity, 
-      price: membershipClass.price,
+      price: price,
       dateTime: dateTimeNow,
       listDetailTransaction: [
         DetailTransactionModel(
