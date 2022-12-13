@@ -25,10 +25,11 @@ class MembersTypesService{
         ),
       );
 
-      JSONModel<List<Map<String, dynamic>>> json = JSONModel.fromJSON(json: response.data, statusCode: response.statusCode!);
+      // JSONModel<List<Map<String, dynamic>>> json = JSONModel.fromJSON(json: response.data, statusCode: response.statusCode!);
+      JSONModel<List> json = JSONModel.fromJSON(json: response.data, statusCode: response.statusCode!);
       List<MembersTypesModel> listMembersType = [];
       json.data?.forEach((element) {
-        listMembersType.add(MembersTypesModel.fromJSON(json: element));
+        listMembersType.add(MembersTypesModel.fromJSON(json: element as Map<String, dynamic>));
       });
 
       return JSONModel(
@@ -41,7 +42,8 @@ class MembersTypesService{
     on DioError catch(e){
       if(e.response != null){
         try{
-          return JSONModel<List<MembersTypesModel>>.fromJSON(json: e.response!.data, statusCode: e.response!.statusCode!);
+          JSONModel<List<Map<String, dynamic>>> json = JSONModel.fromJSON(json: response.data, statusCode: response.statusCode!);
+          return JSONModel<List<MembersTypesModel>>(message: json.message, statusCode: e.response!.statusCode!);
         }
         catch(e){
           return JSONModel<List<MembersTypesModel>>(message: 'Unexpected error');

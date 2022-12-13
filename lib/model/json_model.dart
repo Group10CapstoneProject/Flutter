@@ -12,10 +12,10 @@ class JSONModel<T>{
 
   factory JSONModel.fromJSON({required Map<String, dynamic> json, required int statusCode}){
 
-    var data = (json['data'] as List).map((e) => e as Map<String, dynamic>).toList();
+    T data = json['data'] as T;
 
     return JSONModel(
-      data: data as T,
+      data: data,
       message: json['message'],
       statusCode: statusCode,
     );
