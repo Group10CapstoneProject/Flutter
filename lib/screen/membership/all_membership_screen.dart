@@ -1,15 +1,39 @@
+import 'package:capstone_alterra_flutter/model/members_types_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
+import 'package:capstone_alterra_flutter/provider/all_membership_provider.dart';
 import 'package:capstone_alterra_flutter/screen/transaction/transaction_detail_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
-import 'package:capstone_alterra_flutter/util/membership.dart';
+import 'package:capstone_alterra_flutter/util/utils.dart';
+import 'package:capstone_alterra_flutter/widget/circular_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-class AllMembershipScreen extends StatelessWidget {
+class AllMembershipScreen extends StatefulWidget {
   const AllMembershipScreen({super.key});
 
   @override
+  State<AllMembershipScreen> createState() => _AllMembershipScreenState();
+}
+
+class _AllMembershipScreenState extends State<AllMembershipScreen> {
+
+  @override
+  void initState() {
+
+    AllMembershipProvider provider = Provider.of<AllMembershipProvider>(context, listen: false);
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) async { 
+        provider.removeAllMemberType();
+        await provider.getAllMemberType();
+      }
+    );
+  }
+  
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -22,23 +46,32 @@ class AllMembershipScreen extends StatelessWidget {
         title: Text('Membership', style: kHeading6.apply(color: blackLight),),
       ),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 48.0, left: 32.0, right: 32.0, top: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Temukan Keanggotaan Yang Cocok Untukmu!', style: kSubtitle1.apply(color: primaryBase), textAlign: TextAlign.left),
-                  const SizedBox(height: 16,),
-                  Text('Pilih paket membership yang kamu inginkan.', style: kBody2.apply(color: blackLightest), textAlign: TextAlign.left,),
-                ],
-              ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 48.0, left: 32.0, right: 32.0, top: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Temukan Keanggotaan Yang Cocok Untukmu!', style: kSubtitle1.apply(color: primaryBase), textAlign: TextAlign.left),
+                      const SizedBox(height: 16,),
+                      Text('Pilih paket membership yang kamu inginkan.', style: kBody2.apply(color: blackLightest), textAlign: TextAlign.left,),
+                    ],
+                  ),
+                ),
+                _allMembershipCardWidget(context),
+              ],
             ),
-            _allMembershipCardWidget(context),
-          ],
-        ),
+          ),
+          Consumer<AllMembershipProvider>(
+            builder: (context, value, child) {
+              return (value.isLoading)? const CircularLoading() : const SizedBox();
+            },
+          )
+        ],
       ),
     );
   }
@@ -78,17 +111,20 @@ Widget _allMembershipCardWidget(BuildContext context){
 
 
   ///A widget that categorized as card that contain membership info such as name, price and benefits
-  Widget membershipCard({required BuildContext context, required Membership membership}){
+  Widget membershipCard({required BuildContext context, required MembersTypesModel membersTypesModel}){
 
-    MembershipClass membershipClass = MembershipClass.fromMembership(membership);
+    // MembershipClass membershipClass = MembershipClass.fromMembership(membership);
 
     ///A widget that contain benefit of membership
-    Widget textBenefit(String title){
+    Widget textBenefit(String title, bool isTrue){
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
         child: Row(
           children: [
-            Icon(Icons.task_alt, color: primaryBase,),
+            Icon(
+              (isTrue)? Icons.task_alt : Icons.highlight_off, 
+              color: (isTrue)? primaryBase : dangerBase,
+            ),
             const SizedBox(width: 8,),
             Expanded(
               child: Text(
@@ -201,7 +237,8 @@ Widget _allMembershipCardWidget(BuildContext context){
                               builder: (context) => TransactionDetailScreen(
                                 transactionModel: TransactionModel.forMembership(
                                   id: '1',
-                                  membershipClass: membershipClass, 
+                                  title: membersTypesModel.name!,
+                                  price: membersTypesModel.price!,
                                   monthQuantity: int.parse(monthTextController.text)
                                 )
                               ),
@@ -241,7 +278,7 @@ Widget _allMembershipCardWidget(BuildContext context){
             height: 15,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: membershipClass.color,
+              color: primaryBase,
               borderRadius: const BorderRadius.vertical(top: Radius.circular(10))
             ),
           ),
@@ -252,9 +289,9 @@ Widget _allMembershipCardWidget(BuildContext context){
                 children: [
                   
                   ///Membership name, coin, and price
-                  Image(image: AssetImage('assets/membership_page/${membershipClass.coinFile}'), width: 60, height: 60,),
+                  Image(image: NetworkImage(membersTypesModel.picture!), width: 60, height: 60,),
                   const SizedBox(height: 6,),
-                  Text(membershipClass.name, style: kHeading6.apply(color: blackLight),),
+                  Text(membersTypesModel.name!, style: kHeading6.apply(color: blackLight),),
                   const SizedBox(height: 16,),
                   Divider(color: whiteDarker,),
                   Padding(
@@ -263,13 +300,13 @@ Widget _allMembershipCardWidget(BuildContext context){
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          membershipClass.priceFormatted, 
+                          Utils.currencyFormat(membersTypesModel.price!), 
                           style: kHeading5.copyWith(
-                            color: membershipClass.color, 
+                            color: primaryBase, 
                             fontWeight: semiBold
                           ),
                         ),
-                        Text('/bulan', style: kHeading6.apply(color: membershipClass.color))
+                        Text('/bulan', style: kHeading6.apply(color: primaryBase))
                       ],
                     ),
                   ),
@@ -281,8 +318,11 @@ Widget _allMembershipCardWidget(BuildContext context){
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Column(
                         children: [
-                          for(String i in membershipClass.benefit)
-                            textBenefit(i)
+                          textBenefit('Dapatkan akses prioritas ketika melakukan booking', true),
+                          textBenefit('Akses gym tak terbatas di seluruh klub atlagym', true),
+                          textBenefit('Gratis kelas online setiap harinya ', membersTypesModel.accessOnlineClass!),
+                          textBenefit('Gratis kelas offline selama berlangganan', membersTypesModel.accessOfflineClass!),
+                          textBenefit('Gratis 4 sesi personal training', membersTypesModel.accessTrainer!),
                         ],
                       ),
                     ),
@@ -297,7 +337,7 @@ Widget _allMembershipCardWidget(BuildContext context){
                       }, 
                       style: ButtonStyle(
                         fixedSize: const MaterialStatePropertyAll(Size(double.infinity, 50)),
-                        backgroundColor: MaterialStatePropertyAll(membershipClass.color),
+                        backgroundColor: MaterialStatePropertyAll(primaryBase),
                         shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
                       ),
                       child: Text('BELI SEKARANG', style: kButton.apply(color: Colors.white),)
@@ -329,17 +369,22 @@ Widget _allMembershipCardWidget(BuildContext context){
 
         ///PageView
         Expanded(
-          child: PageView(
-            controller: pageController,
-            onPageChanged: (value) {
-              indexPage.value = value;
-            },
-            children: [
-              membershipCard(context: context, membership: Membership.bronze),
-              membershipCard(context: context, membership: Membership.silver),
-              membershipCard(context: context, membership: Membership.gold),
-              membershipCard(context: context, membership: Membership.platinum)
-            ],
+          child: Consumer<AllMembershipProvider>(
+            builder: (context, value, child) => PageView(
+              controller: pageController,
+              onPageChanged: (value) {
+                indexPage.value = value;
+              },
+              children: [
+                // membershipCard(context: context, membership: Membership.bronze),
+                // membershipCard(context: context, membership: Membership.silver),
+                // membershipCard(context: context, membership: Membership.gold),
+                // membershipCard(context: context, membership: Membership.platinum)
+
+                for(MembersTypesModel i in value.listMembers)
+                  membershipCard(context: context, membersTypesModel: i),
+              ],
+            ),
           ),
         ),
 
