@@ -4,12 +4,14 @@ import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/viewmodel/payment_confirmation_viewmodel.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+PaymentConfirmationViewmodel _viewmodel = PaymentConfirmationViewmodel();
 ValueNotifier<File?> _file = ValueNotifier(null);
 
 class PaymentConfirmationScreen extends StatefulWidget {
@@ -61,7 +63,10 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
                       _filePickerButton(),
                     ],
                   ),
-                  const _TwoBottomButtonWidget(string: '123'),
+                  _TwoBottomButtonWidget(
+                    transactionModel: widget.transactionModel,
+                    paymentMethodModel: widget.paymentMethodModel,
+                  ),
                   
                 ],
               ),
@@ -286,10 +291,12 @@ Widget _filePickerButton(){
 ///A widget that contain two button at the bottom of payment confirmation screen
 class _TwoBottomButtonWidget extends StatefulWidget {
   const _TwoBottomButtonWidget({
-    required this.string
+    required this.transactionModel,
+    required this.paymentMethodModel,
   });
 
-  final String string;
+  final TransactionModel transactionModel;
+  final PaymentMethodModel paymentMethodModel;
 
   @override
   State<_TwoBottomButtonWidget> createState() => _TwoBottomButtonWidgetState();
@@ -318,39 +325,54 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                   );
                 }
                 else{
-                  await showDialog(
-                    context: context, 
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      content: Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('Berhasil Diupload', style: kSubtitle1,),
-                            const SizedBox(height: 16,),
-                            Text('Pembayaran akan dikonfirmasi sebelum 24 jam', style: kBody2.apply(color: blackLightest),)
-                          ],
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: (){
-                            Navigator.pop(context,);
-                          }, 
-                          child: Text('OK', style: kSubtitle1.apply(color: primaryBase),)
-                        )
-                      ],
-                    ),
+                  bool bookingIsSuccess = await _viewmodel.createNewMembersOrBooking(
+                    memberTypeId: int.parse(widget.transactionModel.id),
+                    duration: widget.transactionModel.quantity,
+                    paymentMethodId: int.parse(widget.transactionModel.id),
+                    total: widget.transactionModel.totalPrice
                   );
-                  if(mounted){
-                    Navigator.pushAndRemoveUntil(
-                      context, 
-                      MaterialPageRoute(builder: (context) => const MainScreen(),), 
-                      (route) => false
+                  if(bookingIsSuccess){
+                    await showDialog(
+                      context: context, 
+                      builder: (context) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        content: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('Berhasil Diupload', style: kSubtitle1,),
+                              const SizedBox(height: 16,),
+                              Text('Pembayaran akan dikonfirmasi sebelum 24 jam', style: kBody2.apply(color: blackLightest),)
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: (){
+                              Navigator.pop(context,);
+                            }, 
+                            child: Text('OK', style: kSubtitle1.apply(color: primaryBase),)
+                          )
+                        ],
+                      ),
+                    );
+                    if(mounted){
+                      Navigator.pushAndRemoveUntil(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const MainScreen(),), 
+                        (route) => false
+                      );
+                    }
+                  }
+                  else if(mounted){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('File gambar belum dipilih')
+                      )
                     );
                   }
                 }
