@@ -1,7 +1,12 @@
-import 'package:capstone_alterra_flutter/screen/offline/offline_card.dart';
+import 'package:capstone_alterra_flutter/model/offline_model.dart';
+import 'package:capstone_alterra_flutter/provider/offline_provider.dart';
+import 'package:capstone_alterra_flutter/screen/offline/offline_book.dart';
 import 'package:capstone_alterra_flutter/screen/offline/offline_filter.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class OfflineScreen extends StatefulWidget {
   const OfflineScreen({super.key});
@@ -15,6 +20,16 @@ class _OfflineScreenState extends State<OfflineScreen> {
   DateTime selectedDate = DateTime.now();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final OfflineProvider provider =
+          Provider.of<OfflineProvider>(context, listen: false);
+      provider.getOfflineClass('2022-12-02', 1, 'DES');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -26,39 +41,169 @@ class _OfflineScreenState extends State<OfflineScreen> {
             height: 14.0,
           ),
 
-          // WidgetCard
-          const OfflineCard(
-            title: 'Basic Yoga',
-            teacher: 'Maya',
-            hour: '05.30',
-            duration: '60 min',
-            availabeleSlot: '10 Slot Tersisa',
-            price: 30000,
-            picture: 'assets/offline_page/image.png',
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          const OfflineCard(
-            title: 'Muay Thai',
-            teacher: 'Kevin',
-            hour: '16.00',
-            duration: '65 min',
-            availabeleSlot: '20 Slot Tersisa',
-            price: 150000,
-            picture: 'assets/offline_page/image_2.png',
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          const OfflineCard(
-            title: 'zumba',
-            teacher: 'Randy',
-            hour: '19.00',
-            duration: '60 min',
-            availabeleSlot: '15 Slot Tersisa',
-            price: 80000,
-            picture: 'assets/offline_page/image_3.png',
+          Consumer<OfflineProvider>(
+            builder: (context, value, child) {
+              final result = value.offline;
+              var data = result.data;
+              return (data != null)
+                  ? ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        for (OfflineClass i in data.offlineClasses!)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(18),
+                              child: SizedBox(
+                                height: 163,
+                                child: Stack(
+                                  children: [
+                                    Image.network(
+                                      i.picture ?? '',
+                                      height: 163,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    ),
+                                    Container(
+                                      height: 163,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF1A4B5F)
+                                            .withOpacity(0.8),
+                                        borderRadius: BorderRadius.circular(18),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 12,
+                                          right: 16,
+                                          bottom: 12,
+                                          top: 12),
+                                      child: Row(
+                                        // mainAxisAlignment:
+                                        //     MainAxisAlignment.spaceAround,
+                                        children: [
+                                          SizedBox(
+                                            width: 100,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  DateFormat('Hm').format(
+                                                    i.time,
+                                                  ),
+                                                  // i.time.toString(),
+                                                  style: kHeading6.copyWith(
+                                                      color: whiteColor),
+                                                ),
+                                                const SizedBox(
+                                                  height: 12.0,
+                                                ),
+                                                Text(
+                                                  '${i.duration} min',
+                                                  // i.duration.toString(),
+                                                  style: kSubtitle1.copyWith(
+                                                      color: whiteColor),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  i.title.toString(),
+                                                  style: kHeading6.copyWith(
+                                                      color: whiteColor),
+                                                ),
+                                                Text(
+                                                  'With Maya',
+                                                  style: kSubtitle1.copyWith(
+                                                      color: whiteDark),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.group_add_sharp,
+                                                      color: primaryLight,
+                                                      size: 24,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5.0,
+                                                    ),
+                                                    Text(
+                                                      i.slot.toString(),
+                                                      style:
+                                                          kSubtitle2.copyWith(
+                                                              color:
+                                                                  whiteColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                    Utils.currencyFormat(
+                                                        i.price!),
+                                                    style: kSubtitle1.copyWith(
+                                                        color: whiteColor)),
+                                              ],
+                                            ),
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          OfflineBook(
+                                                        title: i.title ?? '',
+                                                        teacher: 'With Maya',
+                                                        duration: i.duration!,
+                                                        price: i.price!,
+                                                        picture:
+                                                            i.picture ?? '',
+                                                        time: i.time,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                style: TextButton.styleFrom(
+                                                  backgroundColor: primaryBase,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'BOOK',
+                                                  style: kButton.copyWith(
+                                                      color: whiteColor),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    )
+                  : const SizedBox();
+            },
           ),
         ],
       ),

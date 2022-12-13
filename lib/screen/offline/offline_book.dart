@@ -1,26 +1,30 @@
-import 'package:capstone_alterra_flutter/screen/offline/offline_transaksi.dart';
+import 'package:capstone_alterra_flutter/model/transaction_model.dart';
+import 'package:capstone_alterra_flutter/screen/transaction/transaction_detail_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class OfflineBook extends StatelessWidget {
   const OfflineBook({
     super.key,
     required this.title,
     required this.teacher,
-    required this.minute,
     required this.price,
-    this.image,
+    required this.picture,
+    required this.duration,
+    required this.time,
   });
 
   final String title;
   final String teacher;
-  final String minute;
   final int price;
-  final String? image;
+  final String picture;
+  final int duration;
+  final DateTime time;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +53,8 @@ class OfflineBook extends StatelessWidget {
         child: Stack(
           children: [
             SizedBox(
-              child: Image.asset(
-                'assets/offline_page/image.png',
+              child: Image.network(
+                picture,
                 width: MediaQuery.of(context).size.width,
                 height: 192,
                 fit: BoxFit.cover,
@@ -142,7 +146,22 @@ class OfflineBook extends StatelessWidget {
                                     width: 10.0,
                                   ),
                                   Text(
-                                    '20 November dari 05.30 - 06.30',
+                                    DateFormat("d MMMM yyyy", "id_ID").format(
+                                      DateTime.now(),
+                                    ),
+
+                                    // '${time} dari ${duration}',
+                                    // '20 November dari 05.30 - 06.30',
+                                    style:
+                                        kSubtitle2.copyWith(color: blackBase),
+                                  ),
+                                  const SizedBox(
+                                    width: 15.0,
+                                  ),
+                                  Text(
+                                    DateFormat("d MMMM yyyy", "id_ID").format(
+                                      DateTime.now(),
+                                    ),
                                     style:
                                         kSubtitle2.copyWith(color: blackBase),
                                   ),
@@ -387,7 +406,13 @@ class OfflineBook extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RincianTransaksi(),
+                      builder: (context) => TransactionDetailScreen(
+                          transactionModel: TransactionModel.forOfflineClass(
+                              id: '1',
+                              title: title,
+                              price: price,
+                              date: duration.toString(),
+                              time: time)),
                     ),
                   );
                 },

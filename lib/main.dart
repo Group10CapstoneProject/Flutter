@@ -1,6 +1,7 @@
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
 import 'package:capstone_alterra_flutter/provider/main_provider.dart';
+import 'package:capstone_alterra_flutter/provider/offline_provider.dart';
 import 'package:capstone_alterra_flutter/provider/trainer_provider.dart';
 import 'package:capstone_alterra_flutter/screen/splash/splash_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
@@ -20,6 +21,8 @@ Future<void> main() async{
         ChangeNotifierProvider(create: (context) => HomepageProvider(),),
         ChangeNotifierProvider(create: (context) => ClassProvider()),
         ChangeNotifierProvider(create: (context) => TrainerProvider()),
+        ChangeNotifierProvider(create: (context) => OfflineProvider()),
+
       ],
       child: const MyApp()
     ));
