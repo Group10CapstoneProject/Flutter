@@ -149,19 +149,6 @@ class OfflineBook extends StatelessWidget {
                                     DateFormat("d MMMM yyyy", "id_ID").format(
                                       DateTime.now(),
                                     ),
-
-                                    // '${time} dari ${duration}',
-                                    // '20 November dari 05.30 - 06.30',
-                                    style:
-                                        kSubtitle2.copyWith(color: blackBase),
-                                  ),
-                                  const SizedBox(
-                                    width: 15.0,
-                                  ),
-                                  Text(
-                                    DateFormat("d MMMM yyyy", "id_ID").format(
-                                      DateTime.now(),
-                                    ),
                                     style:
                                         kSubtitle2.copyWith(color: blackBase),
                                   ),
