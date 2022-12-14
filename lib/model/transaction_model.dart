@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class TransactionModel{
-
+class TransactionModel {
   TransactionModel({
     required this.id,
     required this.transactionType,
@@ -18,8 +17,7 @@ class TransactionModel{
     required this.dateTime,
     this.subTitle,
     Color? subTitleColor,
-  }){
-
+  }) {
     priceFormatted = Utils.currencyFormat(price);
     this.subTitleColor = (subTitleColor != null) ? subTitleColor : Colors.black;
     totalPrice = price * quantity;
@@ -39,62 +37,55 @@ class TransactionModel{
   late final int totalPrice;
   late final String totalPriceFormatted;
 
-
-    factory TransactionModel.forMembership({
+  factory TransactionModel.forMembership({
     required String id,
     required String title,
     required int price,
     required int monthQuantity,
-  }){
-
+  }) {
     String titleFormatted = 'Membership - $title $monthQuantity Bulan';
     DateTime dateTimeNow = DateTime.now();
 
     return TransactionModel(
-      id: id,
-      transactionType: TransactionType.membership,
-      title: titleFormatted, 
-      quantity: monthQuantity, 
-      price: price,
-      dateTime: dateTimeNow,
-      listDetailTransaction: [
-        DetailTransactionModel(
-          icon: SvgPicture.asset('assets/transaction_page/event.svg'), 
-          title: 'Tanggal Beli', 
-          subTitle: Utils.dateTimeFormat(dateTimeNow)
-        )
-      ]
-    );
+        id: id,
+        transactionType: TransactionType.membership,
+        title: titleFormatted,
+        quantity: monthQuantity,
+        price: price,
+        dateTime: dateTimeNow,
+        listDetailTransaction: [
+          DetailTransactionModel(
+              icon: SvgPicture.asset('assets/transaction_page/event.svg'),
+              title: 'Tanggal Beli',
+              subTitle: Utils.dateTimeFormat(dateTimeNow))
+        ]);
   }
-
 
   factory TransactionModel.forOnlineClass({
     required String id,
     required String title,
     required int price,
-  }){
+  }) {
     DateTime dateTimeNow = DateTime.now();
 
     return TransactionModel(
-      id: id,
-      transactionType: TransactionType.onlineClass,
-      title: title, 
-      quantity: 1, 
-      price: price,
-      dateTime: dateTimeNow,
-      listDetailTransaction: [
-        DetailTransactionModel(
-          icon: SvgPicture.asset('assets/transaction_page/event.svg'), 
-          title: 'Tanggal Beli', 
-          subTitle: Utils.dateTimeFormat(dateTimeNow)
-        ),
-        DetailTransactionModel(
-          icon: SvgPicture.asset('assets/transaction_page/event.svg'), 
-          title: 'Aktif Sampai', 
-          subTitle: Utils.dateTimeFormat(dateTimeNow.add(const Duration(days: 5)))
-        ),
-      ]
-    );
+        id: id,
+        transactionType: TransactionType.onlineClass,
+        title: title,
+        quantity: 1,
+        price: price,
+        dateTime: dateTimeNow,
+        listDetailTransaction: [
+          DetailTransactionModel(
+              icon: SvgPicture.asset('assets/transaction_page/event.svg'),
+              title: 'Tanggal Beli',
+              subTitle: Utils.dateTimeFormat(dateTimeNow)),
+          DetailTransactionModel(
+              icon: SvgPicture.asset('assets/transaction_page/event.svg'),
+              title: 'Aktif Sampai',
+              subTitle: Utils.dateTimeFormat(
+                  dateTimeNow.add(const Duration(days: 5)))),
+        ]);
   }
 
   factory TransactionModel.forOfflineClass({
@@ -113,6 +104,8 @@ class TransactionModel{
       quantity: 1,
       price: price,
       dateTime: dateTimeNow,
+      subTitle: 'Kelas Offline',
+      subTitleColor: warningDark,
       listDetailTransaction: [
         DetailTransactionModel(
           icon: Icon(

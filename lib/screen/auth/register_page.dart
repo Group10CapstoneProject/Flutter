@@ -20,11 +20,13 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmPasswordController = TextEditingController();
 
   late ValueNotifier<bool> _obscureText;
+  late ValueNotifier<bool> _confirmObscureText;
   late ValueNotifier<bool> _isLoading;
-
+  
   @override
   void initState() {
     _obscureText = ValueNotifier<bool>(true);
+    _confirmObscureText = ValueNotifier(true);
     _isLoading = ValueNotifier<bool>(false);
     super.initState();
   }
@@ -86,8 +88,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Name',
-                          style: ksubtitle,
+                          'Nama',
+                          style: kBody2.copyWith(color: blackBase),
                         ),
                         const SizedBox(
                           height: 4.0,
@@ -95,6 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextFormField(
                           controller: _nameController,
                           keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.words,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -104,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               hintText: 'Nama Lengkap'),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Masukan Nama!';
+                              return 'Nama lengkap diperlukan';
                             } else {
                               return null;
                             }
@@ -119,8 +122,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Email Address',
-                          style: ksubtitle,
+                          'Alamat Email',
+                          style: kBody2.copyWith(color: blackBase),
                         ),
                         const SizedBox(
                           height: 4.0,
@@ -137,12 +140,12 @@ class _RegisterPageState extends State<RegisterPage> {
                               hintText: 'Contoh : kelompok10@gmail.com'),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Masukan Email!';
+                              return 'Masukan Email';
                             }
                             if (!RegExp(
                                     "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                 .hasMatch(value)) {
-                              return ("Masukan email yang valid!");
+                              return ('Email tidak valid');
                             }
                             return null;
                           },
@@ -157,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         Text(
                           'Password',
-                          style: ksubtitle,
+                          style: kBody2.copyWith(color: blackBase),
                         ),
                         const SizedBox(
                           height: 4.0,
@@ -187,10 +190,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 validator: (value) {
                                   RegExp regex = RegExp(r'^.{6,}$');
                                   if (value!.isEmpty) {
-                                    return ("Masukan Password!");
+                                    return ("Masukan Password");
                                   }
                                   if (!regex.hasMatch(value)) {
-                                    return ("Masukkan Kata Sandi yang Valid (Min. 6 Karakter)");
+                                    return ('Password minimal 6 digit');
                                   }
                                   return null;
                                 },
@@ -205,18 +208,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Confirm Password',
-                          style: ksubtitle,
+                          'Konfirmasi Ulang Password',
+                          style: kBody2.copyWith(color: blackBase),
                         ),
                         const SizedBox(
                           height: 4.0,
                         ),
                         ValueListenableBuilder<bool>(
-                            valueListenable: _obscureText,
+                            valueListenable: _confirmObscureText,
                             builder: (context, value, child) {
                               return TextFormField(
                                 controller: _confirmPasswordController,
-                                obscureText: _obscureText.value,
+                                obscureText: _confirmObscureText.value,
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius:
@@ -226,20 +229,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                             BorderRadius.circular(4.0)),
                                     suffixIcon: IconButton(
                                         onPressed: () {
-                                          _obscureText.value =
-                                              !_obscureText.value;
+                                          _confirmObscureText.value = !_confirmObscureText.value;
                                         },
-                                        icon: Icon(_obscureText.value
+                                        icon: Icon(_confirmObscureText.value
                                             ? Icons.visibility
                                             : Icons.visibility_off)),
                                     hintText: '****'),
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return ("Masukan Ulang Password !");
+                                    return ("Masukan Ulang Password");
                                   }
                                   if (_confirmPasswordController.text !=
                                       _passwordController.text) {
-                                    return "Kata sandi tidak cocok";
+                                    return 'Konfirmasi ulang password tidak cocok';
                                   }
                                   return null;
                                 },
