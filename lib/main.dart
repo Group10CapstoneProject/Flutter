@@ -1,3 +1,4 @@
+import 'package:capstone_alterra_flutter/provider/all_membership_provider.dart';
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
 import 'package:capstone_alterra_flutter/provider/main_provider.dart';
@@ -22,7 +23,7 @@ Future<void> main() async{
         ChangeNotifierProvider(create: (context) => ClassProvider()),
         ChangeNotifierProvider(create: (context) => TrainerProvider()),
         ChangeNotifierProvider(create: (context) => OfflineProvider()),
-
+        ChangeNotifierProvider(create: (context) => AllMembershipProvider()),
       ],
       child: const MyApp()
     ));

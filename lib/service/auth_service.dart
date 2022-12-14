@@ -7,7 +7,8 @@ class AuthService{
   final Dio _dio =  Dio();
 
   final String _endpoint = '${UserToken.serverEndpoint}/auth';
-
+  
+  ///http://docs.rnwxyz.codes/#/Auth/post_auth_login
   Future<AuthModel> postLoginUser({required String email, required String password}) async{
 
     late final Response response;
@@ -39,6 +40,7 @@ class AuthService{
     }
   }
 
+  ///http://docs.rnwxyz.codes/#/Auth/post_auth_refresh
   Future<AuthModel> postGenerateNewToken({required String refreshToken}) async{
 
     late final Response response;

@@ -40,7 +40,8 @@ class TransactionModel {
 
   factory TransactionModel.forMembership({
     required String id,
-    required MembershipClass membershipClass,
+    required String title,
+    required int price,
     required int monthQuantity,
   }) {
     String title = 'Membership - ${membershipClass.name} $monthQuantity Bulan';
@@ -59,6 +60,26 @@ class TransactionModel {
               title: 'Tanggal Beli',
               subTitle: Utils.dateTimeFormat(dateTimeNow))
         ]);
+  }){
+
+    String titleFormatted = 'Membership - $title $monthQuantity Bulan';
+    DateTime dateTimeNow = DateTime.now();
+
+    return TransactionModel(
+      id: id,
+      transactionType: TransactionType.membership,
+      title: titleFormatted, 
+      quantity: monthQuantity, 
+      price: price,
+      dateTime: dateTimeNow,
+      listDetailTransaction: [
+        DetailTransactionModel(
+          icon: SvgPicture.asset('assets/transaction_page/event.svg'), 
+          title: 'Tanggal Beli', 
+          subTitle: Utils.dateTimeFormat(dateTimeNow)
+        )
+      ]
+    );
   }
 
   factory TransactionModel.forOnlineClass({
