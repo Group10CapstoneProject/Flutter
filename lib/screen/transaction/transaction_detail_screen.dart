@@ -256,7 +256,7 @@ Widget _detailOrderAndPayment(TransactionModel transactionModel){
 
 
         ///Detail Payment part
-        Text('Rician Pembayaran', style: kSubtitle1,),
+        Text('Rincian Pembayaran', style: kSubtitle1,),
         const SizedBox(height: 16,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
