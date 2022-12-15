@@ -101,15 +101,10 @@ class _OfflineScreenState extends State<OfflineScreen> {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (value.myState == RequestState.error) {
-          return const Center(
-            child: Text('No Data'),
-          );
-        } else {
+        } else if (value.myState == RequestState.loaded) {
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: result.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding:
@@ -258,6 +253,11 @@ class _OfflineScreenState extends State<OfflineScreen> {
                 ),
               );
             },
+            itemCount: result.length,
+          );
+        } else {
+          return const Center(
+            child: Text('No Data'),
           );
         }
       },

@@ -14,25 +14,27 @@ class OfflineProvider with ChangeNotifier {
   OfflineModel? _detailModel;
   OfflineModel? get detail => _detailModel;
 
-  RequestState myState = RequestState.loading;
+  RequestState myState = RequestState.none;
 
   Future<void> getOfflineClass({
     required String time,
     required int categoryId,
     required String orderByPrice,
   }) async {
-    myState = RequestState.loading;
     try {
+      myState = RequestState.loading;
+      notifyListeners();
       final data =
           await service.getOfflineClass(time, categoryId, orderByPrice);
       _offlineModel = data.data!;
+      myState = RequestState.loaded;
       notifyListeners();
-      myState = RequestState.none;
     } catch (e) {
-      myState = RequestState.error;
       if (e is DioError) {
         e.response!.statusCode;
       }
+      myState = RequestState.error;
+      notifyListeners();
     }
   }
 
