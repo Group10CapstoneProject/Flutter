@@ -24,4 +24,8 @@ class Utils {
       dateTime,
     );
   }
+
+  static String timeDate(DateTime dateTime) {
+    return DateFormat('y-M-d').format(dateTime);
+  }
 }
