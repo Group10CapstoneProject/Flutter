@@ -1,7 +1,10 @@
 import 'package:capstone_alterra_flutter/core.dart';
+import 'package:capstone_alterra_flutter/model/json_model.dart';
+import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
 import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 import 'package:capstone_alterra_flutter/screen/auth/register_page.dart';
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
+import 'package:capstone_alterra_flutter/service/members_service.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:capstone_alterra_flutter/widget/circular_loading.dart';
@@ -213,7 +216,10 @@ class _LoginPageState extends State<LoginPage> {
                               await usersService.getUserProfile();
                           if (userProfileModel.statusCode == 200) {
                             UserToken.userProfileModel = userProfileModel;
-                            if (mounted) {
+                            MembersService membersService = MembersService();
+                            JSONModel<MembersDetailModel> membersDetailModel = await membersService.getUserMemberHistory();
+                            if((membersDetailModel.statusCode == 200 || membersDetailModel.message == 'record not found') && mounted){
+                              UserToken.membersDetailModel = membersDetailModel.data;
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

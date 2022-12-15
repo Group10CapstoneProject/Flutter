@@ -1,3 +1,4 @@
+import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
 import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,4 +25,5 @@ class UserToken {
   }
 
   static UserProfileModel? userProfileModel;
+  static MembersDetailModel? membersDetailModel;
 }

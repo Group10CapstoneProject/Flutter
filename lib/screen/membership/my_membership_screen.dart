@@ -1,14 +1,16 @@
+import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
 import 'package:capstone_alterra_flutter/screen/membership/all_membership_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/membership.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
+import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyMembershipScreen extends StatelessWidget {
-  const MyMembershipScreen({super.key, required this.membership});
+  const MyMembershipScreen({super.key, required this.membersDetailModel});
 
-  final Membership membership;
+  final MembersDetailModel membersDetailModel;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,8 @@ class MyMembershipScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _myMembershipWidget(context, membership),
-            _yourMemberBenefitsWidget(membership),
+            _myMembershipWidget(context, membersDetailModel),
+            _yourMemberBenefitsWidget(Membership.platinum),
           ],
         ),
       ),
@@ -47,9 +49,7 @@ class MyMembershipScreen extends StatelessWidget {
 
 
 ///A widget that contain membership info of user
-Widget _myMembershipWidget(BuildContext context, Membership membership){
-
-  MembershipClass membershipClass = MembershipClass.fromMembership(membership);
+Widget _myMembershipWidget(BuildContext context, MembersDetailModel membersDetailModel){
 
   return Container(
     width: double.infinity,
@@ -59,7 +59,7 @@ Widget _myMembershipWidget(BuildContext context, Membership membership){
         const SizedBox(height: 6,),
         Text('Hai, ${UserToken.userProfileModel!.name}', style: kBody1,),
         const SizedBox(height: 16,),
-        Text('Kamu adalah member ${membershipClass.name} Altagym', style: kSubtitle1,),
+        Text('Kamu adalah member ${membersDetailModel.memberType.name} Altagym', style: kSubtitle1,),
         const SizedBox(height: 12,),
 
         ///Membership Card contain membership type, member since date, expiry date
@@ -88,19 +88,21 @@ Widget _myMembershipWidget(BuildContext context, Membership membership){
                   children: [
                     Row(
                       children: [
-                        Image(image: AssetImage('assets/membership_page/${membershipClass.coinFile}'), height: 45, width: 45,),
+                        (membersDetailModel.memberType.picture != null) ? 
+                          Image(image: NetworkImage(membersDetailModel.memberType.picture!), height: 45, width: 45,) : 
+                          const SizedBox(),
                         const SizedBox(width: 8,),
-                        Text('Member ${membershipClass.name}', style: kSubtitle1.apply(color: Colors.white),),
+                        Text('Member ${membersDetailModel.memberType.name}', style: kSubtitle1.apply(color: Colors.white),),
                       ],
                     ),
                     const SizedBox(height: 20,),
                     Text('Anggota Sejak', style: kBody2.apply(color: Colors.white),),
                     const SizedBox(height: 6,),
-                    Text('12/11/2022', style: kSubtitle2.copyWith(color: Colors.white, fontWeight: semiBold),),
+                    Text(Utils.dateTimeFormat2(DateTime.parse(membersDetailModel.activedAt)), style: kSubtitle2.copyWith(color: Colors.white, fontWeight: semiBold),),
                     const SizedBox(height: 20,),
                     Text('Berlaku Hingga', style: kBody2.apply(color: Colors.white),),
                     const SizedBox(height: 6,),
-                    Text('12/03/2023', style: kSubtitle2.copyWith(color: Colors.white, fontWeight: semiBold),),
+                    Text(Utils.dateTimeFormat2(DateTime.parse(membersDetailModel.expiredAt)), style: kSubtitle2.copyWith(color: Colors.white, fontWeight: semiBold),),
                   ],
                 ),
               )
