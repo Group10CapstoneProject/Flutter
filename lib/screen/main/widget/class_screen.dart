@@ -1,7 +1,7 @@
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/screen/offline/offline_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
-import 'package:capstone_alterra_flutter/screen/online/online_screen.dart';
+import 'package:capstone_alterra_flutter/screen/online/online_class_screen.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,7 +76,7 @@ class _ClassScreenState extends State<ClassScreen> {
             child: PageView(
               controller: pageController,
               physics: const NeverScrollableScrollPhysics(),
-              children: const [OfflineScreen(), OnlineClass()],
+              children: const [OfflineScreen(), OnlineClassScreen()],
             ),
           )
         ],

@@ -2,6 +2,7 @@ import 'package:capstone_alterra_flutter/provider/all_membership_provider.dart';
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
 import 'package:capstone_alterra_flutter/provider/main_provider.dart';
+import 'package:capstone_alterra_flutter/provider/online_class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/payment_confirmation_provider.dart';
 import 'package:capstone_alterra_flutter/provider/offline_provider.dart';
 import 'package:capstone_alterra_flutter/provider/trainer_provider.dart';
@@ -26,6 +27,7 @@ Future<void> main() async{
         ChangeNotifierProvider(create: (context) => TrainerProvider()),
         ChangeNotifierProvider(create: (context) => OfflineProvider()),
         ChangeNotifierProvider(create: (context) => AllMembershipProvider()),
+        ChangeNotifierProvider(create: (context) => OnlineClassProvider()),
         ChangeNotifierProvider(create: (context) => TransactionDetailProvider()),
         ChangeNotifierProvider(create: (context) => PaymentConfirmationProvider()),
       ],
