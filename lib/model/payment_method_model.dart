@@ -14,12 +14,16 @@ class PaymentMethodModel{
   final String? paymentNumber;
   final String? description;
 
-  factory PaymentMethodModel.fromJSON(Map<String, dynamic> json){
+  factory PaymentMethodModel.fromJSON({
+    required Map<String, dynamic> json,
+    String? iconLink,
+  }){
     return PaymentMethodModel(
       id: json['id'].toString(), 
       name: json['name'],
       paymentNumber: json['payment_number'],
       description: json['description'],
+      iconLink: (iconLink != null) ? iconLink : 'OVO.png',
     );
   }
 

@@ -25,34 +25,45 @@ class TransactionDetailScreen extends StatefulWidget {
 
 class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
 
-  List<PaymentMethodModel> listPayment = [
-    PaymentMethodModel(id: '1', iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
-    PaymentMethodModel(id: '2', iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
-    PaymentMethodModel(id: '3', iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
-    PaymentMethodModel(id: '1', iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
-    PaymentMethodModel(id: '2', iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
-    PaymentMethodModel(id: '3', iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
-    // PaymentMethodModel(id: 2, iconLink: 'crown.png', name: 'My Membership'),
-  ];
+  // List<PaymentMethodModel> listPayment = [
+  //   PaymentMethodModel(id: '1', iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
+  //   PaymentMethodModel(id: '2', iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
+  //   PaymentMethodModel(id: '3', iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
+  //   PaymentMethodModel(id: '1', iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
+  //   PaymentMethodModel(id: '2', iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
+  //   PaymentMethodModel(id: '3', iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
+  //   // PaymentMethodModel(id: 2, iconLink: 'crown.png', name: 'My Membership'),
+  // ];
+
+  // List<PaymentMethodModel> listPayment = [];
 
   @override
   void initState() {
 
-    context.read<TransactionDetailProvider>().isLoading = false;
+    TransactionDetailProvider provider = Provider.of<TransactionDetailProvider>(context, listen: false);
+    provider.isLoading = false;
 
     _indexPaymentChoosen.value = null;
 
     if(widget.transactionModel.transactionType != TransactionType.membership){
-      listPayment.insert(
+      provider.listPayment.insert(
         0, 
         PaymentMethodModel(id: '0', iconLink: 'crown.png', name: 'My Membership')
       );
     }
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{ 
+      
+      await provider.getAllPaymentMethods();
+      // listPayment = provider.listPayment;
+
+    });
   }
   
   @override
   Widget build(BuildContext context) {
+
+    TransactionDetailProvider provider = Provider.of<TransactionDetailProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -90,20 +101,22 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                               valueListenable: _indexPaymentChoosen,
                               builder: (context, value, child) {
                                 return (_indexPaymentChoosen.value != null) ? 
-                                  _paymentMethodWidget(context, listPayment) : 
+                                  _paymentMethodWidget(context, provider.listPayment) : 
                                   const SizedBox();
                               },
                             )
                           ],
                         ),
-                        ValueListenableBuilder(
-                          valueListenable: _indexPaymentChoosen,
-                          builder: (context, _, child) {
-                            return _TwoBottomButtonWidget(
-                              transactionModel: widget.transactionModel,
-                              listPayment: listPayment
-                            );
-                          }
+                        Consumer<TransactionDetailProvider>(
+                          builder: (context, value, child) => ValueListenableBuilder(
+                            valueListenable: _indexPaymentChoosen,
+                            builder: (context, _, child) {
+                              return _TwoBottomButtonWidget(
+                                transactionModel: widget.transactionModel,
+                                listPayment: provider.listPayment
+                              );
+                            }
+                          ),
                         )
                       ],
                     ),

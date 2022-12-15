@@ -48,9 +48,7 @@ class MembersService{
     }
     on DioError catch(e){
       if(e.response != null){
-        JSONModel<Map<String, dynamic>> json = JSONModel.fromJSON(json: e.response!.data, statusCode: e.response!.statusCode!);
-        Map<String, dynamic> data = json.data!;
-        return JSONModel.fromJSON(json: data, statusCode: json.statusCode!);
+        return JSONModel(message: e.response!.data['message'], statusCode: e.response!.statusCode!);
       }
       else{
         return JSONModel(message: 'Unexpected error');
@@ -58,6 +56,7 @@ class MembersService{
     }
   }
 
+  ///http://docs.rnwxyz.codes/#/Members/post_members_pay__id_
   Future<JSONModel<dynamic>> uploadProofOfMembershipPayment({
     required int bookingId,
     required File file,
