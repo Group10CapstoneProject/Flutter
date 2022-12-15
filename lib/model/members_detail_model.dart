@@ -45,7 +45,7 @@ class MembersDetailModel{
       expiredAt: json['expired_at'], 
       activedAt: json['actived_at'], 
       proofPayment: json['proof_payment'], 
-      paymentMethod: PaymentMethodModel.fromJSON(json['payment_method']), 
+      paymentMethod: PaymentMethodModel.fromJSON(json: json['payment_method']), 
       total: json['total'], 
       code: json['code'], 
       status: json['status'],

@@ -3,12 +3,38 @@ import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
 import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
 import 'package:capstone_alterra_flutter/service/members_service.dart';
+import 'package:capstone_alterra_flutter/service/payment_methods_service.dart';
 import 'package:capstone_alterra_flutter/util/transaction_type.dart';
 import 'package:flutter/material.dart';
 
 class TransactionDetailProvider with ChangeNotifier{
 
   bool isLoading = false;
+  List<PaymentMethodModel> listPayment = [];
+  
+
+
+  Future<void> getAllPaymentMethods() async{
+
+    isLoading = true;
+    notifyListeners();
+
+    listPayment.clear();
+    PaymentMethodsService paymentService = PaymentMethodsService();
+
+    JSONModel<List<PaymentMethodModel>> json = await paymentService.getAllPaymentMethods();
+
+    if(json.statusCode == 200){
+      listPayment.addAll(json.data!);
+    }
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+
+
+
 
   Future<int?> _createNewMembersOrBooking({
     required int memberTypeId,
