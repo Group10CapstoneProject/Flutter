@@ -6,6 +6,7 @@ import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recase/recase.dart';
 
 class DetailOnlineClass extends StatelessWidget {
   const DetailOnlineClass({
@@ -124,7 +125,7 @@ class DetailOnlineClass extends StatelessWidget {
                         _rowDescription(
                           leading: SvgPicture.asset('assets/online_page/fire.svg',), 
                           title: 'Kesulitan', 
-                          subTitle: onlineClassModel.level
+                          subTitle: onlineClassModel.level.sentenceCase
                         ),
 
                       ],

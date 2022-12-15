@@ -45,7 +45,7 @@ class OnlineClassModel{
       link: json['link'],
       path: json['path'],
       tools: json['tools'],
-      targetArea: json['targetArea'],
+      targetArea: json['target_area'],
       onlineClassCategory: (json['online_class_category'] != null) ? 
         OnlineClassCategoryModel.fromJSON(json['online_class_category']) : 
         null,

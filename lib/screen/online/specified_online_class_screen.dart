@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:recase/recase.dart';
 
 class SpecifiedOnlineClassScreen extends StatelessWidget {
   const SpecifiedOnlineClassScreen({super.key, required this.onlineClassCategoryModel});
@@ -196,7 +197,7 @@ class _ClassCardState extends State<_ClassCard> {
                             children: [
                               SvgPicture.asset('assets/online_page/fire.svg', color: primaryBase,),
                               const SizedBox(width: 4,),
-                              Text(widget.difficulty, style: kBody2.apply(color: blackLightest),)
+                              Text(widget.difficulty.sentenceCase, style: kBody2.apply(color: blackLightest),)
                             ],
                           )
                         ],
