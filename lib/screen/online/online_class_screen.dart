@@ -112,7 +112,6 @@ class _OnlineClassScreenState extends State<OnlineClassScreen> {
         onTap: () async {
           OnlineClassProvider provider = Provider.of<OnlineClassProvider>(context, listen: false);
           JSONModel<OnlineClassCategoryModel> json = await provider.getSingleOrDetailOnlineClassCategory(onlineClassCategoryModel.id);
-          print(json.data!.onlineClasses!);
           if(json.statusCode == 200 && mounted){
             Navigator.push(
               context, 

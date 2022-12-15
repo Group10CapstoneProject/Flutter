@@ -61,7 +61,7 @@ class DetailOnlineClass extends StatelessWidget {
                         image: (image != null) ? 
                           DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage('assets/online_page/$image')
+                            image: NetworkImage(image!)
                           ) : null
                       ),
                     )
