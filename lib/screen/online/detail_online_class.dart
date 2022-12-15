@@ -1,3 +1,4 @@
+import 'package:capstone_alterra_flutter/model/online_class_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
 import 'package:capstone_alterra_flutter/screen/transaction/transaction_detail_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
@@ -9,18 +10,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DetailOnlineClass extends StatelessWidget {
   const DetailOnlineClass({
     super.key,
-    required this.title,
-    required this.minute,
-    required this.difficulty,
-    required this.price,
-    this.image,
+    required this.onlineClassModel,
   });
-
-  final String title;
-  final int minute;
-  final String difficulty;
-  final int price;
-  final String? image;
+  final OnlineClassModel onlineClassModel;
   
 
   @override
@@ -58,10 +50,10 @@ class DetailOnlineClass extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         color: primaryBase,
-                        image: (image != null) ? 
+                        image: (onlineClassModel.picture != null) ? 
                           DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(image!)
+                            image: NetworkImage(onlineClassModel.picture!)
                           ) : null
                       ),
                     )
@@ -83,7 +75,7 @@ class DetailOnlineClass extends StatelessWidget {
                         ///Title
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(title, style: kHeading6,)
+                          child: Text(onlineClassModel.title, style: kHeading6,)
                         ),
                         const SizedBox(height: 16,),
 
@@ -106,7 +98,7 @@ class DetailOnlineClass extends StatelessWidget {
 
                         ///Description
                         Text(
-                          'Latihan peregangan dan kekuatan ini akan membantu Anda menghilangkan stres, memperpanjang serat otot Anda dari ujung kepala hingga ujung kaki, dan meningkatkan jangkauan gerak sendi Anda. Itu dikemas dengan peregangan untuk membantu membuka pinggul dan punggung bawah untuk membantu Anda merasa sehat.', 
+                          onlineClassModel.description.toString(),
                           style: kBody2
                         ),
                         const SizedBox(height: 16,),
@@ -114,25 +106,25 @@ class DetailOnlineClass extends StatelessWidget {
                         _rowDescription(
                           leading: SvgPicture.asset('assets/online_page/gym.svg',), 
                           title: 'Peralatan', 
-                          subTitle: 'Matras'
+                          subTitle: onlineClassModel.tools.toString()
                         ),
 
                         _rowDescription(
                           leading: SvgPicture.asset('assets/online_page/target.svg',), 
                           title: 'Target Area', 
-                          subTitle: 'Full body'
+                          subTitle: onlineClassModel.targetArea.toString()
                         ),
 
                         _rowDescription(
                           leading: Icon(Icons.alarm_on, color: primaryBase,), 
                           title: 'Durasi', 
-                          subTitle: '$minute min'
+                          subTitle: '${onlineClassModel.duration} min'
                         ),
 
                         _rowDescription(
                           leading: SvgPicture.asset('assets/online_page/fire.svg',), 
                           title: 'Kesulitan', 
-                          subTitle: difficulty
+                          subTitle: onlineClassModel.level
                         ),
 
                       ],
@@ -155,7 +147,7 @@ class DetailOnlineClass extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Total Harga', style: kBody1,),
-                    Text(Utils.currencyFormat(price), style: kSubtitle1.apply(color: primaryBase),)
+                    Text(Utils.currencyFormat(onlineClassModel.price), style: kSubtitle1.apply(color: primaryBase),)
                   ],
                 ),
                 SizedBox(
@@ -167,9 +159,9 @@ class DetailOnlineClass extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => TransactionDetailScreen(
                             transactionModel: TransactionModel.forOnlineClass(
-                              id: '1', 
-                              title: title, 
-                              price: price
+                              id: onlineClassModel.id.toString(), 
+                              title: onlineClassModel.title, 
+                              price: onlineClassModel.price
                             )
                           ),
                         )

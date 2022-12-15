@@ -2,7 +2,7 @@ import 'package:capstone_alterra_flutter/model/json_model.dart';
 import 'package:capstone_alterra_flutter/model/online_class_category_model.dart';
 import 'package:capstone_alterra_flutter/provider/online_class_provider.dart';
 import 'package:capstone_alterra_flutter/screen/online/online_filter_screen.dart';
-import 'package:capstone_alterra_flutter/screen/online/specified_online_class.dart';
+import 'package:capstone_alterra_flutter/screen/online/specified_online_class_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/widget/circular_loading.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +116,7 @@ class _OnlineClassScreenState extends State<OnlineClassScreen> {
             Navigator.push(
               context, 
               MaterialPageRoute(
-                builder: (context) => SpecifiedOnlineClass(
+                builder: (context) => SpecifiedOnlineClassScreen(
                   onlineClassCategoryModel: json.data!,
                 ),
               )

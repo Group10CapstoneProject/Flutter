@@ -5,6 +5,7 @@ import 'package:capstone_alterra_flutter/provider/main_provider.dart';
 import 'package:capstone_alterra_flutter/provider/online_class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/payment_confirmation_provider.dart';
 import 'package:capstone_alterra_flutter/provider/offline_provider.dart';
+import 'package:capstone_alterra_flutter/provider/specified_online_class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/trainer_provider.dart';
 import 'package:capstone_alterra_flutter/provider/transaction_detail_provider.dart';
 import 'package:capstone_alterra_flutter/screen/splash/splash_screen.dart';
@@ -30,6 +31,7 @@ Future<void> main() async{
         ChangeNotifierProvider(create: (context) => OnlineClassProvider()),
         ChangeNotifierProvider(create: (context) => TransactionDetailProvider()),
         ChangeNotifierProvider(create: (context) => PaymentConfirmationProvider()),
+        ChangeNotifierProvider(create: (context) => SpecifiedOnlineClassProvider()),
       ],
       child: const MyApp()
     ));
