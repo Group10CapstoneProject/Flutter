@@ -2,21 +2,28 @@ import 'dart:io';
 
 import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
+import 'package:capstone_alterra_flutter/provider/payment_confirmation_provider.dart';
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
-import 'package:capstone_alterra_flutter/viewmodel/payment_confirmation_viewmodel.dart';
+import 'package:capstone_alterra_flutter/widget/circular_loading.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
-PaymentConfirmationViewmodel _viewmodel = PaymentConfirmationViewmodel();
 ValueNotifier<File?> _file = ValueNotifier(null);
 
 class PaymentConfirmationScreen extends StatefulWidget {
-  const PaymentConfirmationScreen({super.key, required this.transactionModel ,required this.paymentMethodModel});
+  const PaymentConfirmationScreen({
+    super.key, 
+    required this.bookingId,
+    required this.transactionModel, 
+    required this.paymentMethodModel
+  });
 
+  final int bookingId;
   final TransactionModel transactionModel;
   final PaymentMethodModel paymentMethodModel;
 
@@ -25,6 +32,12 @@ class PaymentConfirmationScreen extends StatefulWidget {
 }
 
 class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
+
+  @override
+  void initState() {
+    context.read<PaymentConfirmationProvider>().isLoading = false;
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -46,33 +59,43 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
         title: Text('Konfirmasi Pembayaran', style: kHeading6.apply(color: blackLight),),
       ),
       backgroundColor: Colors.white,
-      body: LayoutBuilder(
-        builder: (p0, p1Constraint) {
-          return SingleChildScrollView(
-            child: Container(
-              constraints: BoxConstraints(
-                minHeight: p1Constraint.maxHeight
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+      body: Stack(
+        children: [
+          LayoutBuilder(
+            builder: (p0, p1Constraint) {
+              return SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: p1Constraint.maxHeight
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _totalPembayaranWidget(widget.transactionModel),
-                      _fourStepWidget(widget.paymentMethodModel),
-                      _filePickerButton(),
+                      Column(
+                        children: [
+                          _totalPembayaranWidget(widget.transactionModel),
+                          _fourStepWidget(widget.paymentMethodModel),
+                          _filePickerButton(),
+                        ],
+                      ),
+                      _TwoBottomButtonWidget(
+                        bookingId: widget.bookingId,
+                        transactionModel: widget.transactionModel,
+                        paymentMethodModel: widget.paymentMethodModel,
+                      ),
+                      
                     ],
                   ),
-                  _TwoBottomButtonWidget(
-                    transactionModel: widget.transactionModel,
-                    paymentMethodModel: widget.paymentMethodModel,
-                  ),
-                  
-                ],
-              ),
-            ),
-          );
-        }
+                ),
+              );
+            }
+          ),
+          Consumer<PaymentConfirmationProvider>(
+            builder: (context, value, child){
+              return (value.isLoading) ? const CircularLoading() : const SizedBox();
+            },
+          )
+        ],
       ),
     );
   }
@@ -237,7 +260,11 @@ Widget _filePickerButton(){
       fit: BoxFit.none,
       child: GestureDetector(
         onTap: () async{
-          FilePickerResult? result = await FilePicker.platform.pickFiles();
+          FilePickerResult? result = await FilePicker.platform.pickFiles(
+            type: FileType.custom,
+            allowMultiple: false,
+            allowedExtensions: ['jpg', 'jpeg', 'png'],
+          );
 
           if (result != null){
             _file.value = File(result.files.single.path!);
@@ -293,8 +320,10 @@ class _TwoBottomButtonWidget extends StatefulWidget {
   const _TwoBottomButtonWidget({
     required this.transactionModel,
     required this.paymentMethodModel,
+    required this.bookingId,
   });
 
+  final int bookingId;
   final TransactionModel transactionModel;
   final PaymentMethodModel paymentMethodModel;
 
@@ -325,13 +354,13 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                   );
                 }
                 else{
-                  bool bookingIsSuccess = await _viewmodel.createNewMembersOrBooking(
-                    memberTypeId: int.parse(widget.transactionModel.id),
-                    duration: widget.transactionModel.quantity,
-                    paymentMethodId: int.parse(widget.transactionModel.id),
-                    total: widget.transactionModel.totalPrice
+                  PaymentConfirmationProvider provider = Provider.of<PaymentConfirmationProvider>(context, listen: false);
+                  bool paymentIsSuccess = await provider.uploadProofOfMembershipPayment(
+                    bookingId: widget.bookingId, 
+                    transactionType: widget.transactionModel.transactionType,
+                    file: _file.value!,
                   );
-                  if(bookingIsSuccess){
+                  if(paymentIsSuccess){
                     await showDialog(
                       context: context, 
                       builder: (context) => AlertDialog(
@@ -371,7 +400,7 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                   else if(mounted){
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('File gambar belum dipilih')
+                        content: Text('Unexpected error')
                       )
                     );
                   }

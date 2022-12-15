@@ -2,7 +2,9 @@ import 'package:capstone_alterra_flutter/provider/all_membership_provider.dart';
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
 import 'package:capstone_alterra_flutter/provider/main_provider.dart';
+import 'package:capstone_alterra_flutter/provider/payment_confirmation_provider.dart';
 import 'package:capstone_alterra_flutter/provider/trainer_provider.dart';
+import 'package:capstone_alterra_flutter/provider/transaction_detail_provider.dart';
 import 'package:capstone_alterra_flutter/screen/splash/splash_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/gestures.dart';
@@ -22,6 +24,8 @@ Future<void> main() async{
         ChangeNotifierProvider(create: (context) => ClassProvider()),
         ChangeNotifierProvider(create: (context) => TrainerProvider()),
         ChangeNotifierProvider(create: (context) => AllMembershipProvider()),
+        ChangeNotifierProvider(create: (context) => TransactionDetailProvider()),
+        ChangeNotifierProvider(create: (context) => PaymentConfirmationProvider()),
       ],
       child: const MyApp()
     ));

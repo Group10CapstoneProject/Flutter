@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:capstone_alterra_flutter/model/json_model.dart';
-import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
+import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:dio/dio.dart';
 
@@ -10,17 +12,12 @@ class MembersService{
   final  String _endpoint = '${UserToken.serverEndpoint}/members';
 
   ///http://docs.rnwxyz.codes/#/Members/post_members
-  Future<JSONModel<dynamic>> createNewMembersOrBooking({
+  Future<JSONModel<MembersDetailModel>> createNewMembersOrBooking({
     required int memberTypeId,
     required int duration,
     required int paymentMethodId,
     required int total,
   }) async{
-    
-    print(memberTypeId.toString());
-    print(duration.toString());
-    print(paymentMethodId.toString());
-    print(total.toString());
 
     final String accessToken = UserToken.accessToken!;
 
@@ -41,6 +38,47 @@ class MembersService{
           'total' : total,
         }
       );
+      JSONModel<Map<String, dynamic>> json = JSONModel.fromJSON(json: response.data, statusCode: response.statusCode!);
+      
+      return JSONModel<MembersDetailModel>(
+        data: MembersDetailModel.fromJSON(json.data!), 
+        message: json.message,
+        statusCode: json.statusCode!
+      );
+    }
+    on DioError catch(e){
+      if(e.response != null){
+        JSONModel<Map<String, dynamic>> json = JSONModel.fromJSON(json: e.response!.data, statusCode: e.response!.statusCode!);
+        Map<String, dynamic> data = json.data!;
+        return JSONModel.fromJSON(json: data, statusCode: json.statusCode!);
+      }
+      else{
+        return JSONModel(message: 'Unexpected error');
+      }
+    }
+  }
+
+  Future<JSONModel<dynamic>> uploadProofOfMembershipPayment({
+    required int bookingId,
+    required File file,
+  }) async{
+
+    final String accessToken = UserToken.accessToken!;
+
+    late final Response response;
+    try{
+      response = await _dio.post(
+        '$_endpoint/pay/$bookingId',
+        options: Options(
+          headers: {
+            'Authorization' : 'Bearer $accessToken'
+          },
+        ),
+        data: FormData.fromMap({
+          'file' : await MultipartFile.fromFile(file.path, filename: file.uri.pathSegments.last)
+        })
+      );
+
       return JSONModel.fromJSON(json: response.data, statusCode: response.statusCode!);
     }
     on DioError catch(e){
@@ -52,21 +90,4 @@ class MembersService{
       }
     }
   }
-
-  // Future<JSONModel<dynamic>> uploadProofOfMembershipPayment(){
-
-  //   final String accessToken = UserToken.accessToken!;
-  //   final UserProfileModel userProfileModel = UserToken.userProfileModel!;
-  //   userProfileModel.
-
-  //   late final Response response;
-  //   try{
-  //     response = await _dio.post(
-        
-  //     )
-  //   }
-  //   on DioError catch(e){
-
-  //   }
-  // }
 }
