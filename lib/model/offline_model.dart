@@ -1,67 +1,38 @@
 class OfflineModel {
-    OfflineModel({
-        this.data,
-        this.message,
-    });
+  OfflineModel({
+    this.id,
+    this.title,
+    required this.time,
+    this.price,
+    this.duration,
+    this.slot,
+    this.slotBooked,
+    this.picture,
+    this.trainerId,
+    this.location,
+    this.description,
+    this.accessClass,
+    this.offlineClassCategory,
+  });
 
-    Data? data;
-    String? message;
+  int? id;
+  String? title;
+  DateTime time;
+  int? price;
+  int? duration;
+  int? slot;
+  double? slotBooked;
+  String? picture;
+  int? trainerId;
+  String? location;
+  String? description;
+  bool? accessClass;
+  OfflineClassCategory? offlineClassCategory;
 
-    factory OfflineModel.fromJson(Map<String, dynamic> json) => OfflineModel(
-        data: Data.fromJson(json["data"]),
-        message: json["message"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
-        "message": message,
-    };
-}
-
-class Data {
-    Data({
-        this.offlineClasses,
-        this.count,
-    });
-
-    List<OfflineClass>? offlineClasses;
-    int? count;
-
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
-        offlineClasses: List<OfflineClass>.from(json["offline_classes"].map((x) => OfflineClass.fromJson(x))),
-        count: json["count"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "offline_classes": List<dynamic>.from(offlineClasses!.map((x) => x.toJson())),
-        "count": count,
-    };
-}
-
-class OfflineClass {
-    OfflineClass({
-        this.id,
-        this.title,
-        required this.time,
-        this.price,
-        this.duration,
-        this.slot,
-        this.slotBooked,
-        this.picture,
-        this.offlineClassCategoryId,
-    });
-
-    int? id;
-    String? title;
-    DateTime time;
-    int? price;
-    int? duration;
-    int? slot;
-    double? slotBooked;
-    String? picture;
-    int? offlineClassCategoryId;
-
-    factory OfflineClass.fromJson(Map<String, dynamic> json) => OfflineClass(
+  factory OfflineModel.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      OfflineModel(
         id: json["id"],
         title: json["title"],
         time: DateTime.parse(json["time"]),
@@ -70,18 +41,37 @@ class OfflineClass {
         slot: json["slot"],
         slotBooked: json["slot_booked"].toDouble(),
         picture: json["picture"],
-        offlineClassCategoryId: json["offline_class_category_id"],
-    );
+        trainerId: json["trainer_id"],
+        location: json["location"],
+        description: json["description"],
+        accessClass: json["access_class"],
+        offlineClassCategory: (json["offline_class_category"] != null)
+            ? OfflineClassCategory.fromJson(json["offline_class_category"])
+            : null,
+      );
+}
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "time": time.toIso8601String(),
-        "price": price,
-        "duration": duration,
-        "slot": slot,
-        "slot_booked": slotBooked,
-        "picture": picture,
-        "offline_class_category_id": offlineClassCategoryId,
-    };
+class OfflineClassCategory {
+  OfflineClassCategory({
+    this.id,
+    this.name,
+    this.description,
+    this.picture,
+    this.offlineClassCount,
+  });
+
+  int? id;
+  String? name;
+  String? description;
+  String? picture;
+  int? offlineClassCount;
+
+  factory OfflineClassCategory.fromJson(Map<String, dynamic> json) =>
+      OfflineClassCategory(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        picture: json["picture"],
+        offlineClassCount: json["offline_class_count"],
+      );
 }
