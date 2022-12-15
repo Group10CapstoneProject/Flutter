@@ -1,3 +1,4 @@
+import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
 import 'package:capstone_alterra_flutter/screen/auth/login_page.dart';
 import 'package:capstone_alterra_flutter/screen/membership/all_membership_screen.dart';
 import 'package:capstone_alterra_flutter/screen/membership/my_membership_screen.dart';
@@ -30,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             _topWidget(membership: membership),
-            _membershipWidget(context: context, membership: membership),
+            _membershipWidget(context: context, membersDetailModel: UserToken.membersDetailModel),
             _myAccountWidget(),
             _myAboutWidget(context),
           ],
@@ -187,40 +188,14 @@ Widget _topWidget({required Membership? membership}) {
 
 ///A widget that contain Membership menu
 Widget _membershipWidget(
-    {required BuildContext context, required Membership? membership}) {
+    {required BuildContext context, required MembersDetailModel? membersDetailModel}) {
   ///Text for membership button
   late String membershipButtonText;
-
-  switch (membership) {
-    case Membership.bronze:
-      {
-        membershipButtonText = 'Member Bronze';
-      }
-      break;
-
-    case Membership.silver:
-      {
-        membershipButtonText = 'Member Silver';
-      }
-      break;
-
-    case Membership.gold:
-      {
-        membershipButtonText = 'Member Gold';
-      }
-      break;
-
-    case Membership.platinum:
-      {
-        membershipButtonText = 'Member Platinum';
-      }
-      break;
-
-    default:
-      {
-        membershipButtonText = 'Aktivasi Membership';
-      }
-      break;
+  if(membersDetailModel != null){
+    membershipButtonText = 'Member ${membersDetailModel.memberType.name}';
+  }
+  else{
+    membershipButtonText = 'Aktivasi Membership';
   }
 
   return Container(
@@ -242,7 +217,7 @@ Widget _membershipWidget(
         ),
 
         ///Show text when membership not activated
-        (membership == null)
+        (membersDetailModel == null)
             ? Column(
                 children: [
                   Text(
@@ -262,9 +237,9 @@ Widget _membershipWidget(
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => (membership != null)
+                    builder: (context) => (membersDetailModel != null)
                         ? MyMembershipScreen(
-                            membership: membership,
+                            membersDetailModel: membersDetailModel,
                           )
                         : const AllMembershipScreen(),
                   ));
@@ -280,7 +255,7 @@ Widget _membershipWidget(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  (membership != null)
+                  (membersDetailModel != null)
                       ? Row(
                           children: const [
                             Image(

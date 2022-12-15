@@ -89,4 +89,38 @@ class MembersService{
       }
     }
   }
+
+  ///http://docs.rnwxyz.codes/#/Members/get_members_user
+  Future<JSONModel<MembersDetailModel>> getUserMemberHistory() async{
+
+    final String accessToken = UserToken.accessToken!;
+
+    late final Response response;
+    try{
+      response = await _dio.get(
+        '$_endpoint/user',
+        options: Options(
+          contentType: Headers.jsonContentType,
+          headers: {
+            'Authorization' : 'Bearer $accessToken'
+          },
+        ),
+      );
+      JSONModel<Map<String, dynamic>> json = JSONModel.fromJSON(json: response.data, statusCode: response.statusCode!);
+      
+      return JSONModel<MembersDetailModel>(
+        data: MembersDetailModel.fromJSON(json.data!), 
+        message: json.message,
+        statusCode: json.statusCode!
+      );
+    }
+    on DioError catch(e){
+      if(e.response != null){
+        return JSONModel(message: e.response!.data['message'], statusCode: e.response!.statusCode!);
+      }
+      else{
+        return JSONModel(message: 'Unexpected error');
+      }
+    }
+  }
 }
