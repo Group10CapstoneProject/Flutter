@@ -1,6 +1,7 @@
 import 'package:capstone_alterra_flutter/screen/membership/all_membership_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/membership.dart';
+import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -56,7 +57,7 @@ Widget _myMembershipWidget(BuildContext context, Membership membership){
     child: Column(
       children: [
         const SizedBox(height: 6,),
-        Text('Hai, Aluna Putri!', style: kBody1,),
+        Text('Hai, ${UserToken.userProfileModel!.name}', style: kBody1,),
         const SizedBox(height: 16,),
         Text('Kamu adalah member ${membershipClass.name} Altagym', style: kSubtitle1,),
         const SizedBox(height: 12,),

@@ -1,13 +1,16 @@
 import 'package:capstone_alterra_flutter/model/detail_transaction_model.dart';
 import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
+import 'package:capstone_alterra_flutter/provider/transaction_detail_provider.dart';
 import 'package:capstone_alterra_flutter/screen/transaction/payment_confirmation_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/transaction_type.dart';
+import 'package:capstone_alterra_flutter/widget/circular_loading.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 ValueNotifier<int?> _indexPaymentChoosen = ValueNotifier(null);
 
@@ -34,6 +37,9 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
 
   @override
   void initState() {
+
+    context.read<TransactionDetailProvider>().isLoading = false;
+
     _indexPaymentChoosen.value = null;
 
     if(widget.transactionModel.transactionType != TransactionType.membership){
@@ -60,49 +66,58 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
         title: Text('Rincian Transaksi', style: kHeading6.apply(color: blackLight),),
       ),
       backgroundColor: Colors.white,
-      body: LayoutBuilder(
-        builder: (p0, p1Constraint) {
-          return SingleChildScrollView(
-            child: Container(
-              constraints: BoxConstraints(
-                minHeight: p1Constraint.maxHeight
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
+        children: [
+          LayoutBuilder(
+            builder: (p0, p1Constraint) {
+              return SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: p1Constraint.maxHeight
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _kamuAkanMemesanWidget(widget.transactionModel),
-                        _itemCardWidget(widget.transactionModel),
-                        _detailOrderAndPayment(widget.transactionModel),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _kamuAkanMemesanWidget(widget.transactionModel),
+                            _itemCardWidget(widget.transactionModel),
+                            _detailOrderAndPayment(widget.transactionModel),
+                            ValueListenableBuilder(
+                              valueListenable: _indexPaymentChoosen,
+                              builder: (context, value, child) {
+                                return (_indexPaymentChoosen.value != null) ? 
+                                  _paymentMethodWidget(context, listPayment) : 
+                                  const SizedBox();
+                              },
+                            )
+                          ],
+                        ),
                         ValueListenableBuilder(
                           valueListenable: _indexPaymentChoosen,
-                          builder: (context, value, child) {
-                            return (_indexPaymentChoosen.value != null) ? 
-                              _paymentMethodWidget(context, listPayment) : 
-                              const SizedBox();
-                          },
+                          builder: (context, _, child) {
+                            return _TwoBottomButtonWidget(
+                              transactionModel: widget.transactionModel,
+                              listPayment: listPayment
+                            );
+                          }
                         )
                       ],
                     ),
-                    ValueListenableBuilder(
-                      valueListenable: _indexPaymentChoosen,
-                      builder: (context, _, child) {
-                        return _TwoBottomButtonWidget(
-                          transactionModel: widget.transactionModel,
-                          listPayment: listPayment
-                        );
-                      }
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        }
+              );
+            }
+          ),
+          Consumer<TransactionDetailProvider>(
+            builder: (context, value, child){
+              return (value.isLoading) ? const CircularLoading() : const SizedBox();
+            }
+          )
+        ],
       ),
     );
   }
@@ -385,21 +400,8 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
             height: 50,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: (){
-                // (_indexPaymentChoosen.value == null) ? 
-                //   _showPaymentMethodBottomSheet(
-                //     context: context,
-                //     listPayment: widget.listPayment,
-                //   ) :
-                //   Navigator.push(
-                //     context, 
-                //     MaterialPageRoute(
-                //       builder: (context) => PaymentConfirmationScreen(
-                //         transactionModel: widget.transactionModel,
-                //         paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!],
-                //       ),
-                //     )
-                //   );
+              onPressed: () async{
+                
                 if(_indexPaymentChoosen.value == null){
                   _showPaymentMethodBottomSheet(
                     context: context,
@@ -407,15 +409,30 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                   ); 
                 }
                 else if(widget.listPayment[_indexPaymentChoosen.value!].id != '0'){
-                  Navigator.push(
-                    context, 
-                    MaterialPageRoute(
-                      builder: (context) => PaymentConfirmationScreen(
-                        transactionModel: widget.transactionModel,
-                        paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!],
-                      ),
-                    )
+                  TransactionDetailProvider provider = Provider.of<TransactionDetailProvider>(context, listen: false);
+                  int? bookingId = await provider.createBookingAllPurpose(
+                    paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!], 
+                    transactionModel: widget.transactionModel
                   );
+                  if(bookingId != null && mounted){
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => PaymentConfirmationScreen(
+                          bookingId: bookingId,
+                          transactionModel: widget.transactionModel,
+                          paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!],
+                        ),
+                      )
+                    );
+                  }
+                  else{
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Unexpected error')
+                      )
+                    );
+                  }
                 }
                 else{
                   Navigator.popUntil(

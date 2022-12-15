@@ -2,19 +2,28 @@ import 'dart:io';
 
 import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
+import 'package:capstone_alterra_flutter/provider/payment_confirmation_provider.dart';
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/widget/circular_loading.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 ValueNotifier<File?> _file = ValueNotifier(null);
 
 class PaymentConfirmationScreen extends StatefulWidget {
-  const PaymentConfirmationScreen({super.key, required this.transactionModel ,required this.paymentMethodModel});
+  const PaymentConfirmationScreen({
+    super.key, 
+    required this.bookingId,
+    required this.transactionModel, 
+    required this.paymentMethodModel
+  });
 
+  final int bookingId;
   final TransactionModel transactionModel;
   final PaymentMethodModel paymentMethodModel;
 
@@ -23,6 +32,12 @@ class PaymentConfirmationScreen extends StatefulWidget {
 }
 
 class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
+
+  @override
+  void initState() {
+    context.read<PaymentConfirmationProvider>().isLoading = false;
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -44,30 +59,43 @@ class _PaymentConfirmationScreenState extends State<PaymentConfirmationScreen> {
         title: Text('Konfirmasi Pembayaran', style: kHeading6.apply(color: blackLight),),
       ),
       backgroundColor: Colors.white,
-      body: LayoutBuilder(
-        builder: (p0, p1Constraint) {
-          return SingleChildScrollView(
-            child: Container(
-              constraints: BoxConstraints(
-                minHeight: p1Constraint.maxHeight
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+      body: Stack(
+        children: [
+          LayoutBuilder(
+            builder: (p0, p1Constraint) {
+              return SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: p1Constraint.maxHeight
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _totalPembayaranWidget(widget.transactionModel),
-                      _fourStepWidget(widget.paymentMethodModel),
-                      _filePickerButton(),
+                      Column(
+                        children: [
+                          _totalPembayaranWidget(widget.transactionModel),
+                          _fourStepWidget(widget.paymentMethodModel),
+                          _filePickerButton(),
+                        ],
+                      ),
+                      _TwoBottomButtonWidget(
+                        bookingId: widget.bookingId,
+                        transactionModel: widget.transactionModel,
+                        paymentMethodModel: widget.paymentMethodModel,
+                      ),
+                      
                     ],
                   ),
-                  const _TwoBottomButtonWidget(string: '123'),
-                  
-                ],
-              ),
-            ),
-          );
-        }
+                ),
+              );
+            }
+          ),
+          Consumer<PaymentConfirmationProvider>(
+            builder: (context, value, child){
+              return (value.isLoading) ? const CircularLoading() : const SizedBox();
+            },
+          )
+        ],
       ),
     );
   }
@@ -232,7 +260,11 @@ Widget _filePickerButton(){
       fit: BoxFit.none,
       child: GestureDetector(
         onTap: () async{
-          FilePickerResult? result = await FilePicker.platform.pickFiles();
+          FilePickerResult? result = await FilePicker.platform.pickFiles(
+            type: FileType.custom,
+            allowMultiple: false,
+            allowedExtensions: ['jpg', 'jpeg', 'png'],
+          );
 
           if (result != null){
             _file.value = File(result.files.single.path!);
@@ -286,10 +318,14 @@ Widget _filePickerButton(){
 ///A widget that contain two button at the bottom of payment confirmation screen
 class _TwoBottomButtonWidget extends StatefulWidget {
   const _TwoBottomButtonWidget({
-    required this.string
+    required this.transactionModel,
+    required this.paymentMethodModel,
+    required this.bookingId,
   });
 
-  final String string;
+  final int bookingId;
+  final TransactionModel transactionModel;
+  final PaymentMethodModel paymentMethodModel;
 
   @override
   State<_TwoBottomButtonWidget> createState() => _TwoBottomButtonWidgetState();
@@ -318,39 +354,54 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                   );
                 }
                 else{
-                  await showDialog(
-                    context: context, 
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      content: Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('Berhasil Diupload', style: kSubtitle1,),
-                            const SizedBox(height: 16,),
-                            Text('Pembayaran akan dikonfirmasi sebelum 24 jam', style: kBody2.apply(color: blackLightest),)
-                          ],
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: (){
-                            Navigator.pop(context,);
-                          }, 
-                          child: Text('OK', style: kSubtitle1.apply(color: primaryBase),)
-                        )
-                      ],
-                    ),
+                  PaymentConfirmationProvider provider = Provider.of<PaymentConfirmationProvider>(context, listen: false);
+                  bool paymentIsSuccess = await provider.uploadProofOfMembershipPayment(
+                    bookingId: widget.bookingId, 
+                    transactionType: widget.transactionModel.transactionType,
+                    file: _file.value!,
                   );
-                  if(mounted){
-                    Navigator.pushAndRemoveUntil(
-                      context, 
-                      MaterialPageRoute(builder: (context) => const MainScreen(),), 
-                      (route) => false
+                  if(paymentIsSuccess){
+                    await showDialog(
+                      context: context, 
+                      builder: (context) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        content: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('Berhasil Diupload', style: kSubtitle1,),
+                              const SizedBox(height: 16,),
+                              Text('Pembayaran akan dikonfirmasi sebelum 24 jam', style: kBody2.apply(color: blackLightest),)
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: (){
+                              Navigator.pop(context,);
+                            }, 
+                            child: Text('OK', style: kSubtitle1.apply(color: primaryBase),)
+                          )
+                        ],
+                      ),
+                    );
+                    if(mounted){
+                      Navigator.pushAndRemoveUntil(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const MainScreen(),), 
+                        (route) => false
+                      );
+                    }
+                  }
+                  else if(mounted){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Unexpected error')
+                      )
                     );
                   }
                 }
