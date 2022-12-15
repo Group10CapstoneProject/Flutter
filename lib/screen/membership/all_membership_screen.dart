@@ -236,11 +236,11 @@ Widget _allMembershipCardWidget(BuildContext context){
                             MaterialPageRoute(
                               builder: (context) => TransactionDetailScreen(
                                 transactionModel: TransactionModel.forMembership(
-                                  id: '1',
+                                  id: membersTypesModel.id.toString(),
                                   title: membersTypesModel.name!,
                                   price: membersTypesModel.price!,
                                   monthQuantity: int.parse(monthTextController.text)
-                                )
+                                ),
                               ),
                             )
                           );
@@ -392,18 +392,20 @@ Widget _allMembershipCardWidget(BuildContext context){
         SizedBox(
           height: 60,
           width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              for(int i = 0; i < 4; i++)
-                ValueListenableBuilder(
-                  valueListenable: indexPage,
-                  builder: (context, value, child) {
-                    return circleIndicator((value == i ? true : false));
-                  }
-                )
-            ],
+          child: Consumer<AllMembershipProvider>(
+            builder: (context, valueProvider, child) => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                for(int i = 0; i < valueProvider.listMembers.length; i++)
+                  ValueListenableBuilder(
+                    valueListenable: indexPage,
+                    builder: (context, value, child) {
+                      return circleIndicator((value == i ? true : false));
+                    }
+                  )
+              ],
+            ),
           ),
         ),
       ],

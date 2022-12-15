@@ -12,52 +12,48 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<MainProvider>(context, listen: false).setIndex(0);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-
       ///Body
       body: Consumer<MainProvider>(
         builder: (context, value, child) => value.listPage[value.index],
       ),
 
-
-
-
       ///BottomNavBar
       bottomNavigationBar: Consumer<MainProvider>(
         builder: (context, valueProvider, child) => BottomNavigationBar(
           currentIndex: valueProvider.index,
-          
           showUnselectedLabels: true,
           unselectedItemColor: whiteDarkest,
           selectedItemColor: primaryDark,
-      
           items: [
             const BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
             ),
-      
             const BottomNavigationBarItem(
-              icon: Icon(Icons.group),
-              label: 'Trainers'
-            ),
-      
+                icon: Icon(Icons.group), label: 'Trainers'),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/bottom_nav/class.svg', ),
-              activeIcon: SvgPicture.asset('assets/bottom_nav/class.svg', color: primaryDark,),
-              label: 'Class'
-            ),
-      
+                icon: SvgPicture.asset(
+                  'assets/bottom_nav/class.svg',
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/bottom_nav/class.svg',
+                  color: primaryDark,
+                ),
+                label: 'Class'),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile'
-            ),
+                icon: Icon(Icons.person), label: 'Profile'),
           ],
-      
           onTap: (value) {
             valueProvider.setIndex(value);
           },

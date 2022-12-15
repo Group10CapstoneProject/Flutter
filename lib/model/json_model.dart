@@ -12,7 +12,7 @@ class JSONModel<T>{
 
   factory JSONModel.fromJSON({required Map<String, dynamic> json, required int statusCode}){
 
-    T data = json['data'] as T;
+    T? data = json['data'] as T?;
 
     return JSONModel(
       data: data,

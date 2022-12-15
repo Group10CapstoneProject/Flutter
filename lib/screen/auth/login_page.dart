@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Text(
                           'Email',
-                          style: ksubtitle,
+                          style: kBody2.copyWith(color: blackBase),
                         ),
                         const SizedBox(
                           height: 4.0,
@@ -114,7 +114,12 @@ class _LoginPageState extends State<LoginPage> {
                               hintText: 'kelompok10@gmail.com'),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Masukan Email!';
+                              return 'Masukan Email';
+                            }
+                            if (!RegExp(
+                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                .hasMatch(value)) {
+                              return ("Email tidak valid");
                             } else {
                               return null;
                             }
@@ -130,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Text(
                           'Password',
-                          style: ksubtitle,
+                          style: kBody2.copyWith(color: blackBase),
                         ),
                         const SizedBox(
                           height: 4.0,
@@ -159,8 +164,12 @@ class _LoginPageState extends State<LoginPage> {
                                             : Icons.visibility_off)),
                                     hintText: '********'),
                                 validator: (value) {
+                                  RegExp regex = RegExp(r'^.{6,}$');
                                   if (value!.isEmpty) {
-                                    return 'Masukan Password!';
+                                    return 'Masukan Password';
+                                  }
+                                  if (!regex.hasMatch(value)) {
+                                    return ("Masukkan Kata Sandi yang Valid (Min. 6 Karakter)");
                                   } else {
                                     return null;
                                   }
@@ -172,7 +181,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Text(
                     'Lupa Password ?',
-                    style: kSubtitle2.copyWith(color: primaryBase),
+                    style: kSubtitle2.copyWith(
+                      color: primaryBase,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -197,8 +209,9 @@ class _LoginPageState extends State<LoginPage> {
                           UserToken.accessToken = model.accessToken;
                           await UserToken.setRefreshToken(model.refreshToken!);
                           UsersService usersService = UsersService();
-                          UserProfileModel userProfileModel = await usersService.getUserProfile();
-                          if(userProfileModel.statusCode == 200){
+                          UserProfileModel userProfileModel =
+                              await usersService.getUserProfile();
+                          if (userProfileModel.statusCode == 200) {
                             UserToken.userProfileModel = userProfileModel;
                             if (mounted) {
                               Navigator.pushReplacement(
@@ -211,32 +224,28 @@ class _LoginPageState extends State<LoginPage> {
                                   content: Text(model.message.toString()),
                                 ),
                               );
-                            }
-                            else{
-                              if(mounted){
+                            } else {
+                              if (mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(model.message.toString())
-                                  )
-                                );
+                                    SnackBar(
+                                        content:
+                                            Text(model.message.toString())));
                               }
                             }
                           }
-                        }
-                        else{
-                          if(mounted){
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(model.message.toString())
-                              )
-                            );
+                        } else {
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(model.message.toString())));
                           }
                         }
                         _isLoading.value = false;
                       }
                     },
-                    child: Text('MASUK',
-                        style: kButton.copyWith(color: whiteBase)),
+                    child: Text(
+                      'MASUK',
+                      style: kButton.copyWith(color: whiteBase),
+                    ),
                   ),
                   const SizedBox(
                     height: 8.0,
@@ -244,9 +253,25 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Belum punya akun? ',
-                        style: kSubtitle2,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterPage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Belum punya akun?',
+                          style: kBody2.copyWith(
+                            color: primaryBase,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                      width: 5.0,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -257,10 +282,14 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         },
-                        child: Text('Buat Akun',
-                            style: kSubtitle2.copyWith(
-                                color: primaryBase,
-                                decoration: TextDecoration.underline)),
+                        child: Text(
+                          'Buat Akun',
+                          style: kBody2.copyWith(
+                            fontWeight: bold,
+                            color: primaryBase,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
                       ),
                     ],
                   )
