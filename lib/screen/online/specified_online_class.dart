@@ -1,3 +1,5 @@
+import 'package:capstone_alterra_flutter/model/online_class_category_model.dart';
+import 'package:capstone_alterra_flutter/model/online_class_model.dart';
 import 'package:capstone_alterra_flutter/screen/online/detail_online_class.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
@@ -6,17 +8,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SpecifiedOnlineClass extends StatelessWidget {
-  const SpecifiedOnlineClass({super.key, required this.title});
+  const SpecifiedOnlineClass({super.key, required this.onlineClassCategoryModel});
 
-  final String title;
+  final OnlineClassCategoryModel onlineClassCategoryModel;
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         foregroundColor: Colors.black,
-        title: Text(title, style: kHeading6,),
+        title: Text(onlineClassCategoryModel.name, style: kHeading6,),
         backgroundColor: Colors.white,
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -28,30 +31,39 @@ class SpecifiedOnlineClass extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 8,),
-            _classCard(
-              title: 'Yoga for Core Strength', 
-              minute: 30, 
-              difficulty: 'Mudah', 
-              price: 30000,
-              context: context,
-              image: 'yoga_1.jpeg'
-            ),
-            _classCard(
-              title: 'Yoga for Endurance Training', 
-              minute: 45, 
-              difficulty: 'Sedang', 
-              price: 50000,
-              context: context,
-              image: 'yoga_2.png'
-            ),
-            _classCard(
-              title: 'Relaxing Yoga Flow', 
-              minute: 28, 
-              difficulty: 'Sulit', 
-              price: 32000,
-              context: context,
-              image: 'yoga_3.jpeg'
-            ),
+            for(OnlineClassModel i in onlineClassCategoryModel.onlineClasses!)
+              _classCard(
+                title: i.title, 
+                minute: i.duration, 
+                difficulty: i.level, 
+                price: i.price, 
+                image: i.picture,
+                context: context,
+              )
+            // _classCard(
+            //   title: 'Yoga for Core Strength', 
+            //   minute: 30, 
+            //   difficulty: 'Mudah', 
+            //   price: 30000,
+            //   context: context,
+            //   image: 'yoga_1.jpeg'
+            // ),
+            // _classCard(
+            //   title: 'Yoga for Endurance Training', 
+            //   minute: 45, 
+            //   difficulty: 'Sedang', 
+            //   price: 50000,
+            //   context: context,
+            //   image: 'yoga_2.png'
+            // ),
+            // _classCard(
+            //   title: 'Relaxing Yoga Flow', 
+            //   minute: 28, 
+            //   difficulty: 'Sulit', 
+            //   price: 32000,
+            //   context: context,
+            //   image: 'yoga_3.jpeg'
+            // ),
           ],
         ),
       ),
@@ -114,10 +126,11 @@ Widget _classCard({
               child: Container(
                 alignment: Alignment.bottomCenter,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/online_page/$image'),
-                    fit: BoxFit.cover
-                  ),
+                  image: (image != null) ? 
+                    DecorationImage(
+                      image: NetworkImage(image),
+                      fit: BoxFit.cover
+                    ) : null,
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                 ),
               ),

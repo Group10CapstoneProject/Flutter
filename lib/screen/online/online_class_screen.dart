@@ -1,3 +1,4 @@
+import 'package:capstone_alterra_flutter/model/json_model.dart';
 import 'package:capstone_alterra_flutter/model/online_class_category_model.dart';
 import 'package:capstone_alterra_flutter/provider/online_class_provider.dart';
 import 'package:capstone_alterra_flutter/screen/online/online_filter_screen.dart';
@@ -21,7 +22,6 @@ class _OnlineClassScreenState extends State<OnlineClassScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       OnlineClassProvider provider = Provider.of<OnlineClassProvider>(context,listen: false);
-      provider.removeAllOnlineClassCategory();
       await provider.getAllOnlineClassCategories();
     });
   }
@@ -45,9 +45,7 @@ class _OnlineClassScreenState extends State<OnlineClassScreen> {
                 // onlineCard(imgSrc: 'streching.png', title: 'Streching', totalVideo: 22, context: context),
                 for(OnlineClassCategoryModel i in provider.listOnlineCategory)
                   onlineCard(
-                    imgSrc: i.picture,
-                    title: i.name, 
-                    totalVideo: i.onlineClassCount, 
+                    onlineClassCategoryModel: i,
                     context: context,
                   )
                 
@@ -64,14 +62,15 @@ class _OnlineClassScreenState extends State<OnlineClassScreen> {
     );
   }
 
-  /// Widget Tombol Filter
+  /// Widget Tombol Filter and text 'Kategori Aktivitas'
   Widget onlineFilter(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       margin: const EdgeInsets.only(top: 11),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Text('Kategori Aktivitas', style: kSubtitle1,),
           SizedBox(
             height: 40,
             width: 100,
@@ -104,34 +103,61 @@ class _OnlineClassScreenState extends State<OnlineClassScreen> {
 
 ///Widget card yang menampung jenis online class
   Widget onlineCard({
-    required String imgSrc, 
-    required String title, 
-    required int totalVideo, 
+    required OnlineClassCategoryModel onlineClassCategoryModel,
     required BuildContext context
   }){
     return AspectRatio(
       aspectRatio: 328/192,
       child: GestureDetector(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SpecifiedOnlineClass(title: title,),));
+        onTap: () async {
+          OnlineClassProvider provider = Provider.of<OnlineClassProvider>(context, listen: false);
+          JSONModel<OnlineClassCategoryModel> json = await provider.getSingleOrDetailOnlineClassCategory(onlineClassCategoryModel.id);
+          print(json.data!.onlineClasses!);
+          if(json.statusCode == 200 && mounted){
+            Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (context) => SpecifiedOnlineClass(
+                  onlineClassCategoryModel: json.data!,
+                ),
+              )
+            );
+          }
+          else{
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Unexpected error'))
+            );
+          }
+          
         },
-        child: Container(
-          alignment: Alignment.bottomCenter,
-          padding: const EdgeInsets.all(16),
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.transparent,
-            image: DecorationImage(image: NetworkImage(imgSrc), fit: BoxFit.cover)
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(title, style: kHeading6.apply(color: Colors.white),),
-              const SizedBox(height: 12,),
-              Text('$totalVideo Video', style: kSubtitle1.apply(color: Colors.white),)
-            ],
-          ),
+        child: Stack(
+          children: [
+            Container(
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.transparent,
+                image: DecorationImage(image: NetworkImage(onlineClassCategoryModel.picture), fit: BoxFit.cover)
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(onlineClassCategoryModel.name, style: kHeading6.apply(color: Colors.white),),
+                  const SizedBox(height: 12,),
+                  Text('${onlineClassCategoryModel.onlineClassCount} Video', style: kSubtitle1.apply(color: Colors.white),)
+                ],
+              ),
+            ),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(10),
+            //     color: Colors.cyan.withOpacity(0.5)
+            //   ),
+            // )
+          ],
         ),
       ),
     );
