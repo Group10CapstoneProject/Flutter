@@ -56,11 +56,6 @@ Color whiteDarker = const Color(0xFFD3D3D3);
 Color whiteDarkest = const Color(0xFFA9A9A9);
 Color whiteColor = const Color(0xFFFFFFFF);
 
-Color subtitle = const Color(0xFF464646);
-
-TextStyle ksubtitle = GoogleFonts.nunito(
-    fontSize: 14, letterSpacing: 0.25, fontWeight: semiBold, color: subtitle);
-
 // FontWeight
 FontWeight thin = FontWeight.w100;
 FontWeight extraLight = FontWeight.w200;
@@ -81,15 +76,15 @@ final TextStyle kOverline =
     GoogleFonts.roboto(fontSize: 10, fontWeight: regular, letterSpacing: 1.5);
 
 // Header
-final kHeading1 =
+final TextStyle kHeading1 =
     GoogleFonts.roboto(fontSize: 96, fontWeight: light, letterSpacing: -1.5);
-final kHeading2 =
+final TextStyle kHeading2 =
     GoogleFonts.roboto(fontSize: 60, fontWeight: bold, letterSpacing: -0.5);
-final kHeading3 =
+final TextStyle kHeading3 =
     GoogleFonts.roboto(fontSize: 48, fontWeight: regular, letterSpacing: 0.0);
-final kHeading4 =
+final TextStyle kHeading4 =
     GoogleFonts.roboto(fontSize: 34, fontWeight: semiBold, letterSpacing: 0.25);
-final kHeading5 =
+final TextStyle kHeading5 =
     GoogleFonts.roboto(fontSize: 24, fontWeight: regular, letterSpacing: 0.0);
 final TextStyle kHeading6 =
     GoogleFonts.roboto(fontSize: 20, fontWeight: medium, letterSpacing: 0.15);
@@ -105,4 +100,3 @@ final TextStyle kBody1 =
     GoogleFonts.roboto(fontSize: 16, fontWeight: regular, letterSpacing: 0.5);
 final TextStyle kBody2 =
     GoogleFonts.roboto(fontSize: 14, fontWeight: regular, letterSpacing: 0.25);
-
