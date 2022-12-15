@@ -1,4 +1,6 @@
 import 'package:capstone_alterra_flutter/model/offline_model.dart';
+import 'package:capstone_alterra_flutter/model/transaction_model.dart';
+import 'package:capstone_alterra_flutter/screen/transaction/transaction_detail_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -235,18 +237,20 @@ class OfflineBook extends StatelessWidget {
               ),
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => TransactionDetailScreen(
-                  //         transactionModel: TransactionModel.forOfflineClass(
-                  //             id: '1',
-                  //             title: widget.title,
-                  //             price: widget.price,
-                  //             date: widget.duration.toString(),
-                  //             time: widget.time)),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TransactionDetailScreen(
+                        transactionModel: TransactionModel.forOfflineClass(
+                          id: '1',
+                          title: model.title!,
+                          price: model.price!,
+                          date: model.duration.toString(),
+                          time: model.time,
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryBase,
