@@ -129,34 +129,43 @@ class _OnlineClassScreenState extends State<OnlineClassScreen> {
           }
           
         },
-        child: Stack(
-          children: [
-            Container(
-              alignment: Alignment.bottomCenter,
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.transparent,
-                image: DecorationImage(image: NetworkImage(onlineClassCategoryModel.picture), fit: BoxFit.cover)
+        child: Container(
+          alignment: Alignment.bottomCenter,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.transparent,
+            image: DecorationImage(image: NetworkImage(onlineClassCategoryModel.picture), fit: BoxFit.cover)
+          ),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFF1A4B5F).withOpacity(0.0),
+                      const Color(0xFF1A4B5F).withOpacity(0.7),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  )
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(onlineClassCategoryModel.name, style: kHeading6.apply(color: Colors.white),),
-                  const SizedBox(height: 12,),
-                  Text('${onlineClassCategoryModel.onlineClassCount} Video', style: kSubtitle1.apply(color: Colors.white),)
-                ],
+              Container(
+                padding: const EdgeInsets.all(16),
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(onlineClassCategoryModel.name, style: kHeading6.apply(color: Colors.white),),
+                    const SizedBox(height: 12,),
+                    Text('${onlineClassCategoryModel.onlineClassCount} Video', style: kSubtitle1.apply(color: Colors.white),)
+                  ],
+                ),
               ),
-            ),
-            // Container(
-            //   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(10),
-            //     color: Colors.cyan.withOpacity(0.5)
-            //   ),
-            // )
-          ],
+            ],
+          ),
         ),
       ),
     );

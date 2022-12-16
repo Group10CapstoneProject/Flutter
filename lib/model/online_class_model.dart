@@ -16,6 +16,7 @@ class OnlineClassModel{
     this.tools,
     this.targetArea,
     this.onlineClassCategory,
+    this.accessClass
   });
 
   final int id;
@@ -31,6 +32,7 @@ class OnlineClassModel{
   final String? tools;
   final String? targetArea;
   final OnlineClassCategoryModel? onlineClassCategory;
+  final bool? accessClass;
 
   factory OnlineClassModel.fromJSON(Map<String, dynamic> json){
     return OnlineClassModel(
@@ -49,6 +51,7 @@ class OnlineClassModel{
       onlineClassCategory: (json['online_class_category'] != null) ? 
         OnlineClassCategoryModel.fromJSON(json['online_class_category']) : 
         null,
+      accessClass: json['access_class'],
     );
   }
 
