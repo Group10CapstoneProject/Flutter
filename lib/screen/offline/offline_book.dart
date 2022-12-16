@@ -242,7 +242,7 @@ class OfflineBook extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => TransactionDetailScreen(
                         transactionModel: TransactionModel.forOfflineClass(
-                          id: '1',
+                          id: model.id.toString(),
                           title: model.title!,
                           price: model.price!,
                           date: model.duration.toString(),

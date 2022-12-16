@@ -1,9 +1,11 @@
 import 'package:capstone_alterra_flutter/model/json_model.dart';
 import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
+import 'package:capstone_alterra_flutter/model/offline_class_booking_model.dart';
 import 'package:capstone_alterra_flutter/model/online_class_booking_model.dart';
 import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
 import 'package:capstone_alterra_flutter/service/members_service.dart';
+import 'package:capstone_alterra_flutter/service/offline_booking_service.dart';
 import 'package:capstone_alterra_flutter/service/online_class_booking_service.dart';
 import 'package:capstone_alterra_flutter/service/payment_methods_service.dart';
 import 'package:capstone_alterra_flutter/util/transaction_type.dart';
@@ -96,6 +98,28 @@ class TransactionDetailProvider with ChangeNotifier{
 
   }
 
+  ///For offline class booking
+  Future<int?> _createNewOfflineClassBookingOrTranssaction({
+    required int offlineClassId,
+    required int paymentMethodId,
+    required int total,
+  }) async {
+    OfflineBookingService offlineBookingService = OfflineBookingService();
+
+    JSONModel<OfflineBookingModel> json = await offlineBookingService.offlineBookingTransaction(
+      offlineClassId: offlineClassId, 
+      paymentMethodId: paymentMethodId, 
+      total: total,
+      );
+
+    if(json.statusCode == 200){
+      return json.data!.id;
+    }
+    else{
+      return null;
+    }
+  }
+
 
 
 
@@ -134,8 +158,14 @@ class TransactionDetailProvider with ChangeNotifier{
         );
         break;
       }
-      case TransactionType.offlineClass:
-        // TODO: Handle this case.
+      case TransactionType.offlineClass: {
+        bookingId = await _createNewOfflineClassBookingOrTranssaction(
+          offlineClassId: int.parse(transactionModel.id), 
+          paymentMethodId: int.parse(paymentMethodModel.id), 
+          total: transactionModel.price,
+          );
+      }
+       
         break;
       case TransactionType.trainer:
         // TODO: Handle this case.

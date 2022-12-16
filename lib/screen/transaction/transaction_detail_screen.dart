@@ -429,6 +429,7 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                     paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!], 
                     transactionModel: widget.transactionModel
                   );
+                  print(bookingId);
                   if(bookingId != null && mounted){
                     Navigator.push(
                       context, 
