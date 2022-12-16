@@ -15,9 +15,10 @@ import 'package:provider/provider.dart';
 ValueNotifier<int?> _indexPaymentChoosen = ValueNotifier(null);
 
 class TransactionDetailScreen extends StatefulWidget {
-  const TransactionDetailScreen({super.key, required this.transactionModel});
+  const TransactionDetailScreen({super.key, required this.transactionModel, this.isMemberAccess});
 
   final TransactionModel transactionModel;
+  final bool? isMemberAccess;
 
   @override
   State<TransactionDetailScreen> createState() => _TransactionDetailScreenState();
@@ -45,18 +46,19 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
 
     _indexPaymentChoosen.value = null;
 
-    if(widget.transactionModel.transactionType != TransactionType.membership){
-      provider.listPayment.insert(
-        0, 
-        PaymentMethodModel(id: '0', iconLink: 'crown.png', name: 'My Membership')
-      );
-    }
+    // if(widget.transactionModel.transactionType != TransactionType.membership){
+    //   provider.listPayment.insert(
+    //     0, 
+    //     PaymentMethodModel(id: '0', iconLink: 'crown.png', name: 'My Membership')
+    //   );
+    // }
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{ 
       
-      await provider.getAllPaymentMethods();
-      // listPayment = provider.listPayment;
-
+      await provider.getAllPaymentMethods(
+        transactionType: widget.transactionModel.transactionType,
+        isMemberAccess: widget.isMemberAccess,
+      );
     });
   }
   

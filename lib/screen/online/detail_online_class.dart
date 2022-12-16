@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recase/recase.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetailOnlineClass extends StatelessWidget {
   const DetailOnlineClass({
@@ -18,6 +19,20 @@ class DetailOnlineClass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    print(onlineClassModel.accessClass);
+
+    String videoId = YoutubePlayer.convertUrlToId(onlineClassModel.link!)!;
+    YoutubePlayerController ytController = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: YoutubePlayerFlags(
+        hideThumbnail: (onlineClassModel.accessClass == true)? true : false,
+        hideControls: (onlineClassModel.accessClass == true)? false : true,
+        autoPlay: false,
+        mute: false,
+        controlsVisibleAtStart: false,
+      )
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -37,148 +52,167 @@ class DetailOnlineClass extends StatelessWidget {
         ],
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          ///ScrollView
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-
-                  ///Image
-                  AspectRatio(
-                    aspectRatio: 328/160,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: primaryBase,
-                        image: (onlineClassModel.picture != null) ? 
-                          DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(onlineClassModel.picture!)
-                          ) : null
-                      ),
-                    )
-                  ),
-
-                  ///Green Divider
-                  Container(
-                    height: 8,
-                    width: double.infinity,
-                    color: primaryBase,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        ///Title
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(onlineClassModel.title, style: kHeading6,)
-                        ),
-                        const SizedBox(height: 16,),
-
-                        ///Profile picture and Name
-                        Row(
-                          children: [
-                            Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: primaryBase
-                              ),
-                            ),
-                            const SizedBox(width: 12,),
-                            Text('Ammy Novarianti', style: kCaption,),
-                          ],
-                        ),
-                        const SizedBox(height: 16,),
-
-                        ///Description
-                        Text(
-                          onlineClassModel.description.toString(),
-                          style: kBody2
-                        ),
-                        const SizedBox(height: 16,),
-
-                        _rowDescription(
-                          leading: SvgPicture.asset('assets/online_page/gym.svg',), 
-                          title: 'Peralatan', 
-                          subTitle: onlineClassModel.tools.toString()
-                        ),
-
-                        _rowDescription(
-                          leading: SvgPicture.asset('assets/online_page/target.svg',), 
-                          title: 'Target Area', 
-                          subTitle: onlineClassModel.targetArea.toString()
-                        ),
-
-                        _rowDescription(
-                          leading: Icon(Icons.alarm_on, color: primaryBase,), 
-                          title: 'Durasi', 
-                          subTitle: '${onlineClassModel.duration} min'
-                        ),
-
-                        _rowDescription(
-                          leading: SvgPicture.asset('assets/online_page/fire.svg',), 
-                          title: 'Kesulitan', 
-                          subTitle: onlineClassModel.level.sentenceCase
-                        ),
-
-                      ],
-                    ),
-                  )
-                ],
-              ),
+      body: YoutubePlayerBuilder(
+        player: YoutubePlayer(
+          controller: ytController,
+          aspectRatio: 328/160,
+          thumbnail: Container(
+            decoration: BoxDecoration(
+              color: primaryBase,
+              image: (onlineClassModel.picture != null) ? 
+                DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(onlineClassModel.picture!)
+                ) : null
             ),
           ),
-          ///Total Harga & Button Pembayaran
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-            height: 160,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+        ),
+        builder: (p0context, p1player) {
+          return Column(
+            children: [
+              ///ScrollView
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+
+                      ///Image
+                      AspectRatio(
+                        aspectRatio: 328/160,
+                        child: p1player
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     color: primaryBase,
+                        //     image: (onlineClassModel.picture != null) ? 
+                        //       DecorationImage(
+                        //         fit: BoxFit.cover,
+                        //         image: NetworkImage(onlineClassModel.picture!)
+                        //       ) : null
+                        //   ),
+                        // )
+                      ),
+
+                      ///Green Divider
+                      Container(
+                        height: 8,
+                        width: double.infinity,
+                        color: primaryBase,
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            ///Title
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(onlineClassModel.title, style: kHeading6,)
+                            ),
+                            const SizedBox(height: 16,),
+
+                            ///Profile picture and Name
+                            Row(
+                              children: [
+                                Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: primaryBase
+                                  ),
+                                ),
+                                const SizedBox(width: 12,),
+                                Text('Ammy Novarianti', style: kCaption,),
+                              ],
+                            ),
+                            const SizedBox(height: 16,),
+
+                            ///Description
+                            Text(
+                              onlineClassModel.description.toString(),
+                              style: kBody2
+                            ),
+                            const SizedBox(height: 16,),
+
+                            _rowDescription(
+                              leading: SvgPicture.asset('assets/online_page/gym.svg',), 
+                              title: 'Peralatan', 
+                              subTitle: onlineClassModel.tools.toString()
+                            ),
+
+                            _rowDescription(
+                              leading: SvgPicture.asset('assets/online_page/target.svg',), 
+                              title: 'Target Area', 
+                              subTitle: onlineClassModel.targetArea.toString()
+                            ),
+
+                            _rowDescription(
+                              leading: Icon(Icons.alarm_on, color: primaryBase,), 
+                              title: 'Durasi', 
+                              subTitle: '${onlineClassModel.duration} min'
+                            ),
+
+                            _rowDescription(
+                              leading: SvgPicture.asset('assets/online_page/fire.svg',), 
+                              title: 'Kesulitan', 
+                              subTitle: onlineClassModel.level.sentenceCase
+                            ),
+
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              ///Total Harga & Button Pembayaran
+              (onlineClassModel.accessClass == true) ? const SizedBox() : Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+                height: 160,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Total Harga', style: kBody1,),
-                    Text(Utils.currencyFormat(onlineClassModel.price), style: kSubtitle1.apply(color: primaryBase),)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Total Harga', style: kBody1,),
+                        Text(Utils.currencyFormat(onlineClassModel.price), style: kSubtitle1.apply(color: primaryBase),)
+                      ],
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TransactionDetailScreen(
+                                transactionModel: TransactionModel.forOnlineClass(
+                                  id: onlineClassModel.id.toString(), 
+                                  title: onlineClassModel.title, 
+                                  price: onlineClassModel.price
+                                )
+                              ),
+                            )
+                          );
+                        }, 
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(primaryBase),
+                          fixedSize: const MaterialStatePropertyAll(Size(double.infinity, 48))
+                        ),
+                        child: Text('LANJUTKAN KE PEMBAYARAN', style: kButton.apply(color: Colors.white),)
+                      ),
+                    )
                   ],
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TransactionDetailScreen(
-                            transactionModel: TransactionModel.forOnlineClass(
-                              id: onlineClassModel.id.toString(), 
-                              title: onlineClassModel.title, 
-                              price: onlineClassModel.price
-                            )
-                          ),
-                        )
-                      );
-                    }, 
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(primaryBase),
-                      fixedSize: const MaterialStatePropertyAll(Size(double.infinity, 48))
-                    ),
-                    child: Text('LANJUTKAN KE PEMBAYARAN', style: kButton.apply(color: Colors.white),)
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+              )
+            ],
+          );
+        }
       ),
     );
   }

@@ -1,8 +1,10 @@
 import 'package:capstone_alterra_flutter/model/json_model.dart';
 import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
+import 'package:capstone_alterra_flutter/model/online_class_booking_model.dart';
 import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
 import 'package:capstone_alterra_flutter/service/members_service.dart';
+import 'package:capstone_alterra_flutter/service/online_class_booking_service.dart';
 import 'package:capstone_alterra_flutter/service/payment_methods_service.dart';
 import 'package:capstone_alterra_flutter/util/transaction_type.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ class TransactionDetailProvider with ChangeNotifier{
   
 
 
-  Future<void> getAllPaymentMethods() async{
+  Future<void> getAllPaymentMethods({required TransactionType transactionType, required bool? isMemberAccess}) async{
 
     isLoading = true;
     notifyListeners();
@@ -28,6 +30,13 @@ class TransactionDetailProvider with ChangeNotifier{
       listPayment.addAll(json.data!);
     }
 
+    if(transactionType != TransactionType.membership && isMemberAccess == true){
+      listPayment.insert(
+        0, 
+        PaymentMethodModel(id: '0', iconLink: 'crown.png', name: 'My Membership')
+      );
+    }
+
     isLoading = false;
     notifyListeners();
   }
@@ -35,7 +44,7 @@ class TransactionDetailProvider with ChangeNotifier{
 
 
 
-
+  ///For membership booking
   Future<int?> _createNewMembersOrBooking({
     required int memberTypeId,
     required int duration,
@@ -59,6 +68,34 @@ class TransactionDetailProvider with ChangeNotifier{
       return null;
     }
   }
+
+
+  ///For online class booking
+  Future<int?> _createNewOnlineClassBookingOrTransaction({
+    required int onlineClassId,
+    required int duration,
+    required int paymentMethodId,
+    required int total,
+  }) async{
+    
+    OnlineClassBookingService onlineClassBookingService = OnlineClassBookingService();
+
+    JSONModel<OnlineClassBookingModel> json = await onlineClassBookingService.createNewOnlineClassBookingOrTransaction(
+      onlineClassId: onlineClassId, 
+      duration: duration, 
+      paymentMethodId: paymentMethodId, 
+      total: total
+    );
+
+    if(json.statusCode == 200){
+      return json.data!.id;
+    }
+    else{
+      return null;
+    }
+
+  }
+
 
 
 
@@ -87,9 +124,16 @@ class TransactionDetailProvider with ChangeNotifier{
         break;
       }
 
-      case TransactionType.onlineClass:
-        // TODO: Handle this case.
+      case TransactionType.onlineClass:{
+
+        bookingId = await _createNewOnlineClassBookingOrTransaction(
+          onlineClassId: int.parse(transactionModel.id), 
+          duration: 5, 
+          paymentMethodId: int.parse(paymentMethodModel.id), 
+          total: transactionModel.totalPrice
+        );
         break;
+      }
       case TransactionType.offlineClass:
         // TODO: Handle this case.
         break;

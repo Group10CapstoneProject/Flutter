@@ -75,6 +75,8 @@ class TransactionModel {
         quantity: 1,
         price: price,
         dateTime: dateTimeNow,
+        subTitle: 'Kelas Online',
+        subTitleColor: infoDark,
         listDetailTransaction: [
           DetailTransactionModel(
               icon: SvgPicture.asset('assets/transaction_page/event.svg'),
