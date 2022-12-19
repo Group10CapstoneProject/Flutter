@@ -98,8 +98,8 @@ class _OfflineScreenState extends State<OfflineScreen> {
       builder: (context, value, child) {
         List<OfflineModel> result = value.offline;
         if (value.myState == RequestState.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(color: primaryBase),
           );
         } else if (value.myState == RequestState.loaded) {
           return ListView.builder(

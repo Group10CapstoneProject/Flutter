@@ -17,8 +17,8 @@ class OfflineBookingModel {
   });
 
   final int id;
-  final UserProfileModel user;
-  final OfflineModel offlineClass;
+  final UserProfileModel? user;
+  final OfflineModel? offlineClass;
   final String? expritedAt;
   final String? activedat;
   final String? proofPayment;
@@ -28,22 +28,31 @@ class OfflineBookingModel {
   final String? status;
 
   factory OfflineBookingModel.fromJSON(Map<String, dynamic> json) {
-    Map<String, dynamic> user = json['user'];
+    Map<String, dynamic>? user = json['user'];
 
     return OfflineBookingModel(
       id: json['id'],
-      user: UserProfileModel(
-        id: user['id'],
-        name: user['name'],
-        email: user['email'],
-        role: user['user'],
-      ),
-      offlineClass: OfflineModel.fromJson(json['offline_class']),
+      user: (user == null)
+          ? null
+          : UserProfileModel(
+              id: user['id'],
+              name: user['name'],
+              email: user['email'],
+              role: user['user'],
+            ),
+      offlineClass: (json['offline_class'] == null)
+          ? null
+          : OfflineModel.fromJson(
+              json['offline_class'],
+            ),
       expritedAt: json['expired_at'],
       activedat: json['actived_at'],
       proofPayment: json['proof_payment'],
-      paymentMethodModel:
-          PaymentMethodModel.fromJSON(json: json['payment_method']),
+      paymentMethodModel: (json['payment'] == null)
+          ? null
+          : PaymentMethodModel.fromJSON(
+              json: json['payment_method'],
+            ),
       code: json['code'],
       total: json['total'],
       status: json['status'],

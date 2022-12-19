@@ -49,11 +49,11 @@ class _ClassScreenState extends State<ClassScreen> {
                 BoxShadow(
                   color: Colors.grey,
                   offset: Offset(0.0, 1.0), //(x,y)
-                  blurRadius: 5.0,
+                  blurRadius: 2.0,
                 ),
               ],
             ),
-            //height: 200,
+            // height: 200,
             child: Column(
               children: [
                 // Daftar Kelas

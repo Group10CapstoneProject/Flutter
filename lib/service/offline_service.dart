@@ -35,7 +35,13 @@ class OfflineService {
         statusCode: response.statusCode,
       );
     } on DioError catch (e) {
-      throw 'Error: $e';
+      if (e.response != null) {
+        return JSONModel(
+            message: e.response!.data['message'],
+            statusCode: e.response!.statusCode);
+      } else {
+        return JSONModel(message: 'Unexpected error');
+      }
     }
   }
 
@@ -54,7 +60,13 @@ class OfflineService {
         statusCode: response.statusCode,
       );
     } on DioError catch (e) {
-      throw 'Error: $e';
+      if (e.response != null) {
+        return JSONModel(
+            message: e.response!.data['message'],
+            statusCode: e.response!.statusCode);
+      } else {
+        return JSONModel(message: 'Unexpected error');
+      }
     }
   }
 }
