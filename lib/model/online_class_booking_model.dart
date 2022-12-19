@@ -18,8 +18,8 @@ class OnlineClassBookingModel{
   });
 
   final int id;
-  final UserProfileModel user;
-  final OnlineClassModel onlineClass;
+  final UserProfileModel? user;
+  final OnlineClassModel? onlineClass;
   final String? expiredAt;
   final String? activedAt;
   final int? duration;
@@ -31,23 +31,23 @@ class OnlineClassBookingModel{
   
   factory OnlineClassBookingModel.fromJSON(Map<String, dynamic> json){
 
-    Map<String, dynamic> user = json['user'];
+    Map<String, dynamic>? user = json['user'];
     
 
     return OnlineClassBookingModel(
       id: json['id'], 
-      user: UserProfileModel(
+      user: (user == null) ? null : UserProfileModel(
         id: user['id'],
         email: user['email'],
         name: user['name'],
         role: user['role'],
       ), 
-      onlineClass: OnlineClassModel.fromJSON(json['online_class']),
+      onlineClass: (json['online_class'] == null)? null : OnlineClassModel.fromJSON(json['online_class']),
       expiredAt: json['expired_at'],
       activedAt: json['actived_at'],
       duration: json['duration'],
       proofPayment: json['proof_payment'],
-      paymentMethod: PaymentMethodModel.fromJSON(json: json['payment_method']),
+      paymentMethod: (json['payment'] == null) ? null : PaymentMethodModel.fromJSON(json: json['payment_method']),
       total: json['total'],
       status: json['status'],
 

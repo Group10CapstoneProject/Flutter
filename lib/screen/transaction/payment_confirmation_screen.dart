@@ -210,7 +210,9 @@ Widget _fourStepWidget(PaymentMethodModel paymentMethodModel){
           children: [
             Row(
               children: [
-                Image(image: AssetImage('assets/transaction_page/${paymentMethodModel.iconLink}')),
+                (paymentMethodModel.picture != null && paymentMethodModel.picture!.isNotEmpty)
+                    ? Image(image: NetworkImage(paymentMethodModel.picture!), width: 30, height: 30,)
+                    : const SizedBox(),
                 const SizedBox(width: 8,),
                 Text(paymentMethodModel.name, style: kSubtitle2,)
               ],

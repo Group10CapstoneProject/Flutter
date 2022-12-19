@@ -192,7 +192,7 @@ Widget _membershipWidget(
   ///Text for membership button
   late String membershipButtonText;
   if(membersDetailModel != null){
-    membershipButtonText = 'Member ${membersDetailModel.memberType.name}';
+    membershipButtonText = 'Member ${membersDetailModel.memberType!.name}';
   }
   else{
     membershipButtonText = 'Aktivasi Membership';

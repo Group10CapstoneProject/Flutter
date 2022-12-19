@@ -20,8 +20,6 @@ class DetailOnlineClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print(onlineClassModel.accessClass);
-
     String videoId = YoutubePlayer.convertUrlToId(onlineClassModel.link!)!;
     YoutubePlayerController ytController = YoutubePlayerController(
       initialVideoId: videoId,

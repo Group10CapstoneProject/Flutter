@@ -6,46 +6,51 @@ class MembersDetailModel{
 
   MembersDetailModel({
     required this.id,
-    required this.user,
-    required this.memberType,
-    required this.expiredAt,
-    required this.activedAt,
-    required this.proofPayment,
-    required this.paymentMethod,
-    required this.total,
-    required this.code,
-    required this.status,
+    this.user,
+    this.memberType,
+    this.expiredAt,
+    this.activedAt,
+    this.proofPayment,
+    this.paymentMethod,
+    this.total,
+    this.code,
+    this.status,
   });
 
   final int id;
-  final UserProfileModel user;
-  final MembersTypesModel memberType;
-  final String expiredAt;
-  final String activedAt;
-  final String proofPayment;
-  final PaymentMethodModel paymentMethod;
-  final int total;
-  final String code;
-  final String status;
+  final UserProfileModel? user;
+  final MembersTypesModel? memberType;
+  final String? expiredAt;
+  final String? activedAt;
+  final String? proofPayment;
+  final PaymentMethodModel? paymentMethod;
+  final int? total;
+  final String? code;
+  final String? status;
 
   factory MembersDetailModel.fromJSON(Map<String, dynamic> json){
 
-    Map<String, dynamic> userJson = json['user'];
-    UserProfileModel user = UserProfileModel(
-      id: userJson['id'],
-      name: userJson['name'],
-      email: userJson['email'],
-    );
+    Map<String, dynamic>? userJson = json['user'];
+    UserProfileModel? user;
+
+    if(userJson != null){
+      user = UserProfileModel(
+        id: userJson['id'],
+        name: userJson['name'],
+        email: userJson['email'],
+      );
+    }
+    
 
 
     return MembersDetailModel(
       id: json['id'], 
       user: user,
-      memberType: MembersTypesModel.fromJSON(json: json['member_type']), 
+      memberType: (json['member_type'] == null) ? null : MembersTypesModel.fromJSON(json: json['member_type']), 
       expiredAt: json['expired_at'], 
       activedAt: json['actived_at'], 
       proofPayment: json['proof_payment'], 
-      paymentMethod: PaymentMethodModel.fromJSON(json: json['payment_method']), 
+      paymentMethod: (json['payment_method'] == null) ? null : PaymentMethodModel.fromJSON(json: json['payment_method']), 
       total: json['total'], 
       code: json['code'], 
       status: json['status'],
