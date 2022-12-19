@@ -59,7 +59,7 @@ Widget _myMembershipWidget(BuildContext context, MembersDetailModel membersDetai
         const SizedBox(height: 6,),
         Text('Hai, ${UserToken.userProfileModel!.name}', style: kBody1,),
         const SizedBox(height: 16,),
-        Text('Kamu adalah member ${membersDetailModel.memberType.name} Altagym', style: kSubtitle1,),
+        Text('Kamu adalah member ${membersDetailModel.memberType!.name} Altagym', style: kSubtitle1,),
         const SizedBox(height: 12,),
 
         ///Membership Card contain membership type, member since date, expiry date
@@ -88,21 +88,21 @@ Widget _myMembershipWidget(BuildContext context, MembersDetailModel membersDetai
                   children: [
                     Row(
                       children: [
-                        (membersDetailModel.memberType.picture != null) ? 
-                          Image(image: NetworkImage(membersDetailModel.memberType.picture!), height: 45, width: 45,) : 
+                        (membersDetailModel.memberType!.picture != null) ? 
+                          Image(image: NetworkImage(membersDetailModel.memberType!.picture!), height: 45, width: 45,) : 
                           const SizedBox(),
                         const SizedBox(width: 8,),
-                        Text('Member ${membersDetailModel.memberType.name}', style: kSubtitle1.apply(color: Colors.white),),
+                        Text('Member ${membersDetailModel.memberType!.name}', style: kSubtitle1.apply(color: Colors.white),),
                       ],
                     ),
                     const SizedBox(height: 20,),
                     Text('Anggota Sejak', style: kBody2.apply(color: Colors.white),),
                     const SizedBox(height: 6,),
-                    Text(Utils.dateTimeFormat2(DateTime.parse(membersDetailModel.activedAt)), style: kSubtitle2.copyWith(color: Colors.white, fontWeight: semiBold),),
+                    Text(Utils.dateTimeFormat2(DateTime.parse(membersDetailModel.activedAt!)), style: kSubtitle2.copyWith(color: Colors.white, fontWeight: semiBold),),
                     const SizedBox(height: 20,),
                     Text('Berlaku Hingga', style: kBody2.apply(color: Colors.white),),
                     const SizedBox(height: 6,),
-                    Text(Utils.dateTimeFormat2(DateTime.parse(membersDetailModel.expiredAt)), style: kSubtitle2.copyWith(color: Colors.white, fontWeight: semiBold),),
+                    Text(Utils.dateTimeFormat2(DateTime.parse(membersDetailModel.expiredAt!)), style: kSubtitle2.copyWith(color: Colors.white, fontWeight: semiBold),),
                   ],
                 ),
               )

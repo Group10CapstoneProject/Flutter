@@ -35,7 +35,7 @@ class TransactionDetailProvider with ChangeNotifier{
     if(transactionType != TransactionType.membership && isMemberAccess == true){
       listPayment.insert(
         0, 
-        PaymentMethodModel(id: '0', iconLink: 'crown.png', name: 'My Membership')
+        PaymentMethodModel(id: '0', picture: null, name: 'My Membership')
       );
     }
 

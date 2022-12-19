@@ -26,18 +26,6 @@ class TransactionDetailScreen extends StatefulWidget {
 
 class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
 
-  // List<PaymentMethodModel> listPayment = [
-  //   PaymentMethodModel(id: '1', iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
-  //   PaymentMethodModel(id: '2', iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
-  //   PaymentMethodModel(id: '3', iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
-  //   PaymentMethodModel(id: '1', iconLink: 'OVO.png', name: 'OVO', paymentNumber: '082213652536'),
-  //   PaymentMethodModel(id: '2', iconLink: 'OVO.png', name: 'GoPay', paymentNumber: '082213652536'),
-  //   PaymentMethodModel(id: '3', iconLink: 'OVO.png', name: 'DANA', paymentNumber: '082213652536'),
-  //   // PaymentMethodModel(id: 2, iconLink: 'crown.png', name: 'My Membership'),
-  // ];
-
-  // List<PaymentMethodModel> listPayment = [];
-
   @override
   void initState() {
 
@@ -46,12 +34,6 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
 
     _indexPaymentChoosen.value = null;
 
-    // if(widget.transactionModel.transactionType != TransactionType.membership){
-    //   provider.listPayment.insert(
-    //     0, 
-    //     PaymentMethodModel(id: '0', iconLink: 'crown.png', name: 'My Membership')
-    //   );
-    // }
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{ 
       
@@ -350,11 +332,32 @@ Widget _paymentMethodWidget(BuildContext context, List<PaymentMethodModel> listP
           ),
           child: Row(
             children: [
-              Image(
-                image: AssetImage('assets/transaction_page/${model.iconLink}'), 
-                height: 30,
-                width: 30,
+              Builder(
+                builder: (context){
+                  if(model.picture != null && model.picture!.isNotEmpty){
+                    return Image(
+                      image: NetworkImage(model.picture!),
+                      height: 30,
+                      width: 30,
+                    );
+                  }
+                  else if (model.id == '0'){
+                    return const Image(
+                      image: AssetImage('assets/transaction_page/crown.png'),
+                      height: 30,
+                      width: 30,
+                    );
+                  }
+                  else{
+                    return const SizedBox();
+                  }
+                },
               ),
+              // (model.picture != null && model.picture!.isNotEmpty) ? Image(
+              //   image: NetworkImage(model.picture!),
+              //   height: 30,
+              //   width: 30,
+              // ) : const SizedBox(),
               const SizedBox(width: 8,),
               Expanded(
                 child: Text(model.name, style: kBody1, maxLines: 1, overflow: TextOverflow.ellipsis,)
@@ -429,7 +432,6 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                     paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!], 
                     transactionModel: widget.transactionModel
                   );
-                  print(bookingId);
                   if(bookingId != null && mounted){
                     Navigator.push(
                       context, 
@@ -635,11 +637,33 @@ void _showPaymentMethodBottomSheet({
                               ),
                               child: Row(
                                 children: [
-                                  Image(
-                                    image: AssetImage('assets/transaction_page/${listPayment[i].iconLink}'), 
-                                    height: 30,
-                                    width: 30,
+                                  Builder(
+                                    builder: (context){
+                                      if(listPayment[i].picture != null && listPayment[i].picture!.isNotEmpty){
+                                        return Image(
+                                          image: NetworkImage(listPayment[i].picture!),
+                                          height: 30,
+                                          width: 30,
+                                        );
+                                      }
+                                      else if (listPayment[i].id == '0'){
+                                        return const Image(
+                                          image: AssetImage('assets/transaction_page/crown.png'),
+                                          height: 30,
+                                          width: 30,
+                                        );
+                                      }
+                                      else{
+                                        return const SizedBox();
+                                      }
+                                    },
                                   ),
+                                  // (listPayment[i].picture != null && listPayment[i].picture!.isNotEmpty)? Image(
+                                  //   image: NetworkImage(listPayment[i].picture!), 
+                                  //   height: 30,
+                                  //   width: 30,
+                                  //   fit: BoxFit.contain,
+                                  // ) : const SizedBox(),
                                   const SizedBox(width: 8,),
                                   Expanded(
                                     child: Text(listPayment[i].name, style: kBody1, maxLines: 1, overflow: TextOverflow.ellipsis,)
