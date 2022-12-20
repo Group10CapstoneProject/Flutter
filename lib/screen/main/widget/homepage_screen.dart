@@ -1,13 +1,32 @@
+import 'package:capstone_alterra_flutter/model/articles_model.dart';
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
+import 'package:capstone_alterra_flutter/screen/articles/articles_list_screen.dart';
 import 'package:capstone_alterra_flutter/screen/notifikasi/notifikasi.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
+import 'package:capstone_alterra_flutter/widget/article_listitem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class HomepageScreen extends StatelessWidget {
+class HomepageScreen extends StatefulWidget {
   const HomepageScreen({super.key});
+
+  @override
+  State<HomepageScreen> createState() => _HomepageScreenState();
+}
+
+class _HomepageScreenState extends State<HomepageScreen> {
+
+  @override
+  void initState() {
+
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      HomepageProvider provider = Provider.of<HomepageProvider>(context, listen: false);
+      provider.getAllArticles();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +123,11 @@ class HomepageScreen extends StatelessWidget {
               ),
 
               ///Artikel
-              _artikel(),
+              Consumer<HomepageProvider>(
+                builder: (context, value, child) {
+                  return _artikel(context, value.listArticle);
+                }
+              ),
             ],
           ),
         ));
@@ -391,53 +414,19 @@ Widget _kelasHariIni() {
 ///Artikel
 ///Bagian artikel yang diletakan pada bagian bawah homepage screen
 ///Bagian yang menunjukkan dari teks 'Artikel' hingga kumpulan list artikel
-Widget _artikel() {
+Widget _artikel(BuildContext context, List<ArticlesModel> list) {
   ///Widget atau Container yang menampung data item list dari artikel
-  Widget dummy = Container(
-    height: 106,
-    width: double.infinity,
-    padding: const EdgeInsets.symmetric(vertical: 12),
-    decoration:
-        BoxDecoration(border: Border(bottom: BorderSide(color: whiteDark))),
-    child: Row(
-      children: [
-        ///Article image
-        ///Menampung gambar artikel
-        Container(
-          width: 92,
-          height: 82,
-          margin: const EdgeInsets.only(right: 16),
-          decoration: const BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              image: DecorationImage(
-                  image: AssetImage('assets/homepage/Rectangle 153.png'),
-                  fit: BoxFit.cover)),
-        ),
+  // Widget dummy(ArticlesModel articlesModel){
+  //   return ArticleListitem(articlesModel: articlesModel);
+  // }
 
-        ///Menampung title list artikel dan tanggal artikel
-        Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              'Panduan Lengkap Memilih Alat Olahraga di Rumah',
-              style: kSubtitle1,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-            Text('Nov 10, 2022',
-                style: kCaption.apply(
-                  color: whiteDarkest,
-                )),
-          ],
-        ))
-      ],
-    ),
-  );
-
-  List<Widget> listDummy = [for (int i = 0; i < 7; i++) dummy];
+  ///Contain list of widget of articleListitem
+  ///Limited to maximum 4
+  int maxLimit = (list.length > 4) ? 4 : list.length;
+  List<Widget> listDummy = [
+    for (int i = 0; i < maxLimit; i++) 
+      ArticleListitem(articlesModel: list[i])
+  ];
 
   return Container(
     padding: const EdgeInsets.all(16),
@@ -464,13 +453,19 @@ Widget _artikel() {
                 style: kBody2.apply(color: blackLight),
               ),
             ),
-            Text(
-              'Lihat Semua',
-              style: kCaption.apply(color: primaryBase),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ArticlesListScreen(listArticle: list),));
+              },
+              child: Text(
+                'Lihat Semua',
+                style: kCaption.apply(color: primaryBase),
+              ),
             )
           ],
         ),
 
+        ///Kumpulan data Article
         Column(children: listDummy)
       ],
     ),

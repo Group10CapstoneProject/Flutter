@@ -28,6 +28,13 @@ class Utils {
     return DateFormat('d/MM/y', 'id_ID').format(dateTime);
   }
 
+  ///input paramter value DateTime, output a String.
+  ///
+  ///example: DateTime.now() -> 'Des 12, 2022'
+  static String dateTimeFormat3(DateTime dateTime) {
+    return DateFormat('MMM d, y', 'id_ID').format(dateTime);
+  }
+
   static String dateTime(DateTime dateTime) {
     return DateFormat('Hm').format(
       dateTime,
