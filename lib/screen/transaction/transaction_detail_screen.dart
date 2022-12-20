@@ -2,6 +2,7 @@ import 'package:capstone_alterra_flutter/model/detail_transaction_model.dart';
 import 'package:capstone_alterra_flutter/model/payment_method_model.dart';
 import 'package:capstone_alterra_flutter/model/transaction_model.dart';
 import 'package:capstone_alterra_flutter/provider/transaction_detail_provider.dart';
+import 'package:capstone_alterra_flutter/screen/offline/succes_payment.dart';
 import 'package:capstone_alterra_flutter/screen/transaction/payment_confirmation_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/transaction_type.dart';
@@ -452,11 +453,14 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                     );
                   }
                 }
-                else{
-                  Navigator.popUntil(
-                    context, 
-                    ModalRoute.withName('/DetailOnlineClass'),
+                else{ 
+                  if (widget.transactionModel.transactionType == TransactionType.offlineClass) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentOfflineSucces(),
+                    ),
                   );
+                } else if (widget.transactionModel.transactionType == TransactionType.trainer) {
+                  
+                }
                 }
               }, 
               style: ElevatedButton.styleFrom(

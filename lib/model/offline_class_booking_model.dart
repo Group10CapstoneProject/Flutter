@@ -5,8 +5,8 @@ import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 class OfflineBookingModel {
   OfflineBookingModel({
     required this.id,
-    required this.user,
-    required this.offlineClass,
+    this.user,
+    this.offlineClass,
     this.expritedAt,
     this.activedat,
     this.proofPayment,
