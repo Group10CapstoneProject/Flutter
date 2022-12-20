@@ -1,6 +1,5 @@
 import 'package:capstone_alterra_flutter/screen/trainers/details_transaction.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -79,42 +78,58 @@ class _BookingTrainersState extends State<BookingTrainers> {
                         readOnly: true,
                         controller: inputDate,
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(),
-                            hintText: 'Pilih Tanggal',
-                            suffixIcon: Icon(Icons.arrow_drop_down)),
-                        onTap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return CupertinoDatePicker(
-                                  mode: CupertinoDatePickerMode.date,
-                                  initialDateTime: DateTime.now(),
-                                  onDateTimeChanged: (DateTime dateTime) {
-                                    setState(() {
-                                      inputDate.text = DateFormat('d MMMM y')
-                                          .format(dateTime)
-                                          .toString();
-                                    });
-                                  },
-                                );
-                              });
-                          // final selectDate = await showDatePicker(
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(),
+                          hintText: 'Pilih Tanggal',
+                          suffixIcon: Icon(Icons.arrow_drop_down),
+                        ),
+                        onTap: () async {
+                          // showModalBottomSheet(
                           //     context: context,
-                          //     initialDate: selectedDate,
-                          //     firstDate: DateTime(2020),
-                          //     lastDate: DateTime(selectedDate.year + 5));
+                          //     builder: (context) {
+                          //       return CupertinoDatePicker(
+                          //         mode: CupertinoDatePickerMode.date,
+                          //         initialDateTime: DateTime.now(),
+                          //         onDateTimeChanged: (DateTime dateTime) {
+                          //           setState(() {
+                          //             inputDate.text = DateFormat('d MMMM y')
+                          //                 .format(dateTime)
+                          //                 .toString();
+                          //           });
+                          //         },
+                          //       );
+                          //     });
+                          final selectDate = await showDatePicker(
+                            context: context,
+                            initialDate: selectedDate,
+                            firstDate: DateTime(2021),
+                            lastDate: DateTime(selectedDate.year + 1),
+                            builder: (context, child) {
+                              return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme:
+                                        ColorScheme.light(primary: primaryBase),
+                                  ),
+                                  child: child!);
+                            },
+                          );
 
-                          // if (selectDate != null) {
-                          //   setState(
-                          //     () {
-                          //       selectedDate = selectDate;
+                          if (selectDate != null) {
+                            setState(
+                              () {
+                                selectedDate = selectDate;
 
-                          //       inputDate.text =
-                          //           DateFormat('dd-MM-yyyy').format(selectDate);
-                          //     },
-                          //   );
-                          // }
+                                inputDate.text =
+                                    DateFormat('d MMMM y').format(selectDate);
+                              },
+                            );
+                          }
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Masukan Email';
+                          }
+                          return null;
                         },
                       ),
                     ),
@@ -256,6 +271,13 @@ class _BookingTrainersState extends State<BookingTrainers> {
               ),
               child: ElevatedButton(
                 onPressed: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) {
+                  //         TransactionDetailScreen(transactionModel: TransactionModel.forTrainers(id: id, title: title, price: price, date: date, time: time))
+                  //       },
+                  //     ));
                   if (formKey.currentState!.validate()) {
                     Navigator.push(
                       context,

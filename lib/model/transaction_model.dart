@@ -130,4 +130,49 @@ class TransactionModel {
       ],
     );
   }
+
+  factory TransactionModel.forTrainers(
+      {required String id,
+      required String title,
+      required int price,
+      required String date,
+      required DateTime time,
+      required}) {
+    DateTime dateTimeNow = DateTime.now();
+
+    return TransactionModel(
+      id: id,
+      transactionType: TransactionType.trainer,
+      title: title,
+      quantity: 1,
+      price: price,
+      dateTime: dateTimeNow,
+      subTitle: 'Trainers',
+      subTitleColor: warningDark,
+      listDetailTransaction: [
+        DetailTransactionModel(
+          icon: Icon(
+            Icons.event,
+            size: 23,
+            color: primaryBase,
+          ),
+          title: 'Tanggal Sesi',
+          subTitle: Utils.dateTimeFormat(time),
+        ),
+        DetailTransactionModel(
+          icon: Icon(
+            FontAwesomeIcons.clock,
+            size: 20,
+            color: primaryBase,
+          ),
+          title: 'Jam Sesi',
+          subTitle: Utils.dateTime(time),
+        ),
+        DetailTransactionModel(
+            icon: SvgPicture.asset('assets/trainer/telpon.svg'),
+            title: 'Nomor Telepon',
+            subTitle: '')
+      ],
+    );
+  }
 }

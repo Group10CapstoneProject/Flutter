@@ -11,13 +11,13 @@ class OfflineBookingService {
   final String _endpoint =
       '${UserToken.serverEndpoint}/offline-classes/bookings';
 
+  final String _accessToken = UserToken.accessToken!;
+
   Future<JSONModel<OfflineBookingModel>> offlineBookingTransaction({
     required int offlineClassId,
     required int paymentMethodId,
     required int total,
   }) async {
-    final String accessToken = UserToken.accessToken!;
-
     late final Response response;
     try {
       response = await _dio.post(_endpoint,
@@ -27,7 +27,7 @@ class OfflineBookingService {
             'total': total,
           },
           options: Options(contentType: Headers.jsonContentType, headers: {
-            'Authorization': 'Bearer $accessToken',
+            'Authorization': 'Bearer $_accessToken',
           }));
       return JSONModel<OfflineBookingModel>(
         data: OfflineBookingModel.fromJSON(response.data['data']),
@@ -46,17 +46,36 @@ class OfflineBookingService {
     }
   }
 
+  Future<JSONModel<OfflineBookingModel>> offlineBookingDetails(int id) async {
+    late final Response response;
+    try {
+      response = await _dio.get('$_endpoint/details/$id',
+          options: Options(headers: {'Authorixation': 'Bearer $_accessToken'}));
+      return JSONModel(
+        data: OfflineBookingModel.fromJSON(response.data['data']),
+        message: response.data['message'],
+        statusCode: response.statusCode,
+      );
+    } on DioError catch (e) {
+      if (e.response != null) {
+        return JSONModel(
+            message: e.response!.data['message'],
+            statusCode: e.response!.statusCode);
+      } else {
+        return JSONModel(message: 'Unexpected error');
+      }
+    }
+  }
+
   Future<JSONModel<dynamic>> offlineClassBookingPayment({
     required int bookingId,
     required File file,
   }) async {
-    final String accessToken = UserToken.accessToken!;
-
     late final Response response;
     try {
       response = await _dio.post('$_endpoint/pay/$bookingId',
           options: Options(
-            headers: {'Authorization': 'Bearer $accessToken'},
+            headers: {'Authorization': 'Bearer $_accessToken'},
           ),
           data: FormData.fromMap({
             'file': await MultipartFile.fromFile(file.path,

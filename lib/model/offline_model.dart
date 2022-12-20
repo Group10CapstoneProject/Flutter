@@ -1,3 +1,5 @@
+import 'package:capstone_alterra_flutter/model/trainer_model.dart';
+
 class OfflineModel {
   OfflineModel({
     this.id,
@@ -9,10 +11,12 @@ class OfflineModel {
     this.slotBooked,
     this.picture,
     this.trainerId,
+    this.trainerName,
     this.location,
     this.description,
     this.accessClass,
     this.offlineClassCategory,
+    this.trainerModel,
   });
 
   int? id;
@@ -24,10 +28,12 @@ class OfflineModel {
   double? slotBooked;
   String? picture;
   int? trainerId;
+  String? trainerName;
   String? location;
   String? description;
   bool? accessClass;
   OfflineClassCategory? offlineClassCategory;
+  TrainerModel? trainerModel;
 
   factory OfflineModel.fromJson(
     Map<String, dynamic> json,
@@ -42,11 +48,15 @@ class OfflineModel {
         slotBooked: json["slot_booked"].toDouble(),
         picture: json["picture"],
         trainerId: json["trainer_id"],
+        trainerName: json["trainer_name"],
         location: json["location"],
         description: json["description"],
         accessClass: json["access_class"],
         offlineClassCategory: (json["offline_class_category"] != null)
             ? OfflineClassCategory.fromJson(json["offline_class_category"])
+            : null,
+        trainerModel: (json["trainer"] != null)
+            ? TrainerModel.fromJson(json["trainer"])
             : null,
       );
 }

@@ -42,7 +42,7 @@ class OfflineBook extends StatelessWidget {
         children: [
           SizedBox(
             child: Image.network(
-              model.picture!,
+              model.picture! == '' ? 'https://media.istockphoto.com/id/516329360/id/foto/pria-melakukan-latihan-tali-pertempuran-selama-pelatihan-gym-di-gym.jpg?s=612x612&w=is&k=20&c=vMXCKD39K_to3D-bxy6El7opKMTfugDrzynA57jqBo4=' : model.picture!,
               width: MediaQuery.of(context).size.width,
               height: 192,
               fit: BoxFit.cover,
@@ -118,7 +118,7 @@ class OfflineBook extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                model.offlineClassCategory!.name!,
+                                model.trainerModel!.name!,
                                 style: kBody1.copyWith(color: blackLight),
                               ),
                               const SizedBox(
@@ -241,6 +241,7 @@ class OfflineBook extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => TransactionDetailScreen(
+                        isMemberAccess: model.accessClass,
                         transactionModel: TransactionModel.forOfflineClass(
                           id: model.id.toString(),
                           title: model.title!,
@@ -316,9 +317,9 @@ class OfflineBook extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
-                  model.offlineClassCategory!.picture! == ''
+                  model.trainerModel!.picture == ''
                       ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJrN_k4tIwtR9Cb2ZSfB_3F88RfNsTr2BCAQ&usqp=CAU'
-                      : model.offlineClassCategory!.picture!,
+                      : model.trainerModel!.picture.toString(),
                   width: 69,
                   height: 67,
                   fit: BoxFit.cover,

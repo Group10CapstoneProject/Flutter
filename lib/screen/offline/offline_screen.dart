@@ -168,14 +168,14 @@ class _OfflineScreenState extends State<OfflineScreen> {
                                   children: [
                                     Text(
                                       result[index].title!,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                       style:
                                           kHeading6.copyWith(color: whiteColor),
                                     ),
                                     Text(
-                                      result[index]
-                                              .offlineClassCategory
-                                              ?.name ??
-                                          '',
+                                      'With ${result[index]
+                                              .trainerName}',
                                       style:
                                           kSubtitle1.copyWith(color: whiteDark),
                                     ),
@@ -217,6 +217,7 @@ class _OfflineScreenState extends State<OfflineScreen> {
                                           await offlineProvider
                                               .getDetailsOffline(
                                                   result[index].id!);
+                                                  print(json.data!.id.toString());
                                       if (json.statusCode == 200) {
                                         if (mounted) {
                                           Navigator.push(
