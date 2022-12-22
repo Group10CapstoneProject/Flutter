@@ -4,9 +4,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
    <application
-        android:label="capstone_alterra_flutter"
+        android:label="Altagym"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/logo">
         <activity
             android:name=".MainActivity"
             android:exported="true"
