@@ -1,10 +1,12 @@
-import 'package:capstone_alterra_flutter/model/offline_class_booking_model.dart';
 import 'package:capstone_alterra_flutter/screen/transaction/code_unik.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:flutter/material.dart';
 
 class PaymentOfflineSucces extends StatelessWidget {
-  const PaymentOfflineSucces({super.key});
+  const PaymentOfflineSucces({super.key, required this.id});
+
+  final int id;
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +52,7 @@ class PaymentOfflineSucces extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => KodeUnik(
-                          offlineBookModel: OfflineBookingModel(
-                            id: 7,
-                            code: 'YXZ01',
-                          ),
-                        ),
+                        builder: (context) => KodeUnik(id: id)
                       ),
                     );
                   },

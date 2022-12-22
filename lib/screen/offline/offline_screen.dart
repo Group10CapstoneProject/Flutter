@@ -217,7 +217,7 @@ class _OfflineScreenState extends State<OfflineScreen> {
                                           await offlineProvider
                                               .getDetailsOffline(
                                                   result[index].id!);
-                                                  print(json.data!.id.toString());
+                                                  
                                       if (json.statusCode == 200) {
                                         if (mounted) {
                                           Navigator.push(
