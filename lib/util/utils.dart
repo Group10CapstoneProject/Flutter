@@ -55,4 +55,18 @@ class Utils {
   static String dateTimeFormat6(DateTime dateTime) {
     return DateFormat('EEEE, d MMMM y', 'id_ID').format(dateTime);
   }
+
+  ///input paramter value DateTime, output a String.
+  ///
+  ///example: DateTime.now() -> 'Kam'
+  static String dateTimeFormat7(DateTime dateTime) {
+    return DateFormat('E', 'id_ID').format(dateTime);
+  }
+
+  ///input paramter value DateTime, output a String.
+  ///
+  ///example: DateTime.now() -> '22 Des'
+  static String dateTimeFormat8(DateTime dateTime) {
+    return DateFormat('d MMM', 'id_ID').format(dateTime);
+  }
 }

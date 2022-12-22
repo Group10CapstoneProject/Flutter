@@ -453,53 +453,30 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                     );
                   }
                 }
-                else{
-                  if (widget.transactionModel.transactionType == TransactionType.offlineClass) {
-                    TransactionDetailProvider provider = Provider.of<TransactionDetailProvider>(context, listen: false);
+                else if (widget.transactionModel.transactionType == TransactionType.offlineClass) {
+                  TransactionDetailProvider provider = Provider.of<TransactionDetailProvider>(context, listen: false);
                   int? bookingId = await provider.createBookingAllPurpose(
                     paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!], 
                     transactionModel: widget.transactionModel
                   );
-
                   if(bookingId != null && mounted){
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(
-                        builder: (context) => PaymentConfirmationScreen(
-                          bookingId: bookingId,
-                          transactionModel: widget.transactionModel,
-                          paymentMethodModel: widget.listPayment[_indexPaymentChoosen.value!],
-                        ),
-                      )
-                    );
-                  }
-                  else{
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Unexpected error')
-                      )
-                    );
-                  } if(bookingId != null && mounted){
                      Navigator.push(
                       context, 
                       MaterialPageRoute(
                         builder: (context) => PaymentOfflineSucces(
                           id: bookingId,
                         ),
-                    ),
-                  );
+                      ),
+                    );
                   }
                   else{
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Unexpected error')
-                      )
-                    );
-                  }
-                } else if (widget.transactionModel.transactionType == TransactionType.trainer) {
-                  
-                }
-                }
+                     )
+                   );
+                 }
+               } else if (widget.transactionModel.transactionType == TransactionType.trainer) {}
               }, 
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryBase,

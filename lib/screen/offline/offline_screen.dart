@@ -105,6 +105,7 @@ class _OfflineScreenState extends State<OfflineScreen> {
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
+            itemCount: result.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding:
@@ -116,7 +117,9 @@ class _OfflineScreenState extends State<OfflineScreen> {
                     child: Stack(
                       children: [
                         Image.network(
-                          result[index].picture!,
+                          result[index].picture! == ''
+                              ? 'https://media.istockphoto.com/id/654689764/id/foto/peregangan-otot.jpg?s=612x612&w=0&k=20&c=qXAnmIMwr5hL9BLGjxSkSRIGAHvGdNKbb6Sjq0Nu4bQ='
+                              : result[index].picture.toString(),
                           height: 163,
                           fit: BoxFit.cover,
                           width: double.infinity,
@@ -174,8 +177,7 @@ class _OfflineScreenState extends State<OfflineScreen> {
                                           kHeading6.copyWith(color: whiteColor),
                                     ),
                                     Text(
-                                      'With ${result[index]
-                                              .trainerName}',
+                                      'With ${result[index].trainerName}',
                                       style:
                                           kSubtitle1.copyWith(color: whiteDark),
                                     ),
@@ -217,7 +219,7 @@ class _OfflineScreenState extends State<OfflineScreen> {
                                           await offlineProvider
                                               .getDetailsOffline(
                                                   result[index].id!);
-                                                  
+
                                       if (json.statusCode == 200) {
                                         if (mounted) {
                                           Navigator.push(
@@ -254,7 +256,6 @@ class _OfflineScreenState extends State<OfflineScreen> {
                 ),
               );
             },
-            itemCount: result.length,
           );
         } else {
           return const Center(

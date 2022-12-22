@@ -42,7 +42,9 @@ class OfflineBook extends StatelessWidget {
         children: [
           SizedBox(
             child: Image.network(
-              model.picture! == '' ? 'https://media.istockphoto.com/id/516329360/id/foto/pria-melakukan-latihan-tali-pertempuran-selama-pelatihan-gym-di-gym.jpg?s=612x612&w=is&k=20&c=vMXCKD39K_to3D-bxy6El7opKMTfugDrzynA57jqBo4=' : model.picture!,
+              model.picture! == ''
+                  ? 'https://media.istockphoto.com/id/516329360/id/foto/pria-melakukan-latihan-tali-pertempuran-selama-pelatihan-gym-di-gym.jpg?s=612x612&w=is&k=20&c=vMXCKD39K_to3D-bxy6El7opKMTfugDrzynA57jqBo4='
+                  : model.picture!,
               width: MediaQuery.of(context).size.width,
               height: 192,
               fit: BoxFit.cover,
