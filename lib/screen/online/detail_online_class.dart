@@ -20,9 +20,11 @@ class DetailOnlineClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String videoId = YoutubePlayer.convertUrlToId(onlineClassModel.link!)!;
+    String? videoId = (onlineClassModel.link != null)
+        ? YoutubePlayer.convertUrlToId(onlineClassModel.link!)
+        : null;
     YoutubePlayerController ytController = YoutubePlayerController(
-      initialVideoId: videoId,
+      initialVideoId: videoId ?? '',
       flags: YoutubePlayerFlags(
         hideThumbnail: (onlineClassModel.accessClass == true)? true : false,
         hideControls: (onlineClassModel.accessClass == true)? false : true,
@@ -32,84 +34,74 @@ class DetailOnlineClass extends StatelessWidget {
       )
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark,
-        ),
-        actions: [
-          IconButton(
-            onPressed: (){},
-            icon: const Icon(Icons.ios_share)
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: ytController,
+        aspectRatio: 328/160,
+        thumbnail: Container(
+          decoration: BoxDecoration(
+            color: primaryBase,
+            image: (onlineClassModel.picture != null) ? 
+              DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(onlineClassModel.picture!)
+              ) : null
           ),
-          const SizedBox(width: 8,),
-        ],
+        ),
       ),
-      backgroundColor: Colors.white,
-      body: YoutubePlayerBuilder(
-        player: YoutubePlayer(
-          controller: ytController,
-          aspectRatio: 328/160,
-          thumbnail: Container(
-            decoration: BoxDecoration(
-              color: primaryBase,
-              image: (onlineClassModel.picture != null) ? 
-                DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(onlineClassModel.picture!)
-                ) : null
+      builder: (p0context, p1player) {
+        return Scaffold(
+          appBar: AppBar(
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: Colors.white,
+              statusBarIconBrightness: Brightness.dark,
             ),
+            actions: [
+              IconButton(
+                onPressed: (){},
+                icon: const Icon(Icons.ios_share)
+              ),
+              const SizedBox(width: 8,),
+            ],
           ),
-        ),
-        builder: (p0context, p1player) {
-          return Column(
+          backgroundColor: Colors.white,
+          body: Column(
             children: [
               ///ScrollView
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-
-                      ///Image
+        
+                      ///Video Player with Image Thumbnail
                       AspectRatio(
                         aspectRatio: 328/160,
                         child: p1player
-                        // Container(
-                        //   decoration: BoxDecoration(
-                        //     color: primaryBase,
-                        //     image: (onlineClassModel.picture != null) ? 
-                        //       DecorationImage(
-                        //         fit: BoxFit.cover,
-                        //         image: NetworkImage(onlineClassModel.picture!)
-                        //       ) : null
-                        //   ),
-                        // )
                       ),
-
+        
                       ///Green Divider
                       Container(
                         height: 8,
                         width: double.infinity,
                         color: primaryBase,
                       ),
-
+        
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
+        
                             ///Title
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(onlineClassModel.title, style: kHeading6,)
                             ),
                             const SizedBox(height: 16,),
-
+        
                             ///Profile picture and Name
                             Row(
                               children: [
@@ -118,46 +110,51 @@ class DetailOnlineClass extends StatelessWidget {
                                   width: 30,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: primaryBase
+                                    color: primaryBase,
+                                    image: (onlineClassModel.trainer!.picture != null)
+                                        ? DecorationImage(image: NetworkImage(onlineClassModel.trainer!.picture!))
+                                        : null
                                   ),
                                 ),
                                 const SizedBox(width: 12,),
-                                Text('Ammy Novarianti', style: kCaption,),
+                                Expanded(
+                                  child: Text(onlineClassModel.trainer!.name.toString(), style: kCaption,)
+                                ),
                               ],
                             ),
                             const SizedBox(height: 16,),
-
+        
                             ///Description
                             Text(
                               onlineClassModel.description.toString(),
                               style: kBody2
                             ),
                             const SizedBox(height: 16,),
-
+        
                             _rowDescription(
                               leading: SvgPicture.asset('assets/online_page/gym.svg',), 
                               title: 'Peralatan', 
                               subTitle: onlineClassModel.tools.toString()
                             ),
-
+        
                             _rowDescription(
                               leading: SvgPicture.asset('assets/online_page/target.svg',), 
                               title: 'Target Area', 
                               subTitle: onlineClassModel.targetArea.toString()
                             ),
-
+        
                             _rowDescription(
                               leading: Icon(Icons.alarm_on, color: primaryBase,), 
                               title: 'Durasi', 
                               subTitle: '${onlineClassModel.duration} min'
                             ),
-
+        
                             _rowDescription(
                               leading: SvgPicture.asset('assets/online_page/fire.svg',), 
                               title: 'Kesulitan', 
                               subTitle: onlineClassModel.level.sentenceCase
                             ),
-
+        
                           ],
                         ),
                       )
@@ -209,9 +206,9 @@ class DetailOnlineClass extends StatelessWidget {
                 ),
               )
             ],
-          );
-        }
-      ),
+          ),
+        );
+      }
     );
   }
 }

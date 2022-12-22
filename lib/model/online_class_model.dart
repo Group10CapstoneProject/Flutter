@@ -1,4 +1,5 @@
 import 'package:capstone_alterra_flutter/model/online_class_category_model.dart';
+import 'package:capstone_alterra_flutter/model/trainer_model.dart';
 
 class OnlineClassModel{
 
@@ -16,6 +17,7 @@ class OnlineClassModel{
     this.tools,
     this.targetArea,
     this.onlineClassCategory,
+    this.trainer,
     this.accessClass
   });
 
@@ -32,6 +34,7 @@ class OnlineClassModel{
   final String? tools;
   final String? targetArea;
   final OnlineClassCategoryModel? onlineClassCategory;
+  final TrainerModel? trainer;
   final bool? accessClass;
 
   factory OnlineClassModel.fromJSON(Map<String, dynamic> json){
@@ -48,9 +51,12 @@ class OnlineClassModel{
       path: json['path'],
       tools: json['tools'],
       targetArea: json['target_area'],
-      onlineClassCategory: (json['online_class_category'] != null) ? 
-        OnlineClassCategoryModel.fromJSON(json['online_class_category']) : 
-        null,
+      onlineClassCategory: (json['online_class_category'] != null) 
+          ? OnlineClassCategoryModel.fromJSON(json['online_class_category'])
+          : null,
+      trainer: (json['trainer'] != null)
+          ? TrainerModel.fromJson(json['trainer'])
+          : null,
       accessClass: json['access_class'],
     );
   }
