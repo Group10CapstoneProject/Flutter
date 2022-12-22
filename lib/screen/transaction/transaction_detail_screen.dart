@@ -500,6 +500,9 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                   context: context, 
                   builder: (context) => AlertDialog(
                     actionsPadding: const EdgeInsets.all(16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
+                    ),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [

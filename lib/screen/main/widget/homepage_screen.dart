@@ -284,7 +284,7 @@ Widget _kelasHariIni() {
                         ///Slot remaining
                         Expanded(
                           child: Text(
-                            '${(offlineModel.slot! - offlineModel.slotBooked!.toInt())} Slot Tersisa',
+                            '${offlineModel.slot!} Slot Tersisa',
                             style: kCaption.apply(color: Colors.white),
                             textAlign: TextAlign.center,
                           ),

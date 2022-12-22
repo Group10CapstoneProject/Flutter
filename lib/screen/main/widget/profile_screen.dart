@@ -6,6 +6,7 @@ import 'package:capstone_alterra_flutter/screen/profile/legal_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/membership.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
+import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -100,7 +101,7 @@ Widget _topWidget({required Membership? membership}) {
                                       height: 6,
                                     ),
                                     Text(
-                                      'Anggota sejak 11/2022',
+                                      'Anggota sejak ${Utils.dateTimeFormat9(DateTime.parse(UserToken.membersDetailModel!.activedAt!))}',
                                       style: kBody2.apply(color: Colors.white),
                                     )
                                   ],

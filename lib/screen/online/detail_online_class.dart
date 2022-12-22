@@ -122,7 +122,12 @@ class DetailOnlineClass extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 12,),
                                 Expanded(
-                                  child: Text(onlineClassModel.trainer!.name.toString(), style: kCaption,)
+                                  child: Text(
+                                    (onlineClassModel.trainer!.name != null && onlineClassModel.trainer!.name!.isNotEmpty)
+                                        ? onlineClassModel.trainer!.name.toString()
+                                        : 'Experienced Trainer', 
+                                    style: kCaption,
+                                  )
                                 ),
                               ],
                             ),

@@ -69,4 +69,11 @@ class Utils {
   static String dateTimeFormat8(DateTime dateTime) {
     return DateFormat('d MMM', 'id_ID').format(dateTime);
   }
+
+  ///input paramter value DateTime, output a String.
+  ///
+  ///example: DateTime.now() -> '11/2022'
+  static String dateTimeFormat9(DateTime dateTime) {
+    return DateFormat('M/y', 'id_ID').format(dateTime);
+  }
 }

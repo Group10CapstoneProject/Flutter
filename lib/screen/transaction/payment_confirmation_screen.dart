@@ -429,6 +429,9 @@ class _TwoBottomButtonWidgetState extends State<_TwoBottomButtonWidget> {
                 bool? isCancel = await showDialog(
                   context: context, 
                   builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
+                    ),
                     actionsPadding: const EdgeInsets.all(16),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
