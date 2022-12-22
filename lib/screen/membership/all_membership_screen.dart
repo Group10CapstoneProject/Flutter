@@ -319,7 +319,7 @@ Widget _allMembershipCardWidget(BuildContext context){
                       child: Column(
                         children: [
                           textBenefit('Dapatkan akses prioritas ketika melakukan booking', true),
-                          textBenefit('Akses gym tak terbatas di seluruh klub atlagym', true),
+                          textBenefit('Akses gym tak terbatas di seluruh klub atlagym', membersTypesModel.accessGym!),
                           textBenefit('Gratis kelas online setiap harinya ', membersTypesModel.accessOnlineClass!),
                           textBenefit('Gratis kelas offline selama berlangganan', membersTypesModel.accessOfflineClass!),
                           textBenefit('Gratis 4 sesi personal training', membersTypesModel.accessTrainer!),
