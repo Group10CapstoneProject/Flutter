@@ -42,7 +42,9 @@ class OfflineBook extends StatelessWidget {
         children: [
           SizedBox(
             child: Image.network(
-              model.picture! == '' ? 'https://media.istockphoto.com/id/516329360/id/foto/pria-melakukan-latihan-tali-pertempuran-selama-pelatihan-gym-di-gym.jpg?s=612x612&w=is&k=20&c=vMXCKD39K_to3D-bxy6El7opKMTfugDrzynA57jqBo4=' : model.picture!,
+              model.picture! == ''
+                  ? 'https://media.istockphoto.com/id/516329360/id/foto/pria-melakukan-latihan-tali-pertempuran-selama-pelatihan-gym-di-gym.jpg?s=612x612&w=is&k=20&c=vMXCKD39K_to3D-bxy6El7opKMTfugDrzynA57jqBo4='
+                  : model.picture!,
               width: MediaQuery.of(context).size.width,
               height: 192,
               fit: BoxFit.cover,
@@ -289,7 +291,7 @@ class OfflineBook extends StatelessWidget {
             height: 15.0,
           ),
           Text(
-            model.offlineClassCategory!.description!,
+            model.description!,
             style: kBody2.copyWith(color: blackLight),
           ),
         ],
@@ -318,7 +320,7 @@ class OfflineBook extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
                   model.trainerModel!.picture == ''
-                      ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJrN_k4tIwtR9Cb2ZSfB_3F88RfNsTr2BCAQ&usqp=CAU'
+                      ? 'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns='
                       : model.trainerModel!.picture.toString(),
                   width: 69,
                   height: 67,
@@ -332,7 +334,7 @@ class OfflineBook extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    model.offlineClassCategory!.name!,
+                    model.trainerModel!.name!,
                     style: kSubtitle1.copyWith(color: blackColor),
                   ),
                   const SizedBox(

@@ -125,7 +125,7 @@ class TransactionModel {
             color: primaryBase,
           ),
           title: 'Jam Sesi',
-          subTitle: Utils.dateTime(time),
+          subTitle: Utils.dateTimeFormat4(time),
         ),
       ],
     );
@@ -166,7 +166,7 @@ class TransactionModel {
             color: primaryBase,
           ),
           title: 'Jam Sesi',
-          subTitle: Utils.dateTime(time),
+          subTitle: Utils.dateTimeFormat4(time),
         ),
         DetailTransactionModel(
             icon: SvgPicture.asset('assets/trainer/telpon.svg'),
