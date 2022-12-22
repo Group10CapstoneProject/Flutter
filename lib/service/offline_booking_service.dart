@@ -11,14 +11,13 @@ class OfflineBookingService {
   final String _endpoint =
       '${UserToken.serverEndpoint}/offline-classes/bookings';
 
-  final String _accessToken = UserToken.accessToken!;
-
   Future<JSONModel<OfflineBookingModel>> offlineBookingTransaction({
     required int offlineClassId,
     required int paymentMethodId,
     required int total,
   }) async {
     late final Response response;
+    final String accessToken = UserToken.accessToken!;
     try {
       response = await _dio.post(_endpoint,
           data: {
@@ -27,7 +26,7 @@ class OfflineBookingService {
             'total': total,
           },
           options: Options(contentType: Headers.jsonContentType, headers: {
-            'Authorization': 'Bearer $_accessToken',
+            'Authorization': 'Bearer $accessToken',
           }));
       return JSONModel<OfflineBookingModel>(
         data: OfflineBookingModel.fromJSON(response.data['data']),
@@ -48,9 +47,10 @@ class OfflineBookingService {
 
   Future<JSONModel<OfflineBookingModel>> offlineBookingDetails(int id) async {
     late final Response response;
+    final String accessToken = UserToken.accessToken!;
     try {
       response = await _dio.get('$_endpoint/details/$id',
-          options: Options(headers: {'Authorixation': 'Bearer $_accessToken'}));
+          options: Options(headers: {'Authorization': 'Bearer $accessToken'}));
       return JSONModel(
         data: OfflineBookingModel.fromJSON(response.data['data']),
         message: response.data['message'],
@@ -72,10 +72,11 @@ class OfflineBookingService {
     required File file,
   }) async {
     late final Response response;
+    final String accessToken = UserToken.accessToken!;
     try {
       response = await _dio.post('$_endpoint/pay/$bookingId',
           options: Options(
-            headers: {'Authorization': 'Bearer $_accessToken'},
+            headers: {'Authorization': 'Bearer $accessToken'},
           ),
           data: FormData.fromMap({
             'file': await MultipartFile.fromFile(file.path,
