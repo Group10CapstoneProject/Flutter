@@ -35,6 +35,10 @@ class DetailOnlineClass extends StatelessWidget {
     );
 
     return YoutubePlayerBuilder(
+      onExitFullScreen: () {
+        ///To hide statusbar when not in fullscreen mode
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+      },
       player: YoutubePlayer(
         controller: ytController,
         aspectRatio: 328/160,
