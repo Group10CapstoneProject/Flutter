@@ -1,5 +1,6 @@
 import 'package:capstone_alterra_flutter/model/trainers_model.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
+import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,15 +12,7 @@ class AllTrainers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) =>
-        //         DetailTrainerScreen(detailTrainer: trainerModel),
-        //   ),
-        // );
-      },
+      onTap: () {},
       child: Padding(
         padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
         child: Container(
@@ -79,7 +72,7 @@ class AllTrainers extends StatelessWidget {
                         height: 12.0,
                       ),
                       Text(
-                        'RP ${trainerModel.price}',
+                        Utils.currencyFormat(trainerModel.price),
                         style: GoogleFonts.roboto(
                             color: primaryBase,
                             fontWeight: bold,

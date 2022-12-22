@@ -61,14 +61,13 @@ class _ClassScreenState extends State<ClassScreen> {
                 daftarKelas(),
 
                 // Waktu
-                waktu()
-                // Consumer<ClassProvider>(builder: (context, value, child) {
-                //   if (value.isOfflineChoosen) {
-                //     return const DateTimeItem();
-                //   } else {
-                //     return const SizedBox();
-                //   }
-                // }),
+                Consumer<ClassProvider>(builder: (context, value, child) {
+                  if (value.isOfflineChoosen) {
+                    return waktu();
+                  } else {
+                    return const SizedBox();
+                  }
+                }),
               ],
             ),
           ),

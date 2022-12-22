@@ -1,9 +1,10 @@
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
+import 'package:capstone_alterra_flutter/provider/offline_provider.dart';
 import 'package:capstone_alterra_flutter/provider/trainer_provider.dart';
 import 'package:capstone_alterra_flutter/screen/trainers/all_trainers.dart';
 import 'package:capstone_alterra_flutter/screen/trainers/filter_trainers.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
-import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -88,17 +89,77 @@ class _TrainersScreenState extends State<TrainersScreen> {
 
   // Manggil Waktu
   Widget waktu() {
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      child: DatePicker(
-        DateTime.now(),
-        height: 85,
-        width: 50,
-        initialSelectedDate: DateTime.now(),
-        selectionColor: primaryBase,
-        locale: 'id_ID',
-        onDateChange: (date) {
-          selectedDate = date;
+    return SizedBox(
+      height: 88,
+      width: double.infinity,
+      child: ListView.builder(
+        itemCount: 7,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          DateTime waktu = selectedDate.add(
+            Duration(days: index),
+          );
+          return SizedBox(
+            // margin: EdgeInsets.only(left: (index == 0) ? 5 : 0),
+            width: 70,
+            child: FittedBox(
+              fit: BoxFit.none,
+              child: Consumer<OfflineProvider>(
+                builder: (context, value, child) {
+                  return GestureDetector(
+                    onTap: () {
+                      value.setSwap(index);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 5),
+                      height: 60,
+                      width: 65,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: (value.swap == index) ? primaryBase : whiteColor,
+                        border: Border.all(
+                          color: (value.swap == index)
+                              ? primaryBase
+                              : whiteDarkest,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                Utils.dateTimeFormat7(waktu),
+                                style: kCaption.copyWith(
+                                  fontWeight: medium,
+                                  fontSize: 14,
+                                  color: (value.swap == index)
+                                      ? whiteBase
+                                      : blackLightest,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                Utils.dateTimeFormat8(waktu),
+                                style: kCaption.copyWith(
+                                  fontSize: 12,
+                                  color: (value.swap == index)
+                                      ? whiteBase
+                                      : blackLightest,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
         },
       ),
     );
