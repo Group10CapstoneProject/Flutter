@@ -1,4 +1,5 @@
 import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
+import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 import 'package:capstone_alterra_flutter/screen/membership/all_membership_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/membership.dart';
@@ -31,7 +32,7 @@ class MyMembershipScreen extends StatelessWidget {
         child: Column(
           children: [
             _myMembershipWidget(context, membersDetailModel),
-            _yourMemberBenefitsWidget(Membership.platinum),
+            _yourMemberBenefitsWidget(UserToken.membersDetailModel!),
           ],
         ),
       ),
@@ -142,12 +143,12 @@ Widget _myMembershipWidget(BuildContext context, MembersDetailModel membersDetai
 
 
 ///A widget that contain all benefit of user membership
-Widget _yourMemberBenefitsWidget(Membership membership){
+Widget _yourMemberBenefitsWidget(MembersDetailModel membersDetailModel){
 
-  MembershipClass membershipClass = MembershipClass.fromMembership(membership);
+  // MembershipClass membershipClass = MembershipClass.fromMembership(membership);
 
   ///A widget that show a card of a benefit of user membership
-  Widget benefitCard(String title){
+  Widget benefitCard(String title, bool isAccess){
     return Container(
       height: 72,
       width: double.infinity,
@@ -193,8 +194,11 @@ Widget _yourMemberBenefitsWidget(Membership membership){
       children: [
         Text('Keuntungan Member-mu', style: kHeading6,),
         const SizedBox(height: 16,),
-        for(String i in membershipClass.benefit)
-          benefitCard(i)
+        benefitCard('Dapatkan akses prioritas ketika melakukan booking', true),
+        benefitCard('Akses gym tak terbatas di seluruh klub atlagym', membersDetailModel.memberType!.accessGym!),
+        benefitCard('Gratis kelas online setiap harinya', membersDetailModel.memberType!.accessOnlineClass!),
+        benefitCard('Gratis kelas offline selama berlangganan', membersDetailModel.memberType!.accessOfflineClass!),
+        benefitCard('Gratis 4 sesi personal training', membersDetailModel.memberType!.accessTrainer!),
       ],
     ),
   );
