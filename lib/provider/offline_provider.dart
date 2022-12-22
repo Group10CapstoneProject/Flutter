@@ -18,9 +18,9 @@ class OfflineProvider with ChangeNotifier {
   RequestState myState = RequestState.none;
 
   Future<void> getOfflineClass({
-    required String time,
-    required int categoryId,
-    required String orderByPrice,
+    required String? time,
+    required int? categoryId,
+    required String? orderByPrice,
   }) async {
     try {
       myState = RequestState.loading;

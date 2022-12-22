@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-class NotificationProvider with ChangeNotifier{
+class NotificationProvider with ChangeNotifier {
+  bool isPromo = true;
 
-  bool isOfflineChoosen = true;
-
-  void setIsOfflineChoosen(bool value){
-    isOfflineChoosen = value;
+  void setisPromo(bool value) {
+    isPromo = value;
     notifyListeners();
   }
-
 }

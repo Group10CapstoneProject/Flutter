@@ -143,7 +143,8 @@ Widget _promoIklan(BuildContext context) {
 
   ///Iklan Container
   ///Sebuah Container yang menampung data dummy yang akan dipajang
-  Widget dummy = Container(
+  Widget card(String img) {
+    return Container(
     alignment: Alignment.center,
     padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
     child: AspectRatio(
@@ -151,14 +152,21 @@ Widget _promoIklan(BuildContext context) {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            image: const DecorationImage(
-                image: AssetImage('assets/homepage/Rectangle 12.png'),
+            image: DecorationImage(
+                image: AssetImage('assets/homepage/$img'),
                 fit: BoxFit.cover)),
+        ),
       ),
-    ),
-  );
+    );
+  }
 
-  List<Widget> listdummy = [for (int i = 0; i < 7; i++) dummy];
+  List<Widget> listdummy = [
+    card('Rectangle 12.png'),
+    card('iklan2.jpg'),
+    card('iklan3.jpg'),
+    card('iklan4.jpg'),
+    card('iklan5.jpg'),
+  ];
 
   ///Coursel
   ///Widget berbentuk titik sebagai indicator iklan yang ditunjukkan

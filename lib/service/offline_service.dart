@@ -11,7 +11,7 @@ class OfflineService {
   String accessToken = UserToken.accessToken!;
 
   Future<JSONModel<List<OfflineModel>?>> getOfflineClass(
-      String time, int categoryId, String orderByPrice) async {
+      String? time, int? categoryId, String? orderByPrice) async {
     late final Response response;
     try {
       response = await _dio.get(_endpoint,
@@ -26,9 +26,9 @@ class OfflineService {
       List<OfflineModel> listOffline = [];
       Map<String, dynamic> data = response.data['data'];
       List listKelas = data['offline_classes'];
-      listKelas.forEach((element) {
+      for (var element in listKelas) {
         listOffline.add(OfflineModel.fromJson(element as Map<String, dynamic>));
-      });
+      }
       return JSONModel(
         data: listOffline,
         message: response.data['message'],

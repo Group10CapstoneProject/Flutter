@@ -18,8 +18,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     pageController = PageController(
-      initialPage:
-          (context.read<NotificationProvider>().isOfflineChoosen) ? 0 : 1,
+      initialPage: (context.read<NotificationProvider>().isPromo) ? 0 : 1,
     );
     return Scaffold(
       appBar: AppBar(
@@ -52,62 +51,84 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Column(
-            children: [notification()],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Column(
+          children: [
+            notification(),
+            Expanded(
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: pageController,
+                children: const [
+                  Text('A'),
+                  Text('B'),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget notification() {
-    return Row(
-      children: [
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: isSelected ? const Color(0xFFF2F4F3) : primaryBase,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+    return Consumer<NotificationProvider>(
+      builder: (context, value, child) {
+        return Row(
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    value.isPromo ? const Color(0xFFF2F4F3) : primaryBase,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () {
+                pageController.animateToPage(
+                  0,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeIn,
+                );
+                value.setisPromo(false);
+              },
+              child: Text(
+                'Info',
+                style: TextStyle(
+                  color: value.isPromo ? primaryBase : whiteBase,
+                ),
+              ),
             ),
-          ),
-          onPressed: () {
-            setState(() {
-              isSelected = false;
-            });
-          },
-          child: Text(
-            'Info',
-            style: TextStyle(
-              color: isSelected ? primaryBase : whiteBase,
+            const SizedBox(
+              width: 10.0,
             ),
-          ),
-        ),
-        const SizedBox(
-          width: 10.0,
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: isSelected ? primaryBase : const Color(0xFFF2F4F3),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    value.isPromo ? primaryBase : const Color(0xFFF2F4F3),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () {
+                pageController.animateToPage(
+                  1,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeIn,
+                );
+                value.setisPromo(true);
+              },
+              child: Text(
+                'Promo',
+                style: TextStyle(
+                  color: value.isPromo ? whiteBase : blackLightest,
+                ),
+              ),
             ),
-          ),
-          onPressed: () {
-            setState(() {
-              isSelected = true;
-            });
-          },
-          child: Text(
-            'Promo',
-            style: TextStyle(
-              color: isSelected ? whiteBase : blackLightest,
-            ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

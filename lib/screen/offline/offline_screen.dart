@@ -29,7 +29,7 @@ class _OfflineScreenState extends State<OfflineScreen> {
       String date = Utils.timeDate(time);
       final OfflineProvider provider =
           Provider.of<OfflineProvider>(context, listen: false);
-      provider.getOfflineClass(time: date, categoryId: 1, orderByPrice: 'DESC');
+      provider.getOfflineClass(time: date, categoryId: null, orderByPrice: 'DESC');
     });
   }
 

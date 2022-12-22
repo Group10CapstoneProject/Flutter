@@ -1,4 +1,5 @@
 import 'package:capstone_alterra_flutter/model/trainers_model.dart';
+import 'package:capstone_alterra_flutter/screen/trainers/details_trainers.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,15 @@ class AllTrainers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                DetailTrainerScreen(detailTrainer: trainerModel),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
         child: Container(
@@ -63,10 +72,18 @@ class AllTrainers extends StatelessWidget {
                       const SizedBox(
                         height: 12.0,
                       ),
-                      Text(
-                        '${trainerModel.skill}',
-                        overflow: TextOverflow.ellipsis,
-                        style: kCaption.copyWith(color: blackLightest),
+                      Builder(
+                        builder: (context) {
+                          String skill = '';
+                          for (String i in trainerModel.skill) {
+                            skill += '$i, ';
+                          }
+                          return Text(
+                            skill,
+                            overflow: TextOverflow.ellipsis,
+                            style: kCaption.copyWith(color: blackLightest),
+                          );
+                        }
                       ),
                       const SizedBox(
                         height: 12.0,

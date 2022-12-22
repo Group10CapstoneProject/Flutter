@@ -65,7 +65,9 @@ class _ClassScreenState extends State<ClassScreen> {
                   if (value.isOfflineChoosen) {
                     return waktu();
                   } else {
-                    return const SizedBox();
+                    return const SizedBox(
+                      height: 10,
+                    );
                   }
                 }),
               ],
@@ -193,6 +195,9 @@ class _ClassScreenState extends State<ClassScreen> {
                   return GestureDetector(
                     onTap: () {
                       value.setSwap(index);
+                      DateTime time = DateTime.now().add(Duration(days: index));
+                      String date = Utils.timeDate(time);
+                      value.getOfflineClass(time: date, categoryId: null, orderByPrice: 'DESC');
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 5),
