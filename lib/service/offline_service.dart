@@ -26,7 +26,7 @@ class OfflineService {
           });
       List<OfflineModel> listOffline = [];
       Map<String, dynamic> data = response.data['data'];
-      List listKelas = data['offline_classes'];
+      List listKelas = (data['offline_classes']) ?? [];
       for (var element in listKelas) {
         listOffline.add(OfflineModel.fromJson(element as Map<String, dynamic>));
       }
