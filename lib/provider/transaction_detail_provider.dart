@@ -152,7 +152,7 @@ class TransactionDetailProvider with ChangeNotifier{
 
         bookingId = await _createNewOnlineClassBookingOrTransaction(
           onlineClassId: int.parse(transactionModel.id), 
-          duration: 5, 
+          duration: 1, 
           paymentMethodId: int.parse(paymentMethodModel.id), 
           total: transactionModel.totalPrice
         );
