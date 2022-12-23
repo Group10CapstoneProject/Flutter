@@ -94,7 +94,7 @@ Widget _topWidget({required Membership? membership}) {
                             UserToken.userProfileModel!.email!,
                             style: kBody2.apply(color: Colors.white),
                           ),
-                          (membership != null)
+                          (UserToken.membersDetailModel != null)
                               ? Column(
                                   children: [
                                     const SizedBox(
