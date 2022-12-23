@@ -1,12 +1,14 @@
 import 'dart:async';
 
-import 'package:capstone_alterra_flutter/core.dart';
+import 'package:capstone_alterra_flutter/model/auth_model.dart';
 import 'package:capstone_alterra_flutter/model/json_model.dart';
 import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
 import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 import 'package:capstone_alterra_flutter/screen/landing_page/landing_page_screen.dart';
 import 'package:capstone_alterra_flutter/screen/main/main_screen.dart';
+import 'package:capstone_alterra_flutter/service/auth_service.dart';
 import 'package:capstone_alterra_flutter/service/members_service.dart';
+import 'package:capstone_alterra_flutter/service/users_service.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:flutter/material.dart';
 

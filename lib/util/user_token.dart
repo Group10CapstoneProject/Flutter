@@ -3,7 +3,7 @@ import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserToken {
-  static String serverEndpoint = "https://dev.rnwxyz.codes/api/v1";
+  static String serverEndpoint = "https://pro.rnwxyz.codes/api/v1";
 
   static String? accessToken;
 

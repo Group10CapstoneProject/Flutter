@@ -10,6 +10,7 @@ class OfflineService {
 
   String accessToken = UserToken.accessToken!;
 
+  /// http://docs.rnwxyz.codes/#/Offline%20Classes/get_offline_classes
   Future<JSONModel<List<OfflineModel>?>> getOfflineClass(
       String? time, int? categoryId, String? orderByPrice) async {
     late final Response response;
@@ -45,6 +46,7 @@ class OfflineService {
     }
   }
 
+  /// http://docs.rnwxyz.codes/#/Offline%20Classes/get_offline_classes_details__id_
   Future<JSONModel<OfflineModel>> getDetailOffline(int id) async {
     late final Response response;
     try {

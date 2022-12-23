@@ -1,6 +1,6 @@
 import 'package:capstone_alterra_flutter/provider/class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/offline_provider.dart';
-import 'package:capstone_alterra_flutter/provider/trainer_provider.dart';
+import 'package:capstone_alterra_flutter/provider/trainer_dummy_provider.dart';
 import 'package:capstone_alterra_flutter/screen/trainers/all_trainers.dart';
 import 'package:capstone_alterra_flutter/screen/trainers/filter_trainers.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';

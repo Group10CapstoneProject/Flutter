@@ -9,7 +9,7 @@ import 'package:capstone_alterra_flutter/provider/online_class_provider.dart';
 import 'package:capstone_alterra_flutter/provider/payment_confirmation_provider.dart';
 import 'package:capstone_alterra_flutter/provider/offline_provider.dart';
 import 'package:capstone_alterra_flutter/provider/specified_online_class_provider.dart';
-import 'package:capstone_alterra_flutter/provider/trainer_provider.dart';
+import 'package:capstone_alterra_flutter/provider/trainer_dummy_provider.dart';
 import 'package:capstone_alterra_flutter/provider/transaction_detail_provider.dart';
 import 'package:capstone_alterra_flutter/screen/splash/splash_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';

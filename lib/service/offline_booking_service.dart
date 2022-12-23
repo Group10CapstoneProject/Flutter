@@ -11,6 +11,8 @@ class OfflineBookingService {
   final String _endpoint =
       '${UserToken.serverEndpoint}/offline-classes/bookings';
 
+
+  /// http://docs.rnwxyz.codes/#/Offline%20Class%20Bookings/post_offline_classes_bookings
   Future<JSONModel<OfflineBookingModel>> offlineBookingTransaction({
     required int offlineClassId,
     required int paymentMethodId,
@@ -45,6 +47,7 @@ class OfflineBookingService {
     }
   }
 
+  /// http://docs.rnwxyz.codes/#/Offline%20Class%20Bookings/get_offline_classes_bookings_details__id_
   Future<JSONModel<OfflineBookingModel>> offlineBookingDetails(int id) async {
     late final Response response;
     final String accessToken = UserToken.accessToken!;
@@ -67,6 +70,7 @@ class OfflineBookingService {
     }
   }
 
+  /// http://docs.rnwxyz.codes/#/Offline%20Class%20Bookings/post_offline_classes_bookings_pay__id_
   Future<JSONModel<dynamic>> offlineClassBookingPayment({
     required int bookingId,
     required File file,

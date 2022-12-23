@@ -1,5 +1,5 @@
 import 'package:capstone_alterra_flutter/model/category_trainer_model.dart';
-import 'package:capstone_alterra_flutter/model/trainers_model.dart';
+import 'package:capstone_alterra_flutter/model/trainer_dummy_model.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
