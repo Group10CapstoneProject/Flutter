@@ -116,7 +116,7 @@ class DetailOnlineClass extends StatelessWidget {
                                     shape: BoxShape.circle,
                                     color: primaryBase,
                                     image: (onlineClassModel.trainer!.picture != null)
-                                        ? DecorationImage(image: NetworkImage(onlineClassModel.trainer!.picture!))
+                                        ? DecorationImage(image: NetworkImage(onlineClassModel.trainer!.picture!), fit: BoxFit.cover)
                                         : null
                                   ),
                                 ),
