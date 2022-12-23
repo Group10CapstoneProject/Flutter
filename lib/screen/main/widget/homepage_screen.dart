@@ -1,8 +1,10 @@
 import 'package:capstone_alterra_flutter/model/articles_model.dart';
+import 'package:capstone_alterra_flutter/model/json_model.dart';
 import 'package:capstone_alterra_flutter/model/offline_model.dart';
 import 'package:capstone_alterra_flutter/provider/homepage_provider.dart';
 import 'package:capstone_alterra_flutter/screen/articles/articles_list_screen.dart';
 import 'package:capstone_alterra_flutter/screen/notifikasi/notifikasi.dart';
+import 'package:capstone_alterra_flutter/screen/offline/offline_book.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
@@ -120,7 +122,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
               ),
 
               ///Kelas hari ini
-              _kelasHariIni(),
+              _kelasHariIni(context),
 
               const SizedBox(
                 height: 16,
@@ -216,161 +218,186 @@ Widget _promoIklan(BuildContext context) {
 ///Kelas hari ini
 ///Bagian homepage yang menunjukkan dari text 'Kelas hari ini' hingga kumpulan Container yang menampung data kelas hari ini
 ///Bagian ini diletakkan pada bagian tengah homepage screen
-Widget _kelasHariIni() {
+Widget _kelasHariIni(BuildContext context) {
 
   ///Widget atau Container yang menampung data item list Kelas hari ini
-  Widget cardTodaysClass(OfflineModel offlineModel){
-    return Container(
-      width: 150,
-      margin: const EdgeInsets.only(right: 8),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-      child: Column(
+  Widget cardTodaysClass(BuildContext context, OfflineModel offlineModel, int index){
+    return GestureDetector(
+      onTap: () async{
+        HomepageProvider provider = Provider.of<HomepageProvider>(context, listen: false);
+        JSONModel<OfflineModel> json = await provider.getDetailsOffline(offlineModel.id!, index);
+        if(json.statusCode == 200){
+          
+          // ignore: use_build_context_synchronously
+          Navigator.push(context, MaterialPageRoute(builder: (context) => OfflineBook(model: json.data!),));
+        }
+      },
+      child: Stack(
         children: [
-          ///Header & Body
-          ///Menampung Heder & Body (Tidak termasuk status(text 'Pesan Kelas'))
-          Expanded(
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-                color: Colors.green,
-                image: (offlineModel.picture != null)
-                    ? DecorationImage(
-                        image: NetworkImage(offlineModel.picture!),
-                        colorFilter: const ColorFilter.mode(
-                            Color.fromARGB(255, 69, 106, 134), BlendMode.multiply),
-                        fit: BoxFit.cover)
-                    : null,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  ///Header
-                  ///Menampung waktu dan slot tersisa
-                  Container(
-                    height: 38,
-                    padding: const EdgeInsets.only(top: 1, left: 6, right: 6),
-                    child: Row(
+          Container(
+            width: 150,
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              children: [
+                ///Header & Body
+                ///Menampung Heder & Body (Tidak termasuk status(text 'Pesan Kelas'))
+                Expanded(
+                  child: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                      color: Colors.green,
+                      image: (offlineModel.picture != null)
+                          ? DecorationImage(
+                              image: NetworkImage(offlineModel.picture!),
+                              colorFilter: const ColorFilter.mode(
+                                  Color.fromARGB(255, 69, 106, 134), BlendMode.multiply),
+                              fit: BoxFit.cover)
+                          : null,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                        ///Time
+                        ///Header
+                        ///Menampung waktu dan slot tersisa
                         Container(
-                          padding: const EdgeInsets.all(5),
-                          width: 60,
-                          height: 26,
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(13))),
+                          height: 38,
+                          padding: const EdgeInsets.only(top: 1, left: 6, right: 6),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(
-                                Icons.dark_mode,
-                                size: 16,
+                              ///Time
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                width: 60,
+                                height: 26,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(13))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Icon(
+                                      Icons.dark_mode,
+                                      size: 16,
+                                    ),
+                                    Text(
+                                      Utils.dateTimeFormat4(offlineModel.time),
+                                      style: kCaption,
+                                    )
+                                  ],
+                                ),
                               ),
-                              Text(
-                                Utils.dateTimeFormat4(offlineModel.time),
-                                style: kCaption,
+    
+                              const SizedBox(
+                                width: 8,
+                              ),
+    
+                              ///Slot remaining
+                              Expanded(
+                                child: Text(
+                                  '${offlineModel.slot!} Slot Tersisa',
+                                  style: kCaption.apply(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
                               )
                             ],
                           ),
                         ),
-
-                        const SizedBox(
-                          width: 8,
-                        ),
-
-                        ///Slot remaining
+    
+                        ///Body
+                        ///Menampung gambar dan judul dan trainer
                         Expanded(
-                          child: Text(
-                            '${offlineModel.slot!} Slot Tersisa',
-                            style: kCaption.apply(color: Colors.white),
-                            textAlign: TextAlign.center,
+                            child: Container(
+                          padding: const EdgeInsets.all(8),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ///Tingkatan
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.fitness_center,
+                                    size: 13.2,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+                                  Text(
+                                    'Sedang',
+                                    style: kCaption.apply(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+    
+                              const SizedBox(
+                                height: 8,
+                              ),
+    
+                              ///Judul
+                              Text(
+                                offlineModel.title.toString(),
+                                style: kHeading6.apply(color: Colors.white),
+                              ),
+                              Text('With ${offlineModel.trainerName}',
+                                  style: kSubtitle1.apply(color: Colors.white)),
+                            ],
                           ),
-                        )
+                        ))
                       ],
                     ),
                   ),
-
-                  ///Body
-                  ///Menampung gambar dan judul dan trainer
-                  Expanded(
-                      child: Container(
-                    padding: const EdgeInsets.all(8),
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ///Tingkatan
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.fitness_center,
-                              size: 13.2,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Text(
-                              'Sedang',
-                              style: kCaption.apply(color: Colors.white),
-                            ),
-                          ],
+                ),
+    
+                ///Status
+                ///Menampung teks 'Pesan kelas'
+                Container(
+                  height: 47,
+                  decoration: BoxDecoration(
+                      borderRadius:
+                          const BorderRadius.vertical(bottom: Radius.circular(10)),
+                      color: primaryBase),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Pesan Kelas',
+                        style: kSubtitle1.apply(color: Colors.white),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Container(
+                        height: 18,
+                        width: 18,
+                        padding: EdgeInsets.zero,
+                        decoration: const BoxDecoration(
+                            color: Colors.white, shape: BoxShape.circle),
+                        child: Icon(
+                          Icons.chevron_right,
+                          color: primaryBase,
+                          size: 18,
                         ),
-
-                        const SizedBox(
-                          height: 8,
-                        ),
-
-                        ///Judul
-                        Text(
-                          offlineModel.title.toString(),
-                          style: kHeading6.apply(color: Colors.white),
-                        ),
-                        Text('With ${offlineModel.trainerName}',
-                            style: kSubtitle1.apply(color: Colors.white)),
-                      ],
-                    ),
-                  ))
-                ],
-              ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
-
-          ///Status
-          ///Menampung teks 'Pesan kelas'
-          Container(
-            height: 47,
-            decoration: BoxDecoration(
-                borderRadius:
-                    const BorderRadius.vertical(bottom: Radius.circular(10)),
-                color: primaryBase),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Pesan Kelas',
-                  style: kSubtitle1.apply(color: Colors.white),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Container(
-                  height: 18,
-                  width: 18,
-                  padding: EdgeInsets.zero,
-                  decoration: const BoxDecoration(
-                      color: Colors.white, shape: BoxShape.circle),
-                  child: Icon(
-                    Icons.chevron_right,
-                    color: primaryBase,
-                    size: 18,
-                  ),
-                ),
-              ],
+          Positioned.fill(
+            child: Container(
+              margin: const EdgeInsets.only(right: 8),
+              child: Consumer<HomepageProvider>(
+                builder: (context, value, child) {
+                  return (value.listCardIsLoading[index]) ? const CircularLoading() : const SizedBox();
+                },
+              ),
             ),
           )
         ],
@@ -419,8 +446,9 @@ Widget _kelasHariIni() {
                     const SizedBox(
                       width: 16,
                     ),
-                    for(OfflineModel i in value.listOffline)
-                        cardTodaysClass(i)
+                    // for(OfflineModel i in value.listOffline)
+                    for(int i = 0; i < value.listOffline.length; i++)
+                        cardTodaysClass(context, value.listOffline[i], i)
                   ],
                 ) : const CircularLoading(backgroundColor: Colors.transparent,),
           ),

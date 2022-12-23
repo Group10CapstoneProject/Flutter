@@ -45,9 +45,25 @@ class HomepageProvider with ChangeNotifier{
     JSONModel<List<OfflineModel>?> json = await offlineService.getOfflineClass(date, null, 'DESC');
 
     listOffline = json.data!;
+    for(int i = 0; i < listOffline.length; i++ ){
+      listCardIsLoading.add(false);
+    }
+
     offlineIsLoading = false;
     notifyListeners();
 
+  }
+
+  List<bool> listCardIsLoading = [];
+  Future<JSONModel<OfflineModel>> getDetailsOffline(int id, int index) async {
+    listCardIsLoading[index] = true;
+    notifyListeners();
+
+    JSONModel<OfflineModel> json = await offlineService.getDetailOffline(id);
+
+    listCardIsLoading[index] = false;
+    notifyListeners();
+    return json;
   }
 
 
