@@ -18,7 +18,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     pageController = PageController(
-      initialPage: (context.read<NotificationProvider>().isPromo) ? 0 : 1,
+      initialPage: (context.read<NotificationProvider>().isInfo) ? 0 : 1,
     );
     return Scaffold(
       appBar: AppBar(
@@ -51,23 +51,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        child: Column(
-          children: [
-            notification(),
-            Expanded(
-              child: PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: pageController,
-                children: const [
-                  Text('A'),
-                  Text('B'),
-                ],
-              ),
+      body: Column(
+        children: [
+          notification(),
+
+          // Widget Info & Promo
+          Expanded(
+            child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
+              children: [
+                /// Info
+                info(),
+
+                /// promo
+                promo(),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -75,60 +77,151 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget notification() {
     return Consumer<NotificationProvider>(
       builder: (context, value, child) {
-        return Row(
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    value.isPromo ? const Color(0xFFF2F4F3) : primaryBase,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      value.isInfo ? primaryBase : const Color(0xFFF2F4F3),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onPressed: () {
+                  pageController.animateToPage(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeIn,
+                  );
+                  value.setisInfo(true);
+                },
+                child: Text(
+                  'Info',
+                  style: TextStyle(
+                    color: value.isInfo ? whiteBase : blackLightest,
+                  ),
                 ),
               ),
-              onPressed: () {
-                pageController.animateToPage(
-                  0,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeIn,
-                );
-                value.setisPromo(false);
-              },
-              child: Text(
-                'Info',
-                style: TextStyle(
-                  color: value.isPromo ? primaryBase : whiteBase,
+              const SizedBox(
+                width: 10.0,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      value.isInfo ? const Color(0xFFF2F4F3) : primaryBase,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onPressed: () {
+                  pageController.animateToPage(
+                    1,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeIn,
+                  );
+                  value.setisInfo(false);
+                },
+                child: Text(
+                  'Promo',
+                  style: TextStyle(
+                    color: value.isInfo ? primaryBase : whiteBase,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              width: 10.0,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    value.isPromo ? primaryBase : const Color(0xFFF2F4F3),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              onPressed: () {
-                pageController.animateToPage(
-                  1,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeIn,
-                );
-                value.setisPromo(true);
-              },
-              child: Text(
-                'Promo',
-                style: TextStyle(
-                  color: value.isPromo ? whiteBase : blackLightest,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         );
       },
+    );
+  }
+
+  Widget info() {
+    return Column(
+      children: [
+        Container(
+          height: 100,
+          width: MediaQuery.of(context).size.width,
+          color: primaryLightest,
+          child: Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                height: 74,
+                width: 74,
+                color: whiteDark,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        'assets/homepage/speaker.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 15.0,
+                    ),
+                    Text(
+                      'REMINDER!',
+                      style: kSubtitle2,
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      'Jangan lupa bayar booking-an kamu ya!',
+                      style: kBody2.copyWith(color: blackLightest),
+                    ),
+                    const SizedBox(
+                    height: 12.0,
+                    ),
+                    Text(
+                      '21.18, 12 Des 2022',
+                      style: kCaption.copyWith(color: whiteDarkest),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget promo() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'assets/homepage/message.png',
+          height: 120,
+          width: 120,
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        Text(
+          'Tidak ada promo yang tersedia',
+          style: kSubtitle1.copyWith(color: blackLight),
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        Text(
+          'sepertinya tidak ada promosi sekarang',
+          style: kBody2.copyWith(color: blackLightest),
+        )
+      ],
     );
   }
 }

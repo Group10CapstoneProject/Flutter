@@ -1,7 +1,6 @@
 import 'package:capstone_alterra_flutter/model/articles_model.dart';
 import 'package:capstone_alterra_flutter/model/json_model.dart';
 import 'package:capstone_alterra_flutter/model/offline_model.dart';
-import 'package:capstone_alterra_flutter/model/online_class_model.dart';
 import 'package:capstone_alterra_flutter/service/articles_service.dart';
 import 'package:capstone_alterra_flutter/service/offline_service.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';

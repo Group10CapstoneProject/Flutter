@@ -1,8 +1,6 @@
 import 'package:capstone_alterra_flutter/model/members_detail_model.dart';
-import 'package:capstone_alterra_flutter/model/user_profile_model.dart';
 import 'package:capstone_alterra_flutter/screen/membership/all_membership_screen.dart';
 import 'package:capstone_alterra_flutter/styles/theme.dart';
-import 'package:capstone_alterra_flutter/util/membership.dart';
 import 'package:capstone_alterra_flutter/util/user_token.dart';
 import 'package:capstone_alterra_flutter/util/utils.dart';
 import 'package:flutter/material.dart';
