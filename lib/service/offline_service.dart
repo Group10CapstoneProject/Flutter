@@ -8,10 +8,11 @@ class OfflineService {
 
   final String _endpoint = '${UserToken.serverEndpoint}/offline-classes';
 
-  String accessToken = UserToken.accessToken!;
-
   Future<JSONModel<List<OfflineModel>?>> getOfflineClass(
       String? time, int? categoryId, String? orderByPrice) async {
+    
+    String accessToken = UserToken.accessToken!;
+      
     late final Response response;
     try {
       response = await _dio.get(_endpoint,
@@ -46,6 +47,8 @@ class OfflineService {
   }
 
   Future<JSONModel<OfflineModel>> getDetailOffline(int id) async {
+
+    String accessToken = UserToken.accessToken!;
     late final Response response;
     try {
       response = await _dio.get(
